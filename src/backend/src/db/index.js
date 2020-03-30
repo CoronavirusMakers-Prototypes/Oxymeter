@@ -1,8 +1,6 @@
 const { Pool } = require('pg')
 const config   = require('config')
 
-const database = config.get('database')
-
 const pool = new Pool({
   host:     `${config.get('database.host')}`,
   user:     `${config.get('database.user')}`,

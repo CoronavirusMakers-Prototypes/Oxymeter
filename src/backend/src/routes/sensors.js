@@ -9,7 +9,7 @@ module.exports = router
 router.post('/:id', async (req, res) => {
   const { id } = req.params
 
-  await db.query(`INSERT INTO data (spo2, ppm, access_token) VALUES (${req.body.spo2}, ${req.body.ppm}, '${req.body.access_token}')`, null)
+  await db.query(`INSERT INTO data (spo2, ppm, batt, sensor_id) VALUES (${req.body.spo2}, ${req.body.ppm}, ${req.body.batt}, ${id})`, null)
   const  resp  = await db.query('SELECT * FROM data WHERE 1=1', null)
   resp.rows.forEach((row) =>{
       console.log(row)
