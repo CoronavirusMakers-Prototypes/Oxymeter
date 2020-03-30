@@ -4,6 +4,8 @@ const info        = require('../package.json')
 const mountRoutes = require('./routes')
 
 const app = express()
+var http = require('http').createServer(app)
+var io = require('socket.io')(http)
 
 app.use(express.json())
 mountRoutes(app)
