@@ -2,6 +2,7 @@ const express     = require('express')
 const config      = require('config')
 const info        = require('../package.json')
 const mountRoutes = require('./routes')
+const path        = require('path')
 
 const app = express()
 var http = require('http').createServer(app)
@@ -12,6 +13,13 @@ mountRoutes(app)
 
 const port = config.get('port')
 
-app.get('/', (req, res) => res.send(`${info.name}@${info.version}`))
+app.get('/', (req, res) => 
+  res.sendFile('index.html', { root: path.join(__dirname, '../public') })
+)
 
-app.listen(port, () => console.log(`${info.name}@${info.version} running at: ${port}!`))
+io.on('connection', function(socket){
+    console.log('a user connected');
+    io.emit('oxy_message', { foo: "bar"})
+});
+
+http.listen(port, () => console.log(`${info.name}@${info.version} running at: ${port}!`))
