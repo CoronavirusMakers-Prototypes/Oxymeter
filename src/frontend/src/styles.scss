@@ -1,0 +1,23 @@
+
+@import '~@angular/material/theming';
+@include mat-core();
+$default-theme-primary: mat-palette($mat-indigo);
+$default-theme-accent:  mat-palette($mat-grey);
+$default-theme: mat-light-theme($default-theme-primary, $default-theme-accent);
+@include angular-material-theme($default-theme);
+$custom-typography: mat-typography-config(
+  $headline: mat-typography-level(.95em, 48px, 700),
+  $body-1: mat-typography-level(.8em, 24px, 500)
+);
+$custom-typography-2: mat-typography-config(
+  $headline: mat-typography-level(1.2em, 48px, 700),
+  $body-1: mat-typography-level(1em, 24px, 500)
+);
+@include mat-base-typography($custom-typography);
+@include angular-material-typography($custom-typography);
+@include mat-expansion-panel-typography($custom-typography-2);
+@include mat-core($custom-typography);
+
+@import '../node_modules/animate.css/animate.css';
+@import'./assets/scss/styles.scss';
+

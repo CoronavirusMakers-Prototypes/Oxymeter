@@ -1,0 +1,18 @@
+<mat-toolbar color="primary" class="header d-flex flex-wrap justify-content-between align-items-center mat-elevation-z6" >
+    <h1 class="pointer" routerLink="/home"  title="{{ 'title' | translate }}">
+      <img src="/assets/img/logo.png" alt="{{ 'title' | translate }}"/>{{ title | translate}}
+    </h1>
+    <button mat-button [matMenuTriggerFor]="afterMenu" ><span class="fa fa-bars"></span></button>
+</mat-toolbar>
+<mat-menu #afterMenu="matMenu" xPosition="before">
+  <button mat-menu-item class="hidden" routerLink="/login">{{'pages.login.login' | translate }}</button>
+  <!--<button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>-->
+  <button mat-menu-item routerLink="/home">{{'pages.home.home' | translate }}</button>
+  <button mat-menu-item routerLink="/login">{{'pages.login.login' | translate }}</button>
+  <button mat-menu-item routerLink="/registration">{{'pages.registration.registration' | translate }}</button>
+</mat-menu>
+<!--
+<mat-menu #vertebrates="matMenu">
+  <button mat-menu-item>Birds</button>
+  <button mat-menu-item>Mammals</button>
+</mat-menu>-->

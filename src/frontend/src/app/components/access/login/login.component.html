@@ -1,0 +1,33 @@
+<section class="login-wrapper animated fadeInLeft d-flex justify-content-center align-items-center">
+    <mat-card class="">
+        <mat-card-header class="w-100">
+            <mat-card-title class="w-100">{{'pages.login.login' | translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form class="example-form">
+                <table class="example-full-width" cellspacing="0">
+                    <tr>
+                        <td>
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="{{ 'pages.login.username' | translate}}" [formControl]="formData.username" [errorStateMatcher]="matcher" name="username" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="{{ 'pages.login.password' | translate }}" [formControl]="formData.password" [errorStateMatcher]="matcher" type="password"
+                                    name="password" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+        </mat-card-content>
+        <mat-card-actions class="d-flex justify-content-end">
+            <button mat-raised-button (click)="login()" color="primary" [disabled]="disableLogin()">{{'pages.login.login-action' | translate }}</button>
+        </mat-card-actions>
+    </mat-card>
+
+</section>

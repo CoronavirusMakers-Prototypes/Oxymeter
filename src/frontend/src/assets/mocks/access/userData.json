@@ -1,0 +1,13 @@
+{
+    "token": "mocked_token",
+    "user": {
+        "id": "1",
+        "surname": "Marcos",
+        "lastname": "González",
+        "professional_id": "x2222",
+        "last_login": 1585681143878,
+        "role": "admin",
+        "login": "",
+        "id_hospital": 1 
+    }
+}

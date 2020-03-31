@@ -1,0 +1,13 @@
+
+ <div mat-dialog-content>
+   <div *ngFor="let message of messages">
+    {{message | translate}}
+  </div>
+ </div>
+ <div mat-dialog-actions *ngIf="type==='confirmation'">
+   <button mat-button class="botones" (click)="onNoClick()"><span class="fa fa-times" ></span>{{ 'common.no' | translate}}</button>
+   <button mat-button class="botones" [mat-dialog-close]="true" cdkFocusInitial><span class="fa fa-check" ></span>{{ 'common.yes' | translate}}</button>
+ </div>
+ <div mat-dialog-actions *ngIf="type==='simple'">
+   <button mat-button class="botones" (click)="onNoClick()"><span class="fa fa-times" ></span>{{ 'common.close' | translate}}</button>
+ </div>
