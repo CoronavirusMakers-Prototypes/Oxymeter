@@ -4,9 +4,12 @@ const info        = require('../package.json')
 const mountRoutes = require('./routes')
 const path        = require('path')
 
-const app = express()
-var http = require('http').createServer(app)
-var io = require('socket.io')(http)
+
+const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit')
+
+const app  = express()
+const http = require('http').createServer(app)
+const io   = require('socket.io')(http)
 
 app.use(express.json())
 mountRoutes(app)
@@ -21,5 +24,7 @@ io.on('connection', function(socket){
     console.log('a user connected');
     io.emit('oxy_message', { foo: "bar"})
 });
+
+createDatabaseAndSchemaIfNotExists()
 
 http.listen(port, () => console.log(`${info.name}@${info.version} running at: ${port}!`))
