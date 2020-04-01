@@ -1,10 +1,4 @@
-﻿-- =============================================================================
--- Diagram Name: pulseox_v1
--- Created on: 01/04/2020 12:22:33
--- Diagram Version: 
--- =============================================================================
-CREATE DATABASE CV19MAKERS_VITALOX;
-
+﻿CREATE DATABASE CV19MAKERS_VITALOX;
 
 DROP TABLE IF EXISTS "User" CASCADE;
 

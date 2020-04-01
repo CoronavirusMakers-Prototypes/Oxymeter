@@ -1,5 +1,5 @@
-const sensors = require('./sensors')
+const meassurement = require('./meassurement')
 
 module.exports = app => {
-  //app.use('/sensors', sensors)
+  app.use('/meassurement', meassurement)
 }
