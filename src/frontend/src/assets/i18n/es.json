@@ -4,17 +4,29 @@
   "common": {
     "no": "No",
     "yes": "Sí",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "go-to-registration": "Registrarse",
+    "username": "Identificador de usuario",
+    "password": "Contraseña",
+    "rpassword": "Repetir contraseña",
+    "surname": "Nombre",
+    "lastname": "Apellido",
+    "professionalId": "Identificador profesional",
+    "hospital": "Hospital",
+    "logout": "Cerrar sesión"
   },
   "pages": {
     "login": {
       "login": "Login",
       "login-action": "Acceder",
-      "username": "Nombre de usuario",
-      "password": "Contraseña"
+      "username": "Identificador de usuario",
+      "password": "Contraseña",
+      "passwords-must-match": "Las contraseñas no coinciden",
+      "passwords-min-length": "Longitud mínima 6 caracteres"
     },
     "registration": {
-      "registration": "Crear cuenta"
+      "registration": "Crear cuenta",
+      "registration-action": "Registrarse"
     },
     "footer": {
       "powered-by": "Powered by",
@@ -22,6 +34,12 @@
     },
     "home":{
       "home": "Home"
+    },
+    "about":{
+      "about": "Sobre nosotros"
+    },
+    "profile": {
+      "profile": "Perfil"
     }
   },
   "alerts": {

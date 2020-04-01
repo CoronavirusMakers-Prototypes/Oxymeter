@@ -1,7 +1,8 @@
-<div id="page-container">
+<div id="page-container">  
   <app-header></app-header>
   <div class="content-wrapper">
     <router-outlet></router-outlet>
   </div>
   <app-footer></app-footer>
 </div>
+<ngx-loading [show]="loading"></ngx-loading>

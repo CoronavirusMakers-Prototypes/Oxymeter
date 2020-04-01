@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { AuthenticationService } from '@services/authentication/authentication.service';
 import { Router, NavigationEnd, Params } from '@angular/router';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -11,16 +11,26 @@ import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   localData = null;
   route = '';
-  title= 'title'
+  title = 'title';
+  logged: boolean;
+
+  loggedSubscription: Subscription;
+  routerEventsSubscription: Subscription;
 
   constructor(private authService: AuthenticationService,
               private router: Router) {
     this.localData = authService.getData();
-    router.events.subscribe(event => {
+    this.logged = authService.isAuthenticated();
+    this.routerEventsSubscription = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.route = event.url;
         this.localData = authService.getData();
       }
+    });
+
+    this.loggedSubscription = this.authService.logged$.subscribe( logged => {
+      console.log("HEADER IS LOGGED: "+logged)
+      this.logged = logged;
     });
 
   }
@@ -29,6 +39,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
+    this.loggedSubscription.unsubscribe();
+    this.routerEventsSubscription.unsubscribe();
     window.removeEventListener('resize', this.setTitle, true);
   }
 

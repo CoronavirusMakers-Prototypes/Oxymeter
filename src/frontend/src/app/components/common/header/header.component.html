@@ -2,14 +2,25 @@
     <h1 class="pointer" routerLink="/home"  title="{{ 'title' | translate }}">
       <img src="/assets/img/logo.png" alt="{{ 'title' | translate }}"/>{{ title | translate}}
     </h1>
-    <button mat-button [matMenuTriggerFor]="afterMenu" ><span class="fa fa-bars"></span></button>
+    <div>
+      <button *ngIf="!logged" mat-button [matMenuTriggerFor]="notLoggedMenu" ><span class="fa fa-bars"></span></button>
+      <button *ngIf="logged" mat-button  ></button>
+      <button *ngIf="logged" mat-button [matMenuTriggerFor]="loggedMenu" ><span class="fa fa-bars"></span></button>
+    </div>
 </mat-toolbar>
-<mat-menu #afterMenu="matMenu" xPosition="before">
-  <button mat-menu-item class="hidden" routerLink="/login">{{'pages.login.login' | translate }}</button>
+<mat-menu  #notLoggedMenu="matMenu" xPosition="before">
+  <button mat-menu-item class="hidden"></button>
   <!--<button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>-->
-  <button mat-menu-item routerLink="/home">{{'pages.home.home' | translate }}</button>
   <button mat-menu-item routerLink="/login">{{'pages.login.login' | translate }}</button>
   <button mat-menu-item routerLink="/registration">{{'pages.registration.registration' | translate }}</button>
+</mat-menu>
+<mat-menu #loggedMenu="matMenu" xPosition="before">
+  <button mat-menu-item class="hidden"></button>
+  <!--<button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>-->
+  <button mat-menu-item routerLink="/home">{{'pages.home.home' | translate }}</button>
+  <button mat-menu-item routerLink="/about">{{'pages.about.about' | translate }}</button>
+  <button mat-menu-item routerLink="/profile">{{'pages.profile.profile' | translate }}</button>
+  <button mat-menu-item routerLink="/logout">{{'common.logout' | translate }}</button>
 </mat-menu>
 <!--
 <mat-menu #vertebrates="matMenu">

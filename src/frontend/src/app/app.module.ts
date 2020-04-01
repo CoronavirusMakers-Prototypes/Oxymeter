@@ -35,6 +35,8 @@ import { AuthenticationService } from '@services/authentication/authentication.s
 import {ResponseInterceptor} from '@interceptors/response.interceptor';
 import {RequestInterceptor} from '@interceptors/request.interceptor';
 
+import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,13 +74,25 @@ import {RequestInterceptor} from '@interceptors/request.interceptor';
     MatMenuModule,
     FormsModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.threeBounce,
+      backdropBackgroundColour: 'rgba(1,1,1,0.43)', 
+      backdropBorderRadius: '4px',
+      primaryColour: '#fff', 
+      secondaryColour: '#fff', 
+      tertiaryColour: '#fff'
+    })
   ],
   providers: [
     SocketService,
     AuthenticationService,
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true }
+  ],
+  exports: [
+    SocketService,
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })
