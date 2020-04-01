@@ -2,14 +2,14 @@ const config     = require('config')
 const fs         = require('fs')
 const { Client } = require('pg')
 const path       = require('path')
+const Promise    = require('bluebird')
 
 var client = null;
 
 const dbExists = async () => {
   try {
     const res = await client.query(`SELECT 1 from pg_database WHERE datname='${config.get('database.name')}';`, null)
-    console.log(res.rows)
-    return res.length == 1 ? true : false;
+    return res.rows.length == 1 ? true : false;
   } catch (e) {
     console.log(e)
   }
@@ -17,22 +17,21 @@ const dbExists = async () => {
 
 const createDatabaseAndSchema = async () => {
   try {
-    // await client.query(`create database ${config.get('database.name')}`)
-    // const sqlSchema = fs.readFileSync(path.join(__dirname, './../../ddbb/VitalOx-pg.sql'),'utf8')
-    var queries = fs.readFileSync(path.join(__dirname, './../../ddbb/VitalOx-pg.sql')).toString()
-    .replace(/(\r\n|\n|\r)/gm," ") // remove newlines
-    .replace(/\s+/g, ' ') // excess white space
-    .split(";") // split into all statements
+    
+    var queries = fs.readFileSync(path.join(__dirname, config.get('database.sqlFile'))).toString()
+    .replace(/(\r\n|\n|\r)/gm," ")
+    .replace(/\s+/g, ' ')
+    .split(";")
     .map(Function.prototype.call, String.prototype.trim)
-    .filter((el) => {return el.length != 0}); // remove any empty ones
+    .filter((el) => {return el.length != 0});
 
-    console.log(queries);
-
-    // Execute each SQL query sequentially
-    queries.forEach((query) => {
-        client.query(query)
-      });
-    // await client.query(sqlSchema)
+    console.log(queries)
+    
+    Promise.map(queries, (query) => {
+      client.query(query)
+    }).then(()=>{
+      console.log('Import done!')
+    })
   } catch (e) {
     console.log(e)
   }

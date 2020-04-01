@@ -24,8 +24,8 @@ io.on('connection', function(socket){
     console.log('a user connected');
     io.emit('oxy_message', { foo: "bar"})
 });
-console.log(0)
+
+
 createDatabaseAndSchemaIfNotExists()
 
-console.log(1)
 http.listen(port, () => console.log(`${info.name}@${info.version} running at: ${port}!`))

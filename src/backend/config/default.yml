@@ -1,9 +1,10 @@
 
 port: 9001
 database:
-  user: 'postgres'
+  user:     'postgres'
   password: 'postgres'
-  host: 'localhost'
-  port: 5432
-  name: 'cv19makers_vitalox'
+  host:     'localhost'
+  port:     5432
+  name:     'cv19makers_vitalox'
+  sqlFile:  './../../database/VitalOx.sql'
 
