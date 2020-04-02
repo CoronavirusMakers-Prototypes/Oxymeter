@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "express-promise-router": "^3.0.3",
     "pg": "^7.18.2",
+    "pgtools": "^0.3.0",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
