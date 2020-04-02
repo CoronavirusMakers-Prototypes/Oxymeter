@@ -31,7 +31,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params
-    const result = await db.query(`SELECT * FROM sensor WHERE 1=1`)
+    const result = await db.query(`SELECT * FROM sensor WHERE 1=1`) // TODO: pagination
     res.status(200).send(JSON.stringify(result.rows))
   } catch (e) {
     console.error(e)

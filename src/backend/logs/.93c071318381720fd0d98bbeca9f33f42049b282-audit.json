@@ -1,0 +1,19 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "logs/.93c071318381720fd0d98bbeca9f33f42049b282-audit.json",
+    "files": [
+        {
+            "date": 1585868384528,
+            "name": "logs/oxi-open-0.0.1-2020-04-03-00.log",
+            "hash": "21ae01e8370a4ceeb5560ca20dd4c108"
+        },
+        {
+            "date": 1585868410287,
+            "name": "logs/oxi-open-0.0.1-2020-04-03-01.log",
+            "hash": "29892c0d46208f79615ead5103114aba"
+        }
+    ]
+}

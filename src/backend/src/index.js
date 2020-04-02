@@ -3,6 +3,7 @@ const config      = require('config')
 const info        = require('../package.json')
 const mountRoutes = require('./routes')
 const path        = require('path')
+const { logger }  = require('./util/logger')
 
 
 const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit')
@@ -25,7 +26,6 @@ io.on('connection', function(socket){
     io.emit('oxy_message', { foo: "bar"})
 });
 
-
 createDatabaseAndSchemaIfNotExists()
 
-http.listen(port, () => console.log(`${info.name}@${info.version} running at: ${port}!`))
+http.listen(port, () => logger.info(`${info.name}@${info.version} running at: ${port}!`))
