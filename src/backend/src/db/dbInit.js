@@ -4,6 +4,7 @@ const { Client } = require('pg')
 const path       = require('path')
 const Promise    = require('bluebird')
 const pgtools    = require('pgtools')
+const { logger } = require('./../util/logger')
 
 var client = null;
 
@@ -25,7 +26,7 @@ const _createTables = async () => {
         client.query(`${query};`)
       })
     } catch (e) {
-      console.log(e)
+      logger.info(e)
     }
 }
 
@@ -55,15 +56,15 @@ const createDatabaseAndSchemaIfNotExists = async () => {
   try {
     await _connectionClientDB('postgres')
     if (await dbExists() === false) {
-      console.log('Connecting for first time, creating database and schemas.')
+      logger.info('Connecting for first time, creating database and schemas.')
       await _createDatabase()
       await _connectionClientDB(config.get('database.name'))
       await _createTables()
     } else {
-      console.log('No need to init db')
+      logger.info('No need to init db')
     }
   } catch (e) {
-    console.log(e)
+    logger.error(e)
     process.exit(1)
   }
 }

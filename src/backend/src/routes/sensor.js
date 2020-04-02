@@ -1,5 +1,6 @@
-const Router = require('express-promise-router')
-const db     = require('../db')
+const Router      = require('express-promise-router')
+const db          = require('../db')
+const { logger }  = require('./../util/logger')
 
 const router = new Router()
 module.exports = router
@@ -12,7 +13,7 @@ router.post('/', async (req, res) => {
     req.body.id = response.rows[0].id
     res.status(200).send(JSON.stringify(req.body))
   } catch (e) {
-    console.error(e)
+    logger.error(e)
     res.status(500).send(e)
   }
 })
@@ -23,7 +24,7 @@ router.delete('/:id', async (req, res) => {
     await db.query(`DELETE FROM sensor WHERE id=${id}`)
     res.status(200).send({deleted: id})
   } catch (e) {
-    console.error(e)
+    logger.error(e)
     res.status(500).send(e)
   }
 })
@@ -34,7 +35,7 @@ router.get('/:id', async (req, res) => {
     const result = await db.query(`SELECT * FROM sensor WHERE 1=1`) // TODO: pagination
     res.status(200).send(JSON.stringify(result.rows))
   } catch (e) {
-    console.error(e)
+    logger.error(e)
     res.status(500).send(e)
   }
 })
@@ -49,7 +50,7 @@ router.put('/:id', async (req, res) => {
                                     id = ${id}`)
     res.status(200).send({updated: id})
   } catch (e) {
-    console.error(e)
+    logger.error(e)
     res.status(500).send(e)
   }
 })

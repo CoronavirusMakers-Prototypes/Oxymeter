@@ -22,7 +22,7 @@ app.get('/', (req, res) =>
 )
 
 io.on('connection', function(socket){
-    console.log('a user connected');
+    logger.debug('websocket: a user connected');
     io.emit('oxy_message', { foo: "bar"})
 });
 
