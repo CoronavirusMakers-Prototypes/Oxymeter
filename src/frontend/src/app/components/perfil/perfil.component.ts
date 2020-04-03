@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '@services/authentication/authentication.service';
+import { GlobalService } from '@services/global/global.service';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '@components/common/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-perfil',
@@ -11,9 +9,10 @@ import { ConfirmationDialogComponent } from '@components/common/confirmation-dia
 })
 export class PerfilComponent implements OnInit {
 
-  constructor( public authService: AuthenticationService, public router: Router, public dialog: MatDialog) {
-    if (!authService.getRole()){
-      router.navigate([`/home`]);
+  constructor( public globalService: GlobalService,
+               public router: Router) {
+    if (!globalService.authService.getRole()){
+      router.navigate([`/hospital`]);
     }
   }
 

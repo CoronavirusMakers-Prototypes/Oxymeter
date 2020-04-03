@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '@services/authentication/authentication.service';
 import {
   FormControl,
   FormGroupDirective,
@@ -23,13 +22,12 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
   };
 
-  constructor(private authService: AuthenticationService,
-              private globalService: GlobalService,
+  constructor(private globalService: GlobalService,
               public router: Router) {}
 
   ngOnInit(): void {
-    if(this.authService.isAuthenticated()){
-      this.router.navigate([`/home`]);
+    if (this.globalService.authService.isAuthenticated()){
+      this.router.navigate([`/hospital`]);
     }
   }
 
@@ -37,10 +35,10 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.globalService.setLoading(true);
-    this.authService.login(this.formData.login.value, this.formData.password.value).then( result => {
+    this.globalService.authService.login(this.formData.login.value, this.formData.password.value).then( result => {
       this.globalService.setLoading(false);
       if (result && result.getId()){
-         this.router.navigate([`/home`]);
+         this.router.navigate([`/hospital`]);
       }
     }).catch(error => {
       console.log(error);

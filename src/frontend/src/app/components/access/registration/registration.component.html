@@ -19,7 +19,11 @@
                             <input matInput placeholder="{{ 'common.professionalId' | translate}}" [formControl]="formData.professionalId" [errorStateMatcher]="matcher" name="professionalId" required>
                         </mat-form-field>
                         <mat-form-field >
-                            <input matInput placeholder="{{ 'common.hospital' | translate}}" [formControl]="formData.idHospital" [errorStateMatcher]="matcher" name="hospital" required>
+                            <mat-select placeholder="{{ 'common.hospital' | translate}}" [formControl]="formData.idHospital" [errorStateMatcher]="matcher" name="hospital" required>
+                                <mat-option *ngFor="let hospital of hospitals" [value]="hospital.id">
+                                    {{hospital.desc}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                     <div class=" d-flex justify-content-between flex-wrap">

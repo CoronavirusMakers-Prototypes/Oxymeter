@@ -1,10 +1,10 @@
 <mat-toolbar color="primary" class="header d-flex flex-wrap justify-content-between align-items-center mat-elevation-z6" >
-    <h1 class="pointer" routerLink="/home"  title="{{ 'title' | translate }}">
+    <h1 class="pointer" routerLink="/hospital"  title="{{ 'title' | translate }}">
       <img src="/assets/img/logo.png" alt="{{ 'title' | translate }}"/>{{ title | translate}}
     </h1>
     <div>
       <button *ngIf="!logged" mat-button [matMenuTriggerFor]="notLoggedMenu" ><span class="fa fa-bars"></span></button>
-      <button *ngIf="logged" mat-button  ></button>
+      <button *ngIf="logged" class="userLogged" mat-button  routerLink="/profile">{{hospitalDesc}} user: {{ localData.getProfessionalId() }}</button>
       <button *ngIf="logged" mat-button [matMenuTriggerFor]="loggedMenu" ><span class="fa fa-bars"></span></button>
     </div>
 </mat-toolbar>
@@ -17,7 +17,7 @@
 <mat-menu #loggedMenu="matMenu" xPosition="before">
   <button mat-menu-item class="hidden"></button>
   <!--<button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>-->
-  <button mat-menu-item routerLink="/home">{{'pages.home.home' | translate }}</button>
+  <button mat-menu-item routerLink="/hospital">{{'pages.home.home' | translate }}</button>
   <button mat-menu-item routerLink="/about">{{'pages.about.about' | translate }}</button>
   <button mat-menu-item routerLink="/profile">{{'pages.profile.profile' | translate }}</button>
   <button mat-menu-item routerLink="/logout">{{'common.logout' | translate }}</button>

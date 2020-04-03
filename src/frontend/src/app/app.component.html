@@ -1,6 +1,7 @@
 <div id="page-container">  
   <app-header></app-header>
   <div class="content-wrapper">
+    <app-bread-crumb-notifications *ngIf="logged"></app-bread-crumb-notifications>
     <router-outlet></router-outlet>
   </div>
   <app-footer></app-footer>

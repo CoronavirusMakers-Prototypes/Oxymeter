@@ -11,7 +11,7 @@ export class AuthenticationService {
 
   private userData: User;
   private token: string;
-  private KEY = 'oxymetercc';
+  private KEY = 'oxymetercc_userdata';
 
   private loggedSource = new BehaviorSubject<boolean>(false);
   logged$ = this.loggedSource.asObservable();

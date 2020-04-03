@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import { HomeComponent } from '@components/home/home.component';
 import { PerfilComponent } from '@components/perfil/perfil.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,11 +35,16 @@ import {ResponseInterceptor} from '@interceptors/response.interceptor';
 import {RequestInterceptor} from '@interceptors/request.interceptor';
 
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+import { HospitalComponent } from './components/hospital/hospital.component';
+import { FloorComponent } from './components/floor/floor.component';
+import { AreaComponent } from './components/area/area.component';
+import { RoomComponent } from './components/room/room.component';
+import { BedComponent } from './components/bed/bed.component';
+import { BreadCrumbNotificationsComponent } from './components/common/bread-crumb-notifications/bread-crumb-notifications.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     PerfilComponent,
     HeaderComponent,
     FooterComponent,
@@ -49,6 +53,12 @@ import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
     LoginComponent,
     LogoutComponent,
     RegistrationComponent,
+    HospitalComponent,
+    FloorComponent,
+    AreaComponent,
+    RoomComponent,
+    BedComponent,
+    BreadCrumbNotificationsComponent,
   ],
   imports: [
     BrowserModule,

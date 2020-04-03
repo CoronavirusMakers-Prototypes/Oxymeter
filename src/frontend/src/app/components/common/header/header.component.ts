@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { AuthenticationService } from '@services/authentication/authentication.service';
 import { Router, NavigationEnd, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { User } from '@app/class/User';
+import { GlobalService } from '@app/services/global/global.service';
 
 @Component({
   selector: 'app-header',
@@ -9,28 +10,34 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
-  localData = null;
+  localData: User;
   route = '';
   title = 'title';
   logged: boolean;
+  hospitalDesc: string;
 
   loggedSubscription: Subscription;
   routerEventsSubscription: Subscription;
 
-  constructor(private authService: AuthenticationService,
+  constructor(private globalService: GlobalService,
               private router: Router) {
-    this.localData = authService.getData();
-    this.logged = authService.isAuthenticated();
+    this.localData = globalService.authService.getData();
+    this.logged = globalService.authService.isAuthenticated();
     this.routerEventsSubscription = router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.route = event.url;
-        this.localData = authService.getData();
+        this.localData = globalService.authService.getData();
       }
     });
 
-    this.loggedSubscription = this.authService.logged$.subscribe( logged => {
-      console.log("HEADER IS LOGGED: "+logged)
+    this.loggedSubscription = this.globalService.authService.logged$.subscribe( logged => {
       this.logged = logged;
+      this.localData = globalService.authService.getData();
+      if(this.localData.getIdHospital()){
+        this.globalService.hospitalService.getHospitalById(this.localData.getIdHospital()).then( res => {
+          this.hospitalDesc = res.desc;
+        }).catch(e => console.log(e));
+      }
     });
 
   }

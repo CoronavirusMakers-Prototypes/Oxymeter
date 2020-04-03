@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '@services/authentication/authentication.service';
 import { GlobalService } from '@services/global/global.service';
 import {
   FormControl,
@@ -28,15 +27,22 @@ export class RegistrationComponent implements OnInit {
     password: new FormControl('', [Validators.required,  Validators.minLength(6)]),
     rpassword: new FormControl('', [Validators.required,  Validators.minLength(6)])
   };
+  hospitals: any[];
 
-  constructor(private authService: AuthenticationService,
-              private globalService: GlobalService,
+  constructor(private globalService: GlobalService,
               public router: Router) { }
 
   ngOnInit(): void {
-    if(this.authService.isAuthenticated()){
-      this.router.navigate([`/home`]);
+    if (this.globalService.authService.isAuthenticated()){
+      this.router.navigate([`/hospital`]);
     }
+    this.globalService.setLoading(true);
+    this.globalService.hospitalService.getHospitals().then( hospitals => {
+      this.hospitals = hospitals;
+      this.globalService.setLoading(false);
+    }).catch(error => {
+      this.globalService.setLoading(false);
+    });
   }
 
   getErrorMessagePassword = () => {
@@ -70,11 +76,11 @@ export class RegistrationComponent implements OnInit {
       login: this.formData.login.value,
       idHospital: this.formData.idHospital.value,
     };
-    this.authService.registerUser(new User(data), this.formData.password).then((response) => {
+    this.globalService.authService.registerUser(new User(data), this.formData.password).then((response) => {
       console.log(response);
       this.globalService.setLoading(false);
       if (response && response.getId()){
-        this.router.navigate([`/home`]);
+        this.router.navigate([`/hospital`]);
      }
     });
   }
