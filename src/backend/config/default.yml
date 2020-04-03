@@ -1,0 +1,19 @@
+# config stuff
+
+port: 9001
+
+database:
+  user:     'postgres'
+  password: 'postgres'
+  host:     'localhost'
+  port:     5432
+  name:     'cv19makers_vitalox'
+  sqlFile:  './../../database/VitalOx.sql'
+  query:
+    limit: 50
+
+logger:
+  path: './logs/'
+  level:
+    console: 'silly'
+    file:    'error'

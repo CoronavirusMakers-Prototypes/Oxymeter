@@ -1,0 +1,12 @@
+version: '2.1'
+services:
+  postgres:
+    image: postgres:9.6.17-alpine
+    volumes:
+    - ./volumes/postgresql:/var/lib/postgresql/data
+    expose:
+    - "5432"
+    ports:
+    - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres

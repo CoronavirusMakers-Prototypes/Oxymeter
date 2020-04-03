@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO</title>
+  </head>
+  <body>
+    <p id="message">Lol</>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+          socket.on('oxy_message', function(msg){
+            console.log(msg)
+            document.getElementById("message").innerHTML = JSON.stringify(msg, null, 5);
+          });
+    </script>
+  </body>
+</html>
