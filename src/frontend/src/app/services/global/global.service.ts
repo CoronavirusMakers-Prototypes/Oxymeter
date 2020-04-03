@@ -4,6 +4,7 @@ import { AuthenticationService } from '@services/authentication/authentication.s
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@components/common/confirmation-dialog/confirmation-dialog.component';
 import { HospitalService } from '../byFuncionality/hospital.service';
+import { UserAsignementService } from '../byFuncionality/user-asignement.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,8 @@ export class GlobalService {
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
 
-  public authService: AuthenticationService;
-  public hospitalService: HospitalService;
-  public autService: AuthenticationService;
-
-  constructor(public authService: AuthenticationService, public dialog: MatDialog) { }
+  constructor(public authService: AuthenticationService, public dialog: MatDialog,
+              public hospitalService: HospitalService, public userasignementService: UserAsignementService) { }
 
   public setLoading = loading => {
     this.loadingSource.next(loading);
