@@ -17,3 +17,10 @@ logger:
   level:
     console: 'silly'
     file:    'error'
+
+queues:
+    consumer:
+      dataProbes:
+        url:       'amqp://localhost'
+        queueName: 'open-vitalox-0'
+        # TODO: credentials pass and user

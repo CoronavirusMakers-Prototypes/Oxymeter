@@ -1,10 +1,10 @@
-const express     = require('express')
-const config      = require('config')
-const info        = require('../package.json')
-const mountRoutes = require('./routes')
-const path        = require('path')
-const { logger }  = require('./util/logger')
-
+const express      = require('express')
+const config       = require('config')
+const info         = require('../package.json')
+const mountRoutes  = require('./routes')
+const path         = require('path')
+const { logger }   = require('./util/logger')
+const dataConsumer = require('./queues/consumer')
 
 const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit')
 
@@ -27,5 +27,6 @@ io.on('connection', function(socket){
 });
 
 createDatabaseAndSchemaIfNotExists()
+dataConsumer
 
 http.listen(port, () => logger.info(`${info.name}@${info.version} running at: ${port}!`))
