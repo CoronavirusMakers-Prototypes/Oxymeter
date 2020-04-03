@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '@services/authentication/authentication.service';
+import { GlobalService } from '@app/services/global/global.service';
 
 @Component({
   selector: 'app-logout',
@@ -9,8 +9,8 @@ import { AuthenticationService } from '@services/authentication/authentication.s
 })
 export class LogoutComponent {
 
-  constructor(private authService: AuthenticationService, private router: Router) {
-    this.authService.logout();
+  constructor(private globalService: GlobalService, private router: Router) {
+    this.globalService.logout();
     this.router.navigate([`/hospital`]);
   }
 

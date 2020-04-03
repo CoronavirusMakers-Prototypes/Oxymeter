@@ -1,0 +1,37 @@
+<section class="bread-crumbs-wrapper animated fadeInLeft d-flex justify-content-center align-items-center">
+    <ul class="breadcrumbs">
+        <li class="pointer first" [ngClass]="getClass(['hospital'])" (click)="goTo('/hospital')">
+            <span class="definition">
+                {{ 'common.building' | translate}}
+            </span>
+            <span class="value">
+                {{ building && building.desc ? building.desc : ('common.building' | translate)}}
+            </span>
+        </li>
+        <li class="pointer" [ngClass]="getClass(['building'])"  (click)="goTo('/building/', building.id)">
+            <span class="definition">
+                {{ 'common.floor' | translate}}
+            </span>
+            <span class="value">
+                {{ floor && floor.desc ? floor.desc : ('common.floor' | translate)}}
+            </span>
+        </li>
+        <li class="pointer" [ngClass]="getClass(['floor'])"  (click)="goTo('/floor/', floor.id)">
+            <span class="definition">
+                {{ 'common.area' | translate}}
+            </span>
+            <span class="value">
+                {{ area && area.desc ? area.desc : ('common.area' | translate)}}
+            </span>
+        </li>
+        <li [ngClass]="getClass(['area', 'room', 'bed'])"  (click)="goTo('/area/', area.id)" class="last pointer">
+            <span class="definition">
+                {{ 'common.room' | translate}}
+            </span>
+            <span class="value">
+                {{ room && room.desc ? room.desc : ('common.room' | translate)}}
+            </span>
+        </li>
+    </ul>
+</section>
+

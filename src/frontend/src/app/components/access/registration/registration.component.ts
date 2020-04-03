@@ -29,12 +29,12 @@ export class RegistrationComponent implements OnInit {
   };
   hospitals: any[];
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
               public router: Router) { }
 
   ngOnInit(): void {
     if (this.globalService.authService.isAuthenticated()){
-      this.router.navigate([`/hospital`]);
+      this.router.navigate([`/alarms`]);
     }
     this.globalService.setLoading(true);
     this.globalService.hospitalService.getHospitals().then( hospitals => {
@@ -80,7 +80,7 @@ export class RegistrationComponent implements OnInit {
       console.log(response);
       this.globalService.setLoading(false);
       if (response && response.getId()){
-        this.router.navigate([`/hospital`]);
+        this.router.navigate([`/alarms`]);
      }
     });
   }

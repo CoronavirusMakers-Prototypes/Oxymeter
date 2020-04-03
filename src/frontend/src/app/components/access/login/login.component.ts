@@ -22,12 +22,12 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
   };
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
               public router: Router) {}
 
   ngOnInit(): void {
     if (this.globalService.authService.isAuthenticated()){
-      this.router.navigate([`/hospital`]);
+      this.router.navigate([`/alarms`]);
     }
   }
 
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.globalService.authService.login(this.formData.login.value, this.formData.password.value).then( result => {
       this.globalService.setLoading(false);
       if (result && result.getId()){
-         this.router.navigate([`/hospital`]);
+         this.router.navigate([`/alarms`]);
       }
     }).catch(error => {
       console.log(error);

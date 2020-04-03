@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '@app/services/global/global.service';
 
 @Component({
   selector: 'app-hospital',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HospitalComponent implements OnInit {
 
-  constructor() { }
+  public buildings: any[];
+
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
+    this.globalService.hospitalService.getBuildings(this.globalService.authService.getHospitalId()).then(result => {
+      this.buildings = result;
+    }).catch(e => {
+      this.globalService.utils.openSimpleDialog('error.server-error');
+    });
   }
 
 }

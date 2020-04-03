@@ -8,26 +8,29 @@ import { RegistrationComponent } from '@components/access/registration/registrat
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { AboutComponent } from './components/about/about.component';
 import { HospitalComponent } from './components/hospital/hospital.component';
-import { FloorComponent } from './components/floor/floor.component';
-import { AreaComponent } from './components/area/area.component';
-import { RoomComponent } from './components/room/room.component';
+import { FloorsComponent } from './components/floors/floors.component';
+import { AreasComponent } from './components/areas/areas.component';
+import { RoomsComponent } from './components/rooms/rooms.component';
+import { BedsComponent } from './components/beds/beds.component';
 import { BedComponent } from './components/bed/bed.component';
+import { AlarmsComponent } from './components/alarms/alarms.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'hospital', pathMatch: 'full'},
+  { path: '', redirectTo: 'notifications', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
-  { path: 'hospital', component: HospitalComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: PerfilComponent, canActivate: [AuthGuard] },
   { path: 'about', component: AboutComponent, canActivate: [AuthGuard]  },
-  { path: 'floor', component: FloorComponent, canActivate: [AuthGuard]  },
-  { path: 'area', component: AreaComponent, canActivate: [AuthGuard]  },
-  { path: 'area/:id', component: AreaComponent, canActivate: [AuthGuard]  },
-  { path: 'room', component: RoomComponent, canActivate: [AuthGuard]  },
-  { path: 'room/:id', component: RoomComponent, canActivate: [AuthGuard]  },
-  { path: 'bed/:id', component: BedComponent, canActivate: [AuthGuard]  }
+  { path: 'alarms', component: AlarmsComponent, canActivate: [AuthGuard]  },
+  { path: 'hospital', component: HospitalComponent, canActivate: [AuthGuard] }, // Muestra el listado de buildings
+  { path: 'building/:id', component: FloorsComponent, canActivate: [AuthGuard]  }, // Muestra las plantas
+  { path: 'floor/:id', component: AreasComponent, canActivate: [AuthGuard]  }, // Muestra las areas
+  { path: 'area/:id', component: RoomsComponent, canActivate: [AuthGuard]  }, // Muestra las habitaciones
+  { path: 'room/:id', component: BedsComponent, canActivate: [AuthGuard]  }, // Muestra las camas
+  { path: 'bed/:id', component: BedComponent, canActivate: [AuthGuard]  } // Muestra la cama
 ];
 
 @NgModule({

@@ -36,11 +36,14 @@ import {RequestInterceptor} from '@interceptors/request.interceptor';
 
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { HospitalComponent } from './components/hospital/hospital.component';
-import { FloorComponent } from './components/floor/floor.component';
-import { AreaComponent } from './components/area/area.component';
-import { RoomComponent } from './components/room/room.component';
 import { BedComponent } from './components/bed/bed.component';
-import { BreadCrumbNotificationsComponent } from './components/common/bread-crumb-notifications/bread-crumb-notifications.component';
+import { NotificationsComponent } from './components/common/notifications/notifications.component';
+import { BreadCrumbsComponent } from './components/common/bread-crumbs/bread-crumbs.component';
+import { FloorsComponent } from './components/floors/floors.component';
+import { AreasComponent } from './components/areas/areas.component';
+import { RoomsComponent } from './components/rooms/rooms.component';
+import { BedsComponent } from './components/beds/beds.component';
+import { AlarmsComponent } from './components/alarms/alarms.component';
 
 @NgModule({
   declarations: [
@@ -54,11 +57,14 @@ import { BreadCrumbNotificationsComponent } from './components/common/bread-crum
     LogoutComponent,
     RegistrationComponent,
     HospitalComponent,
-    FloorComponent,
-    AreaComponent,
-    RoomComponent,
     BedComponent,
-    BreadCrumbNotificationsComponent,
+    NotificationsComponent,
+    BreadCrumbsComponent,
+    FloorsComponent,
+    AreasComponent,
+    RoomsComponent,
+    BedsComponent,
+    AlarmsComponent,
   ],
   imports: [
     BrowserModule,

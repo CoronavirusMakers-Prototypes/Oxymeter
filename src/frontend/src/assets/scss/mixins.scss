@@ -44,3 +44,101 @@
     -o-transition-delay: $delay-time ;
     transition-delay: $delay-time ;
 }
+
+@keyframes bellshake {
+    0% { transform: rotate(0); }
+    15% { transform: rotate(10deg); }
+    30% { transform: rotate(-10deg); }
+    45% { transform: rotate(8deg); }
+    60% { transform: rotate(-8deg); }
+    75% { transform: rotate(5deg); }
+    85% { transform: rotate(-5deg); }
+    92% { transform: rotate(3deg); }
+    100% { transform: rotate(0); }
+  }
+
+  $from: 5;
+$to: 300;
+$step: 1;
+@while $from <= $to {
+	@if $from <= 100 {
+		.w-#{$from}{
+			width: 0% + $from !important;
+		}
+		.h-#{$from}{
+			width: 0% + $from !important;
+		}
+	}
+	.w-#{$from}px{
+		width: 0px + $from !important;
+	}
+	.h-#{$from}px{
+		width: 0px + $from !important;
+	}
+	.min-h-#{$from}-px{
+		min-height: 0px + $from !important;
+	}
+	.max-h-#{$from}-px{
+		max-height: 0px + $from !important;
+	}
+	.min-w-#{$from}-px{
+		min-width: 0px + $from !important;
+	}
+	.max-w-#{$from}-px{
+		min-width: 0px + $from !important;
+	}
+	.min-w-#{$from}-em{
+		min-width: 0em + $from !important;
+	}
+	.max-w-#{$from}-em{
+		min-width: 0em + $from !important;
+	}
+	$from: $from + $step;
+}
+
+$from: 5;
+$to: 300;
+$step: 5;
+@while $from <= $to {
+	.margin-l-#{$from}-px{
+		margin-left: 0px + $from !important;
+	}
+	.margin-r-#{$from}-px{
+		margin-right: 0px + $from !important;
+	}
+	.margin-t-#{$from}-px{
+		margin-top: 0px + $from !important;
+	}
+	.margin-b-#{$from}-px{
+		margin-bottom: 0px + $from !important;
+	}
+	.margin-lr-#{$from}-px, .margin-rl-#{$from}-px{
+		margin-left: 0px + $from !important;
+		margin-right: 0px + $from !important;
+	}
+	.margin-tb-#{$from}-px, .margin-bt-#{$from}-px{
+		margin-top: 0px + $from !important;
+		margin-bottom: 0px + $from !important;
+	}
+	.padding-l-#{$from}-px{
+		padding-left: 0px + $from !important;
+	}
+	.padding-r-#{$from}-px{
+		padding-right: 0px + $from !important;
+	}
+	.padding-t-#{$from}-px{
+		padding-top: 0px + $from !important;
+	}
+	.padding-b-#{$from}-px{
+		padding-bottom: 0px + $from !important;
+	}
+	.padding-lr-#{$from}-px, .padding-rl-#{$from}-px{
+		padding-left: 0px + $from !important;
+		padding-right: 0px + $from !important;
+	}
+	.padding-tb-#{$from}-px, .padding-bt-#{$from}-px{
+		padding-top: 0px + $from !important;
+		padding-bottom: 0px + $from !important;
+	}
+	$from: $from + $step;
+}

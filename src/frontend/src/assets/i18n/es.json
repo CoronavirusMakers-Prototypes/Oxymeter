@@ -13,7 +13,17 @@
     "lastname": "Apellido",
     "professionalId": "Identificador profesional",
     "hospital": "Hospital",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "home": "Home",
+    "building": "Edificio",
+    "floor": "Piso",
+    "area": "Área",
+    "room": "Habitación",
+    "alarms": "Alarmas",
+    "subscribe": "Subscribirse",
+    "unsubscribe": "Quitar subscr.",
+    "view-area": "Ver área",
+    "view-room": "Ver habitación"
   },
   "pages": {
     "login": {
@@ -37,11 +47,18 @@
     },
     "profile": {
       "profile": "Perfil"
+    },
+    "areas":{
+      "subscriptions-in-rooms": "Hay subscripciones de habitaciones"
     }
   },
   "alerts": {
     "notifications-not-supported": "Este navegador no soporta las notificaciones, se recomienda el uso de Chrome.",
     "ask-for-notifications-permission": "Todavía no ha concedido permisos para enviarle notificaciones. Estas le alertarán de posibles alar ¿Desea permitir las notificaciones?",
-    "service-wrokers-not-supported": "Este navegador no soporta las notificaciones si cierra la pestaña o el navegador, por lo que se recomienda no cerrar esta ventana."
+    "service-wrokers-not-supported": "Este navegador no soporta las notificaciones si cierra la pestaña o el navegador, por lo que se recomienda no cerrar esta ventana.",
+    "there-are-not-zone-subscriptions": "Todavía no te has subscrito a ningún área o habitación del hospital. Selecciona el edificio y el piso, luego podrás subscribirte a las alertas de todas las habitaciones de las distintas áreas o seleccionar habitaciones concretas."
+  },
+  "error": {
+    "server-error": "Lo sentimos se ha producido un error en el servidor" 
   }
 }

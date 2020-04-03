@@ -1,9 +1,11 @@
 <div id="page-container">  
   <app-header></app-header>
   <div class="content-wrapper">
-    <app-bread-crumb-notifications *ngIf="logged"></app-bread-crumb-notifications>
+    <app-bread-crumbs *ngIf="logged && showBreadCrumb"></app-bread-crumbs>
     <router-outlet></router-outlet>
   </div>
   <app-footer></app-footer>
+  <app-notifications *ngIf="logged"></app-notifications>
 </div>
 <ngx-loading [show]="loading"></ngx-loading>
+

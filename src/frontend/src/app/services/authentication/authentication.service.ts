@@ -80,6 +80,8 @@ export class AuthenticationService {
 
   public getToken = () => this.token;
 
+  public getHospitalId = () => this.userData.getIdHospital();
+
   public login(login: string, password: string): Promise<User>{
     const url = '/login';
     const promise = new Promise<User>((resolve, reject) => {

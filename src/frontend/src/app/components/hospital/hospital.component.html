@@ -1,1 +1,5 @@
-<p>hospital works!</p>
+<section class="cards-wrapper-list animated fadeInLeft d-flex justify-content-center align-items-center flex-wrap">
+    <mat-card class="pointer" *ngFor="let building of buildings" routerLink="/building/{{building.id}}" (click)="globalService.setBuilding(building)">
+        {{building.desc}}
+    </mat-card>
+</section>

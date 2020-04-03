@@ -13,13 +13,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   localData: User;
   route = '';
   title = 'title';
+  userText = '';
   logged: boolean;
   hospitalDesc: string;
 
   loggedSubscription: Subscription;
   routerEventsSubscription: Subscription;
 
-  constructor(private globalService: GlobalService,
+  constructor(public globalService: GlobalService,
               private router: Router) {
     this.localData = globalService.authService.getData();
     this.logged = globalService.authService.isAuthenticated();
@@ -33,9 +34,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loggedSubscription = this.globalService.authService.logged$.subscribe( logged => {
       this.logged = logged;
       this.localData = globalService.authService.getData();
-      if(this.localData.getIdHospital()){
+      if(this.localData.getIdHospital() && !this.hospitalDesc){
         this.globalService.hospitalService.getHospitalById(this.localData.getIdHospital()).then( res => {
           this.hospitalDesc = res.desc;
+          this.setTitle();
         }).catch(e => console.log(e));
       }
     });
@@ -43,6 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.setTitle();
   }
 
   ngOnDestroy() {
@@ -58,8 +61,14 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   setTitle = () => {
     if(window.innerWidth < 600){
       this.title = 'smallTitle';
+      this.userText = this.localData.getProfessionalId();
     }else{
       this.title = 'title';
+      if(this.hospitalDesc){
+        this.userText = this.hospitalDesc+' user: '+this.localData.getProfessionalId();
+      }else{
+        this.userText = 'User: '+this.localData.getProfessionalId();
+      }
     }
   }
 

@@ -1,0 +1,26 @@
+<section class="cards-wrapper-list animated fadeInLeft d-flex justify-content-center align-items-center flex-wrap">
+    <mat-card class="pointer" *ngFor="let room of rooms" >
+        <div class="d-flex justify-content-around align-items-center">
+            <div>
+                <div class="notification-bell inline-block" *ngIf="globalService.alarmsService.isSubscribed('room', room, paramId)">
+                    <span class="fa fa-bell margin-r-10-px"></span>
+                </div>
+                {{room.desc}}
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <button mat-raised-button color="secundary" class="margin-t-10-px margin-l-5-px margin-r-5-px"
+            routerLink="/room/{{room.id}}" (click)="globalService.setRoom(room)">
+                {{'common.view-room' | translate }}
+            </button>
+            <button [hidden]="globalService.alarmsService.isSubscribed('room', room, paramId)" mat-raised-button color="primary" class="margin-t-10-px margin-l-5-px margin-r-5-px "
+            (click)="globalService.alarmsService.setSubscription('room', room, paramId)">
+                {{'common.subscribe' | translate }}
+            </button>
+            <button [hidden]="!globalService.alarmsService.isSubscribed('room', room, paramId)" mat-raised-button color="warn" class="margin-t-10-px margin-l-5-px margin-r-5-px "
+            (click)="globalService.alarmsService.unsetSubscription('room', room, paramId)">
+                {{'common.unsubscribe' | translate }}
+            </button>
+        </div>
+    </mat-card>
+</section>
