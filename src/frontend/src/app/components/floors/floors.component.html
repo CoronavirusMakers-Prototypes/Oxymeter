@@ -1,0 +1,5 @@
+<section class="cards-wrapper-list animated fadeInLeft d-flex justify-content-center align-items-center flex-wrap">
+        <mat-card class="pointer" *ngFor="let floor of floors" routerLink="/floor/{{floor.id}}" (click)="globalService.setFloor(floor)">
+            {{floor.desc}}
+        </mat-card>
+    </section>

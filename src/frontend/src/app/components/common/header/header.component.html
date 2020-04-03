@@ -1,0 +1,28 @@
+<mat-toolbar color="primary" class="header d-flex flex-wrap justify-content-between align-items-center mat-elevation-z6" >
+    <h1 class="pointer" routerLink="/alarms"  title="{{ 'title' | translate }}">
+      <img src="/assets/img/logo.png" alt="{{ 'title' | translate }}"/>{{ title | translate}}
+    </h1>
+    <div>
+      <button *ngIf="!logged" mat-button [matMenuTriggerFor]="notLoggedMenu" ><span class="fa fa-bars"></span></button>
+      <button *ngIf="logged" class="userLogged" mat-button  routerLink="/profile">{{userText}}</button>
+      <button *ngIf="logged" mat-button [matMenuTriggerFor]="loggedMenu" ><span class="fa fa-bars"></span></button>
+    </div>
+</mat-toolbar>
+<mat-menu  #notLoggedMenu="matMenu" xPosition="before">
+  <button mat-menu-item class="hidden"></button>
+  <!--<button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>-->
+  <button mat-menu-item routerLink="/login">{{'pages.login.login' | translate }}</button>
+  <button mat-menu-item routerLink="/registration">{{'pages.registration.registration' | translate }}</button>
+</mat-menu>
+<mat-menu #loggedMenu="matMenu" xPosition="before">
+  <button mat-menu-item class="hidden"></button>
+  <!--<button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>-->
+  <button mat-menu-item routerLink="/alarms">{{'common.alarms' | translate }}</button>
+  <button mat-menu-item routerLink="/profile">{{'pages.profile.profile' | translate }}</button>
+  <button mat-menu-item routerLink="/logout">{{'common.logout' | translate }}</button>
+</mat-menu>
+<!--
+<mat-menu #vertebrates="matMenu">
+  <button mat-menu-item>Birds</button>
+  <button mat-menu-item>Mammals</button>
+</mat-menu>-->
