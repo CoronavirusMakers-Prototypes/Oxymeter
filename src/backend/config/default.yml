@@ -21,6 +21,8 @@ logger:
 queues:
     consumer:
       dataProbes:
-        url:       'amqp://localhost'
+        ip:        'localhost'
+        port:      5672
+        user:      'vitalox'
+        password:  'vitalox'
         queueName: 'open-vitalox-0'
-        # TODO: credentials pass and user

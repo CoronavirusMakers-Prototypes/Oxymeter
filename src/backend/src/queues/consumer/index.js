@@ -2,7 +2,9 @@ const amqp       = require('amqplib/callback_api');
 const { logger } = require('./../../util/logger')
 const config     = require('config')
 
-const rabbitDataProbesConsumer = amqp.connect(config.get('queues.consumer.dataProbes.url'), (error0, connection) => {
+const rabbitmqURL = `amqp://${config.get('queues.consumer.dataProbes.user')}:${config.get('queues.consumer.dataProbes.password')}@${config.get('queues.consumer.dataProbes.ip')}:${config.get('queues.consumer.dataProbes.port')}`
+console.log(rabbitmqURL);
+const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) => {
     if (error0) {
         throw error0;
     }
