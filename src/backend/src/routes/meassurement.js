@@ -2,7 +2,7 @@ const Router      = require('express-promise-router')
 const db          = require('../db')
 const { logger }  = require('./../util/logger')
 
-const router = new Router()
+const router   = new Router()
 module.exports = router
 
 //TODO: checks params and filter in case that is missing access_token
