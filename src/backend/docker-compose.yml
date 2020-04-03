@@ -10,3 +10,12 @@ services:
     - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=postgres
+
+  rabbitmq:
+    image: rabbitmq:3.8.3-management-alpine
+    expose:
+    - "5672"
+    - "15672"
+    ports:
+    - "5672:5672"
+    - "15672:15672"
