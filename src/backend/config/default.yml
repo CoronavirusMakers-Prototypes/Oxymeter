@@ -9,6 +9,8 @@ database:
   port:     5432
   name:     'cv19makers_vitalox'
   sqlFile:  './../../database/VitalOx.sql'
+  query:
+    limit: 50
 
 logger:
   path: './logs/'

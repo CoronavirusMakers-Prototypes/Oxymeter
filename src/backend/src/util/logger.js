@@ -9,14 +9,14 @@ const fileTransport = new (winston.transports.DailyRotateFile)({
   datePattern: 'YYYY-MM-DD-HH',
   zippedArchive: true,
   maxSize: '20m',
-  maxFiles: '14d'
+  maxFiles: '14d',
 })
 
 const consoleTransport = new winston.transports.Console({
       level: `${config.get('logger.level.console')}`,
       format: winston.format.combine(
         winston.format.colorize(),
-        winston.format.simple()
+        winston.format.simple(),
       )
 })
 
