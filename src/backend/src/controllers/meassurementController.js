@@ -1,38 +1,24 @@
 const { logger } = require('./../util/logger')
 const db         = require('../db');
 const queries    = require('./../queries');
+const { check }  = require('./../util/requestChecker');
+const Promise    = require('bluebird');
 
-// checks if the probe is legitimate
-const _pukka = async (req, id) => {
-  console.log(queries.meassurement.pukka);
-  const p = await db.query(queries.meassurement.pukka,[req.body.auth_id, id]);
-  if (p.rows.length == 0) {
-    return Promise.resolve(false);
-  }
-  return Promise.resolve(true);
-}
-
-const _checkContent = (req) => {
-  if (typeof req.body.auth_id === 'undefined' || req.body.auth_id === null) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-const legitimate = async (req) => {
+const processPayloadFromProbes = async (data) => {
   try {
-    const { id } = req.params;
-    if (await !_checkContent(req)) {
-      return Promise.resolve(false);
+    if (data instanceof Array) {
+      logger.debug("array payload: " + JSON.stringify(data));
+      // Process an array of payload
     } else {
-      return await _pukka(req, id);
+      // Process a sigle payload
+      logger.debug("single payload " + JSON.stringify(data));
     }
+    // The idea is to check tif the probe is legitime in the moment of insert
   } catch (e) {
-    logger.error(e);
+    console.log(e);
   }
 }
 
 module.exports = {
-  legitimate,
+  processPayloadFromProbes,
 }

@@ -13,12 +13,7 @@ util = {
   count: 'SELECT COUNT(*) FROM sensor',
 }
 
-meassurement = {
-  pukka: 'SELECT * FROM sensor WHERE auth_id = $1 AND id = $2',
-}
-
 module.exports = {
   sensor,
   util,
-  meassurement,
 }
