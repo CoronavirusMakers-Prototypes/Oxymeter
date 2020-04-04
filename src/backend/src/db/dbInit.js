@@ -9,7 +9,8 @@ const { logger } = require('./../util/logger')
 var client = null;
 
 const dbExists = async () => {
-    const res = await client.query(`SELECT 1 from pg_database WHERE datname='${config.get('database.name')}';`, null)
+    const res = await client.query(`SELECT 1 from pg_database WHERE
+                                    datname='${config.get('database.name')}';`, null);
     return res.rows.length == 1 ? true : false;
 }
 
@@ -23,7 +24,7 @@ const _createTables = async () => {
       .filter((el) => {return el.length != 0});
 
       Promise.map(queries, (query) => {
-        client.query(`${query};`)
+        client.query(`${query};`);
       })
     } catch (e) {
       logger.info(e)
@@ -38,7 +39,7 @@ const _connectionClientDB = async (databaseName) => {
     port:     `${config.get('database.port')}`,
     database: databaseName
   })
-  await client.connect()
+  await client.connect();
 }
 
 const _createDatabase = async () => {
@@ -48,24 +49,24 @@ const _createDatabase = async () => {
       password: `${config.get('database.password')}`,
       port:     `${config.get('database.port')}`,
     }
-    await pgtools.createdb(configPgTools, config.get('database.name'))
+    await pgtools.createdb(configPgTools, config.get('database.name'));
   }
 
 
 const createDatabaseAndSchemaIfNotExists = async () => {
   try {
-    await _connectionClientDB('postgres')
+    await _connectionClientDB('postgres');
     if (await dbExists() === false) {
-      logger.info('Connecting for first time, creating database and schemas.')
-      await _createDatabase()
-      await _connectionClientDB(config.get('database.name'))
-      await _createTables()
+      logger.info('Connecting for first time, creating database and schemas.');
+      await _createDatabase();
+      await _connectionClientDB(config.get('database.name'));
+      await _createTables();
     } else {
-      logger.info('No need to init db')
+      logger.info('No need to init db');
     }
+    Promise.resolve();
   } catch (e) {
-    logger.error(e)
-    process.exit(1)
+    logger.error(e);
   }
 }
 
