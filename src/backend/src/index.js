@@ -4,7 +4,7 @@ const info        = require('../package.json');
 const mountRoutes = require('./routes');
 const path        = require('path');
 const { logger }  = require('./util/logger');
-
+const dataConsumer = require('./queues/consumer')
 
 const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit');
 
@@ -29,6 +29,7 @@ io.on('connection', function(socket){
 // Doing some actions before expose the service.
 (async () => {
   await createDatabaseAndSchemaIfNotExists();
+  dataConsumer
   http.listen(port, () => logger.info(`${info.name}@${info.version} running at: ${port}!`));
 })().catch((error) => {
   logger.error(error);

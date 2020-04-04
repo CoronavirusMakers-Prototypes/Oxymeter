@@ -10,6 +10,7 @@
   "author": "carvilsi@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "amqplib": "^0.5.5",
     "bluebird": "^3.7.2",
     "config": "^3.3.1",
     "config-yaml": "^1.1.4",

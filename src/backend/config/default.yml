@@ -17,3 +17,12 @@ logger:
   level:
     console: 'silly'
     file:    'error'
+
+queues:
+    consumer:
+      dataProbes:
+        ip:        'localhost'
+        port:      5672
+        user:      'vitalox'
+        password:  'vitalox'
+        queueName: 'open-vitalox-0'
