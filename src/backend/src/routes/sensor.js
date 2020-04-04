@@ -36,36 +36,39 @@ router.delete('/:id', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const { id } = req.params;
-    var   offset = req.query.offset;
-    const limit  = config.get('database.query.limit');
+    var   page   = req.query.page;
+    var   limit  = parseInt(config.get('database.query.limit'));
 
     var   result       = await db.query(queries.util.count);
     const totalRecords = parseInt(result.rows[0].count);
-    const totalPages   = parseInt(totalRecords/limit);
-    var currentPage    = 0;
+    const totalPages   = Math.ceil(totalRecords/limit);
+    var currentPage    = 1;
+    var offset         = 0;
 
-    if (typeof offset != 'undefined' && offset != null) {
-      currentPage = parseInt(offset/limit);
-      offset = parseInt(offset);
-    }
-
-    if (offset > totalRecords) {
-      res.status(400).send(`Offset ${offset} above total recods ${totalRecords}`);
+    if (!check(req.query, ['page'])) {
+      limit = 0
+      result = await db.query(queries.sensor.readUnlimited);
     } else {
-      result = await db.query(queries.sensor.read,[offset, limit]);
-
-      response = {
-        offset:       offset,
-        limit:        limit,
-        currentPage:  currentPage,
-        totalPages:   totalPages,
-        totalRecords: totalRecords,
-        result:       result.rows,
-      };
-
-      res.status(200).send(JSON.stringify(response));
+      var page = parseInt(req.query.page);
+      if (page > totalPages) {
+        res.status(400).send(`Requested page ${page} over total pages ${totalPages}`);
+      } else {
+        offset = limit * (page -1)
+        currentPage = page;
+        result = await db.query(queries.sensor.read, [offset, limit]);
+      }
     }
 
+    response = {
+      offset:       offset,
+      limit:        limit,
+      currentPage:  currentPage,
+      totalPages:   totalPages,
+      totalRecords: totalRecords,
+      result:       result.rows,
+    };
+
+    res.status(200).send(JSON.stringify(response));
   } catch (e) {
     logger.error(e);
     res.status(500).send(e);
@@ -81,7 +84,7 @@ router.get('/:id', async (req, res) => {
     logger.error(e);
     res.status(500).send(e);
   }
-})
+});
 
 router.put('/:id', async (req, res) => {
   try {
@@ -95,4 +98,4 @@ router.put('/:id', async (req, res) => {
     logger.error(e);
     res.status(500).send(e);
   }
-})
+});

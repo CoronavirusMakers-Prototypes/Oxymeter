@@ -37,7 +37,7 @@ const _connectionClientDB = async (databaseName) => {
     user:     `${config.get('database.user')}`,
     password: `${config.get('database.password')}`,
     port:     `${config.get('database.port')}`,
-    database: databaseName
+    database: databaseName,
   })
   await client.connect();
 }
