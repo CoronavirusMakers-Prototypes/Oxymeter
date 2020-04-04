@@ -1,0 +1,144 @@
+@function str-replace($string, $search, $replace: "") {
+    $index: str-index($string, $search);
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+    @return $string;
+}
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+    $src: null;
+    $extmods: ( eot: "?", svg: "#" + str-replace($name, " ", "_") );
+    $formats: ( otf: "opentype", ttf: "truetype" );
+    @each $ext in $exts {
+        $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+        $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+        $src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+    }
+    @font-face {
+        font-family: quote($name);
+        font-style: $style;
+        font-weight: $weight;
+        src: $src;
+    }
+}
+
+@mixin box-sizing($box-model) {
+    -webkit-box-sizing: $box-model; // Safari <= 5
+    -moz-box-sizing: $box-model; // Firefox <= 19
+    box-sizing: $box-model;
+}
+
+
+@mixin transition($transition-property, $transition-time, $method) {
+    -webkit-transition: $transition-property $transition-time $method;
+    -moz-transition: $transition-property $transition-time $method;
+    -ms-transition: $transition-property $transition-time $method;
+    -o-transition: $transition-property $transition-time $method;
+    transition: $transition-property $transition-time $method;
+}
+@mixin transition-delay($delay-time) {
+    -webkit-transition-delay: $delay-time ;
+    -moz-transition-delay: $delay-time ;
+    -ms-transition-delay: $delay-time ;
+    -o-transition-delay: $delay-time ;
+    transition-delay: $delay-time ;
+}
+
+@keyframes bellshake {
+    0% { transform: rotate(0); }
+    15% { transform: rotate(10deg); }
+    30% { transform: rotate(-10deg); }
+    45% { transform: rotate(8deg); }
+    60% { transform: rotate(-8deg); }
+    75% { transform: rotate(5deg); }
+    85% { transform: rotate(-5deg); }
+    92% { transform: rotate(3deg); }
+    100% { transform: rotate(0); }
+  }
+
+  $from: 5;
+$to: 300;
+$step: 1;
+@while $from <= $to {
+	@if $from <= 100 {
+		.w-#{$from}{
+			width: 0% + $from !important;
+		}
+		.h-#{$from}{
+			width: 0% + $from !important;
+		}
+	}
+	.w-#{$from}px{
+		width: 0px + $from !important;
+	}
+	.h-#{$from}px{
+		width: 0px + $from !important;
+	}
+	.min-h-#{$from}-px{
+		min-height: 0px + $from !important;
+	}
+	.max-h-#{$from}-px{
+		max-height: 0px + $from !important;
+	}
+	.min-w-#{$from}-px{
+		min-width: 0px + $from !important;
+	}
+	.max-w-#{$from}-px{
+		min-width: 0px + $from !important;
+	}
+	.min-w-#{$from}-em{
+		min-width: 0em + $from !important;
+	}
+	.max-w-#{$from}-em{
+		min-width: 0em + $from !important;
+	}
+	$from: $from + $step;
+}
+
+$from: 5;
+$to: 300;
+$step: 5;
+@while $from <= $to {
+	.margin-l-#{$from}-px{
+		margin-left: 0px + $from !important;
+	}
+	.margin-r-#{$from}-px{
+		margin-right: 0px + $from !important;
+	}
+	.margin-t-#{$from}-px{
+		margin-top: 0px + $from !important;
+	}
+	.margin-b-#{$from}-px{
+		margin-bottom: 0px + $from !important;
+	}
+	.margin-lr-#{$from}-px, .margin-rl-#{$from}-px{
+		margin-left: 0px + $from !important;
+		margin-right: 0px + $from !important;
+	}
+	.margin-tb-#{$from}-px, .margin-bt-#{$from}-px{
+		margin-top: 0px + $from !important;
+		margin-bottom: 0px + $from !important;
+	}
+	.padding-l-#{$from}-px{
+		padding-left: 0px + $from !important;
+	}
+	.padding-r-#{$from}-px{
+		padding-right: 0px + $from !important;
+	}
+	.padding-t-#{$from}-px{
+		padding-top: 0px + $from !important;
+	}
+	.padding-b-#{$from}-px{
+		padding-bottom: 0px + $from !important;
+	}
+	.padding-lr-#{$from}-px, .padding-rl-#{$from}-px{
+		padding-left: 0px + $from !important;
+		padding-right: 0px + $from !important;
+	}
+	.padding-tb-#{$from}-px, .padding-bt-#{$from}-px{
+		padding-top: 0px + $from !important;
+		padding-bottom: 0px + $from !important;
+	}
+	$from: $from + $step;
+}
