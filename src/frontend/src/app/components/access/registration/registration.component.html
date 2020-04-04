@@ -1,0 +1,46 @@
+<section class="login-wrapper animated fadeInLeft d-flex justify-content-center align-items-center">
+        <mat-card class="">
+            <mat-card-header class="w-100">
+                <mat-card-title class="w-100">{{'pages.registration.registration' | translate }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="registration-card">
+                <form >
+                    <div class=" d-flex justify-content-between flex-wrap">
+                        <mat-form-field >
+                            <input matInput placeholder="{{ 'common.username' | translate}}" [formControl]="formData.login" [errorStateMatcher]="matcher" name="username" required>
+                        </mat-form-field>
+                        <mat-form-field >
+                            <input matInput placeholder="{{ 'common.surname' | translate}}" [formControl]="formData.surname" [errorStateMatcher]="matcher" name="surname" required>
+                        </mat-form-field>
+                        <mat-form-field >
+                            <input matInput placeholder="{{ 'common.lastname' | translate}}" [formControl]="formData.lastname" [errorStateMatcher]="matcher" name="lastname" required>
+                        </mat-form-field>
+                        <mat-form-field >
+                            <input matInput placeholder="{{ 'common.professionalId' | translate}}" [formControl]="formData.professionalId" [errorStateMatcher]="matcher" name="professionalId" required>
+                        </mat-form-field>
+                        <mat-form-field >
+                            <mat-select placeholder="{{ 'common.hospital' | translate}}" [formControl]="formData.idHospital" [errorStateMatcher]="matcher" name="hospital" required>
+                                <mat-option *ngFor="let hospital of hospitals" [value]="hospital.id">
+                                    {{hospital.desc}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class=" d-flex justify-content-between flex-wrap">
+                        <mat-form-field >
+                            <input matInput type="password" placeholder="{{ 'common.password' | translate}}" [formControl]="formData.password" [errorStateMatcher]="matcher" name="password" required>
+                            <mat-hint >{{getErrorMessagePassword() | translate }}</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field >
+                            <input matInput type="password" placeholder="{{ 'common.rpassword' | translate}}" [formControl]="formData.rpassword" [errorStateMatcher]="matcher" name="rpassword" required>
+                        </mat-form-field>      
+                    </div>
+                </form>
+            </mat-card-content>
+            <mat-card-actions class="d-flex justify-content-between">
+                    <button mat-button color="primary" routerLink="/login" >{{'pages.login.login' | translate }}</button>
+                    <button mat-raised-button (click)="registerUser()" color="primary" [disabled]="disableRegistration()">{{'pages.registration.registration-action' | translate }}</button>
+            </mat-card-actions>
+        </mat-card>
+    
+    </section>

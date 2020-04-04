@@ -1,21 +1,27 @@
-const Router      = require('express-promise-router')
-const db          = require('../db')
-const { logger }  = require('./../util/logger')
+const Router         = require('express-promise-router');
+const { logger }     = require('./../util/logger');
 
-const router   = new Router()
-module.exports = router
+const { processPayloadFromProbes } = require('./../controllers/meassurementController');
 
-//TODO: checks params and filter in case that is missing access_token
-// and filter stranger things as NaN
-router.post('/:id', async (req, res) => {
+const router   = new Router();
+module.exports = router;
+
+//TODO:? and filter stranger things as NaN
+
+
+router.post('/', async (req, res) => {
   try {
-    const { id } = req.params
-    const q = `INSERT INTO meassurement (spo2, ppm, batt, sequence, id_sensor) VALUES (${req.body.spo2}, ${req.body.ppm}, ${req.body.batt}, ${req.body.sequence}, ${id})`
-    await db.query(q)
-    logger.debug(q)
-    res.send('ok')
+    if (Object.keys(req.body).length === 0) {
+      // Do nothing if the body is empty
+      logger.warn('No data from probe');
+    } else {
+      logger.debug(`Probe payload: ${JSON.stringify(req.body)}`);
+      processPayloadFromProbes(req.body);
+    }
   } catch (e) {
-    logger.error(e)
-    res.status(500).send(e)
+    logger.error(e);
+    res.status(500).send(e);
+  } finally {
+    res.status(200).send('ok');
   }
-})
+});

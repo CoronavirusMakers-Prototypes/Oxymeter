@@ -1,0 +1,10 @@
+@import 'styles.scss';
+mat-card{
+    padding: 30px 40px;
+}
+.registration-card{
+    max-width: 390px;
+    mat-form-field{
+        margin-right: 10px;
+    }
+}

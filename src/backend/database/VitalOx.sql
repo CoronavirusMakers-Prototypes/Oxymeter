@@ -41,6 +41,7 @@ CREATE TABLE "meassurement" (
 	"spo2" int2,
 	"ppm" int2,
 	"batt" int2,
+	"temperature" int2,
 	"sequence" int8,
 	"id_sensor" int8,
 	PRIMARY KEY("id")

@@ -1,0 +1,17 @@
+@import 'styles.scss';
+#footer{
+  background-color: $footer-bg-color;
+  color: $footer-font-color;
+  font-size: 0.85em;
+  height: 100%;
+  padding: 0px 20px;
+  #logoCoronavirusmakers{
+    height: 2rem;
+  }
+  a{
+    color: rgb(219, 220, 255);
+    &:hover{
+      color: rgb(192, 185, 255);
+    }
+  }
+}

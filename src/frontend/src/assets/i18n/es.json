@@ -1,0 +1,64 @@
+{
+  "title": "Oxymeters Control Center",
+  "smallTitle": "OCC",
+  "common": {
+    "no": "No",
+    "yes": "Sí",
+    "close": "Cerrar",
+    "go-to-registration": "Registrarse",
+    "username": "Identificador de usuario",
+    "password": "Contraseña",
+    "rpassword": "Repetir contraseña",
+    "surname": "Nombre",
+    "lastname": "Apellido",
+    "professionalId": "Identificador profesional",
+    "hospital": "Hospital",
+    "logout": "Cerrar sesión",
+    "home": "Home",
+    "building": "Edificio",
+    "floor": "Piso",
+    "area": "Área",
+    "room": "Habitación",
+    "alarms": "Alarmas",
+    "subscribe": "Subscribirse",
+    "unsubscribe": "Quitar subscr.",
+    "view-area": "Ver área",
+    "view-room": "Ver habitación"
+  },
+  "pages": {
+    "login": {
+      "login": "Login",
+      "login-action": "Acceder",
+      "username": "Identificador de usuario",
+      "password": "Contraseña",
+      "passwords-must-match": "Las contraseñas no coinciden",
+      "passwords-min-length": "Longitud mínima 6 caracteres"
+    },
+    "registration": {
+      "registration": "Crear cuenta",
+      "registration-action": "Registrarse"
+    },
+    "footer": {
+      "powered-by": "Powered by",
+      "from-people-to-people": "De personas para personas"
+    },
+    "about":{
+      "about": "Sobre nosotros"
+    },
+    "profile": {
+      "profile": "Perfil"
+    },
+    "areas":{
+      "subscriptions-in-rooms": "Hay subscripciones de habitaciones"
+    }
+  },
+  "alerts": {
+    "notifications-not-supported": "Este navegador no soporta las notificaciones, se recomienda el uso de Chrome.",
+    "ask-for-notifications-permission": "Todavía no ha concedido permisos para enviarle notificaciones. Estas le alertarán de posibles alar ¿Desea permitir las notificaciones?",
+    "service-wrokers-not-supported": "Este navegador no soporta las notificaciones si cierra la pestaña o el navegador, por lo que se recomienda no cerrar esta ventana.",
+    "there-are-not-zone-subscriptions": "Todavía no te has subscrito a ningún área o habitación del hospital. Selecciona el edificio y el piso, luego podrás subscribirte a las alertas de todas las habitaciones de las distintas áreas o seleccionar habitaciones concretas."
+  },
+  "error": {
+    "server-error": "Lo sentimos se ha producido un error en el servidor" 
+  }
+}
