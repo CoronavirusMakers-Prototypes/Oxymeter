@@ -35,10 +35,36 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const { id } = req.params
-    const offset = req.query.offset
-    const result = await db.query(queries.sensor.read,[offset, config.get('database.query.limit')])
-    res.status(200).send(JSON.stringify(result.rows))
+    const { id } = req.params;
+    const offset = parseInt(req.query.offset);
+    const limit  = config.get('database.query.limit');
+
+    var   result       = await db.query(queries.util.count);
+    const totalRecords = parseInt(result.rows[0].count);
+    const totalPages   = parseInt(totalRecords/limit);
+    var currentPage    = 1;
+
+    if (typeof offset != 'undefined' && offset != null) {
+      currentPage = parseInt(offset/limit);
+    }
+
+    if (offset > totalRecords) {
+      res.status(400).send(`Offset ${offset} above total recods ${totalRecords}`)
+    } else {
+      result = await db.query(queries.sensor.read,[offset, limit]);
+
+      response = {
+        offset:       offset,
+        limit:        limit,
+        currentPage:  currentPage,
+        totalPages:   totalPages,
+        totalRecords: totalRecords,
+        result:       result.rows,
+      }
+
+      res.status(200).send(JSON.stringify(response));
+    }
+
   } catch (e) {
     logger.error(e)
     res.status(500).send(e)
