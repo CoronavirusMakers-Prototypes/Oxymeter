@@ -1,10 +1,11 @@
-const express     = require('express');
-const config      = require('config');
-const info        = require('../package.json');
-const mountRoutes = require('./routes');
-const path        = require('path');
-const { logger }  = require('./util/logger');
-const dataConsumer = require('./queues/consumer')
+const express           = require('express');
+const config            = require('config');
+const info              = require('../package.json');
+const mountRoutes       = require('./routes');
+const path              = require('path');
+const { logger }        = require('./util/logger');
+const dataConsumer      = require('./queues/consumer')
+const rabbitAlarmSender = require('./queues/sender/RabbitAlarmSender')
 
 const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit');
 
@@ -29,8 +30,18 @@ io.on('connection', function(socket){
 // Doing some actions before expose the service.
 (async () => {
   await createDatabaseAndSchemaIfNotExists();
-  dataConsumer
+  dataConsumer;
   http.listen(port, () => logger.info(`${info.name}@${info.version} running at: ${port}!`));
+
+  // Sending an alarm
+  const alarmSender = await rabbitAlarmSender.getInstance();
+  await alarmSender.send('An alarm!');
+  // Another alarm !!!
+  alarm = {
+    foor: "bar",
+    boo:  "lol"
+  }
+  await alarmSender.send(JSON.stringify(alarm));
 })().catch((error) => {
   logger.error(error);
 });
