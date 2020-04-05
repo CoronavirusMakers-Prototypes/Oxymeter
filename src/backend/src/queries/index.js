@@ -17,7 +17,7 @@ alarm = {
   create:  'INSERT INTO alarm (created, id_patient, id_sensor, ack_user, ack_date, status, id_bed) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
   delete:  'DELETE FROM alarm WHERE id = $1',
   update:  'UPDATE alarm SET date = $1, id_patient = $2, id_sensor = $3, ack_user = $4, ack_date = $5, status = $6, id_bed = $7 WHERE id = $8',
-  read:    'SELECT * FROM alarm WHERE 1=1 ORDER BY surname OFFSET $1 LIMIT $2',
+  read:    'SELECT * FROM alarm WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM alarm WHERE id = $1'
 }
 
@@ -25,7 +25,7 @@ bed = {
   create:  'INSERT INTO bed (description, id_room) VALUES ($1, $2) RETURNING id',
   delete:  'DELETE FROM bed WHERE id = $1',
   update:  'UPDATE bed SET description = $1, id_room = $2 WHERE id = $3',
-  read:    'SELECT * FROM bed WHERE 1=1 ORDER BY id_room OFFSET $1 LIMIT $2',
+  read:    'SELECT * FROM bed WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM bed WHERE id = $1'
 }
 
@@ -33,7 +33,7 @@ build = {
   create:  'INSERT INTO build (description, id_hospital) VALUES ($1, $2) RETURNING id',
   delete:  'DELETE FROM build WHERE id = $1',
   update:  'UPDATE build SET description = $1, id_hospital = $2 WHERE id = $3',
-  read:    'SELECT * FROM build WHERE 1=1 ORDER BY id_hospital OFFSET $1 LIMIT $2',
+  read:    'SELECT * FROM build WHERE 1=1 ORDER BY id_hospital',
   getById: 'SELECT * FROM build WHERE id = $1'
 }
 
@@ -41,7 +41,7 @@ floor = {
   create:  'INSERT INTO floor (description, id_build) VALUES ($1, $2) RETURNING id',
   delete:  'DELETE FROM floor WHERE id = $1',
   update:  'UPDATE floor SET description = $1, id_build = $2 WHERE id = $3',
-  read:    'SELECT * FROM floor WHERE 1=1 ORDER BY id_build OFFSET $1 LIMIT $2',
+  read:    'SELECT * FROM floor WHERE 1=1 ORDER BY id_build',
   getById: 'SELECT * FROM floor WHERE id = $1'
 }
 
@@ -73,7 +73,7 @@ role = {
   create:  'INSERT INTO role (description) VALUES ($1) RETURNING id',
   delete:  'DELETE FROM role WHERE id = $1',
   update:  'UPDATE role SET description = $1 WHERE id = $2',
-  read:    'SELECT * FROM role WHERE 1=1 ORDER BY description OFFSET $1 LIMIT $2',
+  read:    'SELECT * FROM role WHERE 1=1 ORDER BY description',
   getById: 'SELECT * FROM role WHERE id = $1'
 }
 
@@ -86,10 +86,10 @@ room = {
 }
 
 user = {
-  create:  'INSERT INTO user (surname, lastname, professional_id, last_login, id_role, login, password, id_hospital, jwt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
+  create:  'INSERT INTO user (surname, lastname, professional_id, last_login, id_role, login, password, id_hospital) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
   delete:  'DELETE FROM user WHERE id = $1',
-  update:  'UPDATE user SET surname = $1, lastname = $2, professional_id = $3, last_login = $4, id_role = $5, login = $6, password = $7, id_hospital = $8, jwt = $9 WHERE id = $10',
-  read:    'SELECT * FROM user WHERE 1=1 ORDER BY surname OFFSET $1 LIMIT $2',
+  update:  'UPDATE user SET surname = $1, lastname = $2, professional_id = $3, last_login = $4, id_role = $5, login = $6, password = $7, id_hospital = $8 WHERE id = $9',
+  read:    'SELECT * FROM user WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM user WHERE id = $1'
 }
 
@@ -97,7 +97,7 @@ user_alarm_suscription = {
   create:  'INSERT INTO user_alarm_suscriptions (id_user, id_room, id_area, id_floor) VALUES ($1, $2, $3, $4) RETURNING id',
   delete:  'DELETE FROM user_alarm_suscriptions WHERE id = $1',
   update:  'UPDATE user_alarm_suscriptions SET id_user = $1, id_room = $2, id_area = $3, id_floor = $4 WHERE id = $3',
-  read:    'SELECT * FROM user_alarm_suscriptions WHERE 1=1 ORDER BY auth_id OFFSET $1 LIMIT $2',
+  read:    'SELECT * FROM user_alarm_suscriptions WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM user_alarm_suscriptions WHERE id = $1'
 }
 

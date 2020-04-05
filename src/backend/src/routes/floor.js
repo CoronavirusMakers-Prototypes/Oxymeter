@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
   try {
     const { id } = req.params;
     const offset = req.query.offset;
-    const result = await db.query(queries.floor.read,[offset, config.get('database.query.limit')]);
+    const result = await db.query(queries.floor.read);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
