@@ -23,7 +23,7 @@ module.exports = app => {
   app.use('/alarms', alarm);
   app.use('/builds', build);
   app.use('/floors', floor);
-  app.use('/hospital', hospital);
+  app.use('/hospitals', hospital);
   app.use('/roles', role);
   app.use('/rooms', room);
   app.use('/users', user);

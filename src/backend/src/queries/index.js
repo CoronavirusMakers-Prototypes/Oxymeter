@@ -32,7 +32,7 @@ bed = {
 build = {
   create:  'INSERT INTO build (description, id_hospital) VALUES ($1, $2) RETURNING id',
   delete:  'DELETE FROM build WHERE id = $1',
-  update:  'UPDATE build SET desc = $1, id_hospital = $2 WHERE id = $3',
+  update:  'UPDATE build SET description = $1, id_hospital = $2 WHERE id = $3',
   read:    'SELECT * FROM build WHERE 1=1 ORDER BY id_hospital OFFSET $1 LIMIT $2',
   getById: 'SELECT * FROM build WHERE id = $1'
 }
@@ -40,24 +40,24 @@ build = {
 floor = {
   create:  'INSERT INTO floor (description, id_build) VALUES ($1, $2) RETURNING id',
   delete:  'DELETE FROM floor WHERE id = $1',
-  update:  'UPDATE floor SET desc = $1, id_build = $2 WHERE id = $3',
+  update:  'UPDATE floor SET description = $1, id_build = $2 WHERE id = $3',
   read:    'SELECT * FROM floor WHERE 1=1 ORDER BY id_build OFFSET $1 LIMIT $2',
   getById: 'SELECT * FROM floor WHERE id = $1'
 }
 
 area = {
-  create:  'INSERT INTO area (description) VALUES ($1) RETURNING id',
+  create:  'INSERT INTO area (description, id_floor) VALUES ($1, $2) RETURNING id',
   delete:  'DELETE FROM area WHERE id = $1',
-  update:  'UPDATE area SET desc = $1 WHERE id = $2',
-  read:    'SELECT * FROM area WHERE 1=1 ORDER BY id_area OFFSET $1 LIMIT $2',
+  update:  'UPDATE area SET description = $1 WHERE id = $2',
+  read:    'SELECT * FROM area WHERE 1=1 ORDER BY id_area',
   getById: 'SELECT * FROM area WHERE id = $1'
 }
 
 hospital = {
   create:  'INSERT INTO hospital (description) VALUES ($1) RETURNING id',
   delete:  'DELETE FROM hospital WHERE id = $1',
-  update:  'UPDATE hospital SET desc = $1 WHERE id = $2',
-  read:    'SELECT * FROM hospital WHERE 1=1 ORDER BY desc OFFSET $1 LIMIT $2',
+  update:  'UPDATE hospital SET description = $1 WHERE id = $2',
+  read:    'SELECT * FROM hospital WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM hospital WHERE id = $1'
 }
 
