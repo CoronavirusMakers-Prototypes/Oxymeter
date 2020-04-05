@@ -9,6 +9,7 @@ const hospital     = require('./hospital');
 const role         = require('./role');
 const room         = require('./room');
 const user         = require('./user');
+const area         = require('./area');
 
 const user_alarm_suscription  = require('./user_alarm_suscription');
 
@@ -26,5 +27,6 @@ module.exports = app => {
   app.use('/roles', role);
   app.use('/rooms', room);
   app.use('/users', user);
+  app.use('/areas', area);
   app.use('/user_alarm_suscriptions', user_alarm_suscription);
 }

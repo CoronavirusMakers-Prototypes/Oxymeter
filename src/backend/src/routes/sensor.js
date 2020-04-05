@@ -11,7 +11,7 @@ module.exports = router;
 router.post('/', async (req, res) => {
   try {
     if (!check(req.body, ['type', 'auth_id'])) {
-      res.status(400).send('bad request for endpoint');
+      throw 'bad request for endpoint, mandatory: type, auth_id';
     }
     const response = await db.query(queries.sensor.create,[req.body.type, req.body.auth_id]);
     req.body.id = response.rows[0].id;
@@ -89,7 +89,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     if (!check(req.body, ['type', 'auth_id'])) {
-      res.status(400).send('bad request for endpoint');
+      throw 'bad request for endpoint, mandatory: type, auth_id';
     }
     const { id } = req.params;
     const result = await db.query(queries.sensor.update, [req.body.type, req.body.auth_id, id]);
