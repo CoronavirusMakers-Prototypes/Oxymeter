@@ -23,7 +23,8 @@
     "subscribe": "Subscribirse",
     "unsubscribe": "Quitar subscr.",
     "view-area": "Ver área",
-    "view-room": "Ver habitación"
+    "view-room": "Ver habitación",
+    "thanks": "Gracias!!"
   },
   "pages": {
     "login": {
