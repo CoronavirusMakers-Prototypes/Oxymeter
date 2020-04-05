@@ -48,8 +48,8 @@ floor = {
 area = {
   create:  'INSERT INTO area (description, id_floor) VALUES ($1, $2) RETURNING id',
   delete:  'DELETE FROM area WHERE id = $1',
-  update:  'UPDATE area SET description = $1 WHERE id = $2',
-  read:    'SELECT * FROM area WHERE 1=1 ORDER BY id_area',
+  update:  'UPDATE area SET description = $1, id_floor = $2 WHERE id = $3',
+  read:    'SELECT * FROM area WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM area WHERE id = $1'
 }
 
