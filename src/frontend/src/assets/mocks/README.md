@@ -210,7 +210,7 @@ Type: GET
 ]
 ```
 
-# NEW - Bed: devuelve info de una cama
+# Bed: devuelve info de una cama
 
 ```
 Url: /bed/:id_bed
@@ -251,4 +251,61 @@ Type: GET
 
 En el primer caso la alarma es a nivel de todo el area porque el id_room viene vacío.
 En el segundo se trata de una alarma a nivel de habitación.
+```
+
+# NEW - Patient by bed_id: devuelve el paciente asignado a una cama
+
+```
+Url: /patientByIdBed/:id_bed
+Type: GET
+ ```
+
+## Response expected:
+
+```
+{
+    "surname": "María",
+    "lastname": "López",
+    "hospital_reference": "Ramón y Cajal",
+    "suscribed": 1586103005311,
+    "unsuscribed": null,
+    "id_bed": 1,
+    "id_sensor": 453555,
+    "spo2_max": 20,
+    "spo2_min": 5,
+    "pulse_max": 140,
+    "pulse_min": 50,
+    "temp_max": 37,
+    "temp_min": 34,
+    "status": 1
+}
+```
+
+# NEW - Meassurements for sensor id: devuelve las últimas mediciones registradas para un sensor
+
+```
+Url: /sensorMeassurement/:id_sensor?page=1
+Type: GET
+ ```
+
+## Response expected:
+
+```
+"offset":50,
+"limit":50,
+"currentPage":1,
+"totalPages":20,
+"totalRecords":1020,
+"result": [
+    {
+        "id": 1,
+        "time": 1586103700333,
+        "spo2": 95,
+        "ppm": 95,
+        "batt": 90,
+        "temp": 35.7,
+        "sequence": 1222,
+        "sensorId": 45645644
+    }, ...
+]
 ```

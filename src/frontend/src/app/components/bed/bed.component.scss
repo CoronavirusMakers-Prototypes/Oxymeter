@@ -2,10 +2,8 @@
 
 .bed-wrapper{
     mat-expansion-panel, mat-card{
-    width: 48% !important;
-    }
-    mat-card{
-        margin-top: 15px;
+    width: 49.5% !important;
+    margin-bottom: 15px;
     }
     @media (max-width: 950px) {
         mat-expansion-panel, mat-card{

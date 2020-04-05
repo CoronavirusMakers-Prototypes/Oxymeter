@@ -23,9 +23,25 @@ export class BedComponent implements OnInit {
 
   ngOnInit(): void {
     this.globalService.setLoading(true);
-    this.activeServices++;
+    this.activeServices = 2;
+    this.getPatientData();
+  }
+
+  private getPatientData = () => {
     this.bedService.getPatientByBedId(this.idBed).then(result => {
       this.patientData = result;
+      this.waitingForServices();
+      this.getSensorMeassurements(result.getId_sensor());
+    }).catch(error => {
+      this.waitingForServices();
+      this.waitingForServices();
+      this.globalService.utils.openSimpleDialog('error.server-error');
+    });
+  }
+
+  private getSensorMeassurements = (idSensor) => {
+    this.bedService.getSensorData(idSensor).then(result => {
+      this.setDataForGraphics(result.result);
       this.waitingForServices();
     }).catch(error => {
       this.waitingForServices();
@@ -39,6 +55,10 @@ export class BedComponent implements OnInit {
       this.activeServices = 0;
       this.globalService.setLoading(false);
     }
+  }
+
+  private setDataForGraphics = (data) => {
+
   }
 
 }
