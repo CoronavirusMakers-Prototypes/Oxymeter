@@ -51,6 +51,11 @@
     },
     "areas":{
       "subscriptions-in-rooms": "Hay subscripciones de habitaciones"
+    },
+    "bed": {
+      "patient-data": "Datos del paciente",
+      "sensor-configuration": "Conf. sensor",
+      "sensor-configuration-desc": "Parámetros para la emisión de alertas"
     }
   },
   "alerts": {

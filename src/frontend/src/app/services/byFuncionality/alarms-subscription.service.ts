@@ -87,10 +87,19 @@ export class AlarmsSubscriptionService {
     switch (key){
       case 'area':
         result = this.localData.areasSubscribed[obj.id] ? true : false;
+        if (!result){
+          Object.keys(this.localData.roomsSubscribed).forEach( k => {
+            if (k.indexOf(obj.id) === 0){
+              result = true;
+            };
+          })
+        }
         break;
       case 'room':
         result = this.localData.roomsSubscribed[parentId+'-'+obj.id] || this.localData.areasSubscribed[parentId] ? true : false;
         break;
+      case 'bed':
+        result = this.localData.roomsSubscribed[obj+'-'+parentId] || this.localData.areasSubscribed[obj] ? true : false;
     }
     return result;
   }

@@ -1,1 +1,47 @@
-<p>bed works!</p>
+<section
+  class="bed-wrapper animated fadeInLeft d-flex justify-content-between align-items-center flex-wrap"
+>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ "pages.bed.patient-data" | translate }}
+      </mat-panel-title>
+      <mat-panel-description></mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>First name</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Age</mat-label>
+      <input matInput type="number" min="1" />
+    </mat-form-field>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ "pages.bed.sensor-configuration" | translate }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ "pages.bed.sensor-configuration-desc" | translate }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>First name</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Age</mat-label>
+      <input matInput type="number" min="1" />
+    </mat-form-field>
+  </mat-expansion-panel>
+
+  <mat-card> </mat-card>
+  <mat-card> </mat-card>
+  <mat-card> </mat-card>
+</section>
