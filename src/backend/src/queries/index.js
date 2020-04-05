@@ -81,7 +81,7 @@ room = {
   create:  'INSERT INTO room (description, id_area) VALUES ($1, $2) RETURNING id',
   delete:  'DELETE FROM room WHERE id = $1',
   update:  'UPDATE room SET description = $1, id_area = $2 WHERE id = $3',
-  read:    'SELECT * FROM room WHERE 1=1 ORDER BY id_area OFFSET $1 LIMIT $2',
+  read:    'SELECT * FROM room WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM room WHERE id = $1'
 }
 
