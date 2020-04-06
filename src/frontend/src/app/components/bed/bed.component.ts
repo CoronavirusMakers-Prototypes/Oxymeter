@@ -3,6 +3,8 @@ import { BedSensorPatientService } from '@services/byFuncionality/bed-sensor-pat
 import { Patient } from '@app/class/Patient';
 import { GlobalService } from '@app/services/global/global.service';
 import { ActivatedRoute } from '@angular/router';
+import { ChartDataSets, ChartOptions } from 'chart.js';
+import { Color, Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-bed',
@@ -10,6 +12,26 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./bed.component.scss']
 })
 export class BedComponent implements OnInit {
+
+  lineChartData: ChartDataSets[] = [
+    { data: [85, 72, 78, 75, 77, 75], label: 'Crude oil prices' },
+  ];
+  lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June'];
+  lineChartOptions = {
+    responsive: true,
+  };
+  lineChartColors: Color[] = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(255,255,0,0)',
+    },
+  ];
+  lineChartLegend = false;
+  lineChartPlugins = [];
+  lineChartType = 'line';
+
+
+
 
   public idBed: string;
   public patientData: Patient;

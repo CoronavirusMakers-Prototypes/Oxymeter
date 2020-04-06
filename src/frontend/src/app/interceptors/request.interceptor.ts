@@ -18,7 +18,7 @@ export class RequestInterceptor implements HttpInterceptor {
     const url = request.url.split('?');
 
     if (mockRoutes[url[0]]){
-      request = new HttpRequest('GET', mockRoutes[request.url] );
+      request = new HttpRequest('GET', mockRoutes[url[0]] );
     }
 
     let authReq: any = null;

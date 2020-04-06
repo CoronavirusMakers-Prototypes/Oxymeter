@@ -41,7 +41,19 @@
     </mat-form-field>
   </mat-expansion-panel>
 
-  <mat-card> </mat-card>
-  <mat-card> </mat-card>
-  <mat-card> </mat-card>
+  <mat-card >
+    <div class="chart-wrapper">
+      <div class="canvas-wrapper" style="width: 3000px; height: 300px">
+        <canvas baseChart 
+            [datasets]="lineChartData" 
+            [labels]="lineChartLabels" 
+            [options]="lineChartOptions"
+            [colors]="lineChartColors" 
+            [legend]="lineChartLegend" 
+            [chartType]="lineChartType" 
+            [plugins]="lineChartPlugins"  height="300" width="0">
+        </canvas>
+      </div>
+    </div>
+  </mat-card>
 </section>
