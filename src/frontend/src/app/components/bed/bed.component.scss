@@ -1,1 +1,40 @@
 @import 'styles.scss';
+
+.bed-wrapper{
+    mat-expansion-panel, mat-card{
+    width: 49.5% !important;
+    margin-bottom: 15px;
+    }
+    @media (max-width: 950px) {
+        mat-expansion-panel, mat-card{
+            width: 100% !important;
+        }
+        mat-panel-description{
+            display: none;
+        }
+    }
+
+    .chart-wrapper{
+        margin: 0 1%;
+        width: 98%;
+        overflow-x: auto;
+        overflow-y:hidden;
+    }
+
+    .canvasWrapper {
+        position: relative;
+        margin-right: 5px;
+    }
+
+    .canvasWrapper > canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        pointer-events:none;
+    }
+
+    .chartAreaWrapper {
+        width: 100%;
+        overflow-x: scroll;
+    }
+}
