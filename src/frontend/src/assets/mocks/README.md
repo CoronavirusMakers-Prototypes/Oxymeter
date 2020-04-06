@@ -284,18 +284,15 @@ Type: GET
 # NEW - Meassurements for sensor id: devuelve las últimas mediciones registradas para un sensor
 
 ```
-Url: /sensorMeassurement/:id_sensor?page=1
+Url: /meassurement/:id_sensor?timestamp=446465461
 Type: GET
  ```
 
 ## Response expected:
 
 ```
-"offset":50,
-"limit":50,
-"currentPage":1,
-"totalPages":20,
-"totalRecords":1020,
+"firstTimestamp": 4564564,
+"lastTimestamp": 456456456
 "result": [
     {
         "id": 1,
