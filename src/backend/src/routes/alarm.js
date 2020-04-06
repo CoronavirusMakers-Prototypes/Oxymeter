@@ -23,6 +23,10 @@ router.post('/', async (req, res) => {
   }
 })
 
+// TODO: Tenerlo en cuenta en meassurementController cuando se pregunta por alarmas!!!!!
+// Si a este llega algo sin id_room se considera que la suscripcion de alarmas es para toda el area
+// Si a este llega algo sin id_area se considera que la suscripcion de alarmas es para toda la planta
+// Si a este llega algo sin id_floor se considera que la suscripcion de alarmas es para toda el edificio
 router.post('/suscriptions', async (req, res) => {
     try {
       if (!check(req.body, ['id_user', 'id_room', 'id_area', 'id_floor'])) {

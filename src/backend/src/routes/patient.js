@@ -45,6 +45,10 @@ router.get('/', async (req, res) => {
   }
 })
 
+// TODO: hay que implementar un endpoint GET /patientByIdBed/:id_bed
+// para devolver el objecto paciente que pertenece a una cama.
+
+
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;

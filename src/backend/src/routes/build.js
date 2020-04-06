@@ -36,7 +36,6 @@ router.delete('/:id', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const { id } = req.params;
-    const offset = req.query.offset;
     const result = await db.query(queries.build.read);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
@@ -55,6 +54,11 @@ router.get('/:id', async (req, res) => {
     res.status(500).send(e);
   }
 })
+
+// TODO: hay que implementar un endpoint GET del estilo:
+// /builds/byIdHospital/:id_hospital o `/builds?id_hospital=1`
+// (est'a por definir con frontend)
+// La query para devlorver los edificios que pertenecen a un hostipal se puede ir escribiendo
 
 router.put('/:id', async (req, res) => {
   try {
