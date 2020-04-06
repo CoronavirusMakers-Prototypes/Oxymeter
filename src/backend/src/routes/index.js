@@ -10,9 +10,6 @@ const role         = require('./role');
 const room         = require('./room');
 const personal     = require('./personal');
 const area         = require('./area');
-
-const personal_alarm_suscription  = require('./personal_alarm_suscription');
-
 const { logger }   = require('./../util/logger');
 
 module.exports = app => {
@@ -28,5 +25,4 @@ module.exports = app => {
   app.use('/rooms', room);
   app.use('/users', personal);
   app.use('/areas', area);
-  app.use('/user_alarm_suscriptions', personal_alarm_suscription);
 }
