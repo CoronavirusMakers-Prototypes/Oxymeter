@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
       throw 'bad request for endpoint, mandatory: surname, lastname, hospital_reference, suscribed, unsuscribed, id_bed, id_sensor, spo2_max, spo2_min, pulse_max, pulse_min, temp_max, temp_min, status';
     }
     const response = await db.query(queries.patient.create,[req.body.surname, req.body.lastname, req.body.hospital_reference, req.body.suscribed, req.body.unsuscribed, req.body.id_bed, req.body.id_sensor, req.body.spo2_max, req.body.spo2_min, req.body.pulse_max, req.body.pulse_min, req.body.temp_max, req.body.temp_min, req.body.status]);
-    req.body.id = response.rows[0].id;
+    req.body.id = parseInt(response.rows[0].id);
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
     logger.error(e);

@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
       throw 'bad request for endpoint, mandatory: desc, id_room';
     }
     const response = await db.query(queries.bed.create,[req.body.desc, req.body.id_room]);
-    req.body.id = response.rows[0].id;
+    req.body.id = parseInt(response.rows[0].id);
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
     logger.error(e);

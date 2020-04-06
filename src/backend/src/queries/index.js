@@ -85,20 +85,20 @@ room = {
   getById: 'SELECT * FROM room WHERE id = $1'
 }
 
-user = {
-  create:  'INSERT INTO user (surname, lastname, professional_id, last_login, id_role, login, password, id_hospital) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
-  delete:  'DELETE FROM user WHERE id = $1',
-  update:  'UPDATE user SET surname = $1, lastname = $2, professional_id = $3, last_login = $4, id_role = $5, login = $6, password = $7, id_hospital = $8 WHERE id = $9',
-  read:    'SELECT * FROM user WHERE 1=1 ORDER BY id',
-  getById: 'SELECT * FROM user WHERE id = $1'
+personal = {
+  create:  'INSERT INTO personal (surname, lastname, professional_id, last_login, id_role, login, password, id_hospital) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+  delete:  'DELETE FROM personal WHERE id = $1',
+  update:  'UPDATE personal SET surname = $1, lastname = $2, professional_id = $3, last_login = $4, id_role = $5, login = $6, password = $7, id_hospital = $8 WHERE id = $9',
+  read:    'SELECT * FROM personal WHERE 1=1 ORDER BY id',
+  getById: 'SELECT * FROM personal WHERE id = $1'
 }
 
-user_alarm_suscription = {
-  create:  'INSERT INTO user_alarm_suscriptions (id_user, id_room, id_area, id_floor) VALUES ($1, $2, $3, $4) RETURNING id',
-  delete:  'DELETE FROM user_alarm_suscriptions WHERE id = $1',
-  update:  'UPDATE user_alarm_suscriptions SET id_user = $1, id_room = $2, id_area = $3, id_floor = $4 WHERE id = $3',
-  read:    'SELECT * FROM user_alarm_suscriptions WHERE 1=1 ORDER BY id',
-  getById: 'SELECT * FROM user_alarm_suscriptions WHERE id = $1'
+personal_alarm_suscriptions = {
+  create:  'INSERT INTO personal_alarm_suscriptions (id_user, id_room, id_area, id_floor) VALUES ($1, $2, $3, $4) RETURNING id',
+  delete:  'DELETE FROM personal_alarm_suscriptions WHERE id = $1',
+  update:  'UPDATE personal_alarm_suscriptions SET id_user = $1, id_room = $2, id_area = $3, id_floor = $4 WHERE id = $3',
+  read:    'SELECT * FROM personal_alarm_suscriptions WHERE 1=1 ORDER BY id',
+  getById: 'SELECT * FROM personal_alarm_suscriptions WHERE id = $1'
 }
 
 module.exports = {
@@ -112,7 +112,7 @@ module.exports = {
   patient,
   role,
   room,
-  user,
+  personal,
   area,
-  user_alarm_suscription,
+  personal_alarm_suscriptions,
 }

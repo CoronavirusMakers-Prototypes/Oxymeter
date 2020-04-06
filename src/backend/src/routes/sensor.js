@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
       throw 'bad request for endpoint, mandatory: type, auth_id';
     }
     const response = await db.query(queries.sensor.create,[req.body.type, req.body.auth_id]);
-    req.body.id = response.rows[0].id;
+    req.body.id = parseInt(response.rows[0].id);
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
     logger.error(e);
@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
     } else {
       var page = parseInt(req.query.page);
       if (page > totalPages) {
-        res.status(400).send(`Requested page ${page} over total pages ${totalPages}`);
+        throw `Requested page ${page} over total pages ${totalPages}`;
       } else {
         offset = limit * (page -1)
         currentPage = page;

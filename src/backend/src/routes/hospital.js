@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
       throw 'bad request for endpoint, mandatory: desc';
     }
     const response = await db.query(queries.hospital.create,[req.body.desc])
-    req.body.id = response.rows[0].id
+    req.body.id = parseInt(response.rows[0].id);
     res.status(200).send(JSON.stringify(req.body))
   } catch (e) {
     logger.error(e)

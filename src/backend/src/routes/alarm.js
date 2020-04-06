@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
       throw 'bad request for endpoint: date, id_patient, id_sensor, ack_user, ack_date, status, id_bed';
     }
     const response = await db.query(queries.alarm.create,[req.body.date, req.body.id_patient, req.body.id_sensor, req.body.ack_user, req.body.ack_date, req.body.status, req.body.id_bed]);
-    req.body.id = response.rows[0].id;
+    req.body.id = parseInt(response.rows[0].id);
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
     logger.error(e);

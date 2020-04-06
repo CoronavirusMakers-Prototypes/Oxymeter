@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
       throw 'bad request for endpoint, mandatory: id_user, id_room, id_area, id_floor';
     }
     const response = await db.query(queries.user_alarm_suscription.create,[req.body.id_user, req.body.id_room, req.body.id_area, req.body.id_floor]);
-    req.body.id = response.rows[0].id;
+    req.body.id = parseInt(response.rows[0].id);
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
     logger.error(e);
