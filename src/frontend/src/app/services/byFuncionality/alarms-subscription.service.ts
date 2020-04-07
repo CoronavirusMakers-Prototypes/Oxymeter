@@ -136,7 +136,7 @@ export class AlarmsSubscriptionService {
 
   /* Http requests */
   public getAlarmsForUser(): Promise<any>{
-    const url = `/alarms/${this.userId}`;
+    const url = `/alarmsByIdUser/${this.userId}`;
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {

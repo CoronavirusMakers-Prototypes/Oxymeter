@@ -27,7 +27,7 @@ export class BedSensorPatientService {
 
   public getSensorData(idSensor, time?): Promise<any>{
     const timeToSend = time ? time : new Date().getTime();
-    const url = `/meassurement/${idSensor}?lastTimestamp=${timeToSend}`;
+    const url = `/meassurementByIdSensor/${idSensor}?lastTimestamp=${timeToSend}`;
     const promise = new Promise<any>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {

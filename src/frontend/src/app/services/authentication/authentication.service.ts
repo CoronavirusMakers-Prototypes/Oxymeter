@@ -105,9 +105,8 @@ export class AuthenticationService {
   public logout = () => this.resetData();
 
   public registerUser = ( user: User, password) => {
-    const url = '/registration';
+    const url = '/user';
     const data = { ...user.getObject(), password: cryptoJS.MD5(password).toString() };
-    console.log(data);
     const promise = new Promise<User>((resolve, reject) => {
       this.http.post<any>(url, data).subscribe(
         (response) => {
