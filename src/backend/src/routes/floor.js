@@ -45,9 +45,8 @@ router.get('/', async (req, res) => {
   }
 })
 
-// TODO: hay que implementar un endpoint GET del estilo:
-// /floors/byIdBuilding/:id_building o `/floors?id_building=1`
-// (est'a por definir con frontend)
+// TODO: hay que implementar un endpoint
+// GET /byIdBuilding/:id_building
 // La query para devlorver las plantas que pertenecen a un edificio se puede ir escribiendo
 
 
