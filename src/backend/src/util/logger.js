@@ -1,7 +1,9 @@
-const winston = require('winston')
-require('winston-daily-rotate-file')
-const config  = require('config')
-const info    = require('./../../package.json')
+const winston = require('winston');
+
+require('winston-daily-rotate-file');
+
+const config  = require('config');
+const info    = require('./../../package.json');
 
 const fileTransport = new (winston.transports.DailyRotateFile)({
   level: `${config.get('logger.level.file')}`,
@@ -10,7 +12,14 @@ const fileTransport = new (winston.transports.DailyRotateFile)({
   zippedArchive: true,
   maxSize: '20m',
   maxFiles: '14d',
-})
+});
+
+const errorStackTracerFormat = winston.format(info => {
+    if (info.meta && info.meta instanceof Error) {
+        info.message = `${info.message} ${info.meta.stack}`;
+    }
+    return info;
+});
 
 const consoleTransport = new winston.transports.Console({
       level: `${config.get('logger.level.console')}`,
@@ -18,14 +27,17 @@ const consoleTransport = new winston.transports.Console({
         winston.format.colorize(),
         winston.format.simple(),
       )
-})
+});
 
 const logger = winston.createLogger({
-    transports: [
-      fileTransport,
-      consoleTransport,
-    ]
-  })
+  format: winston.format.combine(
+    winston.format.errors({ stack: true }),
+  ),
+  transports: [
+    fileTransport,
+    consoleTransport,
+  ]
+});
 
 module.exports = {
 	logger,
