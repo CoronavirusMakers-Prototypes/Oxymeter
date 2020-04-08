@@ -15,10 +15,8 @@ export class RequestInterceptor implements HttpInterceptor {
     // add authorization header with token if available
     const token = this.authenticationService.getToken();
 
-    const url = request.url.split('?');
-
-    if (mockRoutes[url[0]]){
-      request = new HttpRequest('GET', mockRoutes[url[0]] );
+    if(mockRoutes[request.url]){
+      request = new HttpRequest('GET', mockRoutes[request.url] );
     }
 
     let authReq: any = null;

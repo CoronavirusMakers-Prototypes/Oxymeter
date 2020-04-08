@@ -11,10 +11,8 @@ export class BedsComponent implements OnInit {
 
   public beds: any[];
   public paramId: string;
-  public areaId: string;
   constructor(public globalService: GlobalService, private route: ActivatedRoute) { 
     this.paramId = this.route.snapshot.paramMap.get('id');
-    this.areaId = this.route.snapshot.paramMap.get('areaId');
   }
 
   ngOnInit(): void {

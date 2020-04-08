@@ -8,8 +8,10 @@ const floor        = require('./floor');
 const hospital     = require('./hospital');
 const role         = require('./role');
 const room         = require('./room');
-const personal     = require('./personal');
-const area         = require('./area');
+const user         = require('./user');
+
+const user_alarm_suscription  = require('./user_alarm_suscription');
+
 const { logger }   = require('./../util/logger');
 
 module.exports = app => {
@@ -20,9 +22,9 @@ module.exports = app => {
   app.use('/alarms', alarm);
   app.use('/builds', build);
   app.use('/floors', floor);
-  app.use('/hospitals', hospital);
+  app.use('/hospital', hospital);
   app.use('/roles', role);
   app.use('/rooms', room);
-  app.use('/users', personal);
-  app.use('/areas', area);
+  app.use('/users', user);
+  app.use('/user_alarm_suscriptions', user_alarm_suscription);
 }

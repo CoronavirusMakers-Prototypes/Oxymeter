@@ -11,10 +11,10 @@ module.exports = router;
 router.post('/', async (req, res) => {
   try {
     if (!check(req.body, ['type', 'auth_id'])) {
-      throw 'bad request for endpoint, mandatory: type, auth_id';
+      res.status(400).send('bad request for endpoint');
     }
     const response = await db.query(queries.sensor.create,[req.body.type, req.body.auth_id]);
-    req.body.id = parseInt(response.rows[0].id);
+    req.body.id = response.rows[0].id;
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
     logger.error(e);
@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
     } else {
       var page = parseInt(req.query.page);
       if (page > totalPages) {
-        throw `Requested page ${page} over total pages ${totalPages}`;
+        res.status(400).send(`Requested page ${page} over total pages ${totalPages}`);
       } else {
         offset = limit * (page -1)
         currentPage = page;
@@ -89,7 +89,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     if (!check(req.body, ['type', 'auth_id'])) {
-      throw 'bad request for endpoint, mandatory: type, auth_id';
+      res.status(400).send('bad request for endpoint');
     }
     const { id } = req.params;
     const result = await db.query(queries.sensor.update, [req.body.type, req.body.auth_id, id]);

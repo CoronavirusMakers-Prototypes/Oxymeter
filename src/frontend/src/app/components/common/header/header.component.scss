@@ -3,14 +3,13 @@
 .header{
     background-color: $header-bg-color;
     color: $header-font-color;
-    max-height: 50px;
     h1{
         font-size: 1.3em;
         font-family: sans-serif;
-    }
-    img{
-      height: 40px;
-      padding-right: 10px;
+        img{
+          height: 40px;
+          padding-right: 10px;
+        }
     }
     button{
         font-size: 1em;
@@ -24,42 +23,3 @@
         }
     }
 }
-
-.claps{
-    position: relative;
-    display: inline-block;
-    height: 50px;
-    margin-left: 10px;
-    .hand1{
-        animation: clap1 2s cubic-bezier(.36,.07,.19,.97) both;
-        animation-iteration-count:infinite;
-        backface-visibility: hidden;
-        transform-origin: bottom left;
-    }
-    .hand2{
-        position: absolute;
-        left: 2px;
-        top: 0px;
-        animation: clap2 2s cubic-bezier(.36,.07,.19,.97) both;
-        animation-iteration-count:infinite;
-        backface-visibility: hidden;
-        transform-origin: top right;
-    }
-}
-
-
-@keyframes clap2 {
-    0% { transform: rotate(-10deg); }
-    25% { transform: rotate(10deg); }
-    50% { transform: rotate(-10deg); }
-    75% { transform: rotate(10deg); }
-    100% { transform: rotate(-10deg); }
-  }
-
-  @keyframes clap1 {
-      0% { transform: scale(1); }
-      25% { transform: scale(.95); }
-      50% { transform: scale(1); }
-      75% { transform: scale(.95); }
-      100% { transform: scale(1); }
-    }
