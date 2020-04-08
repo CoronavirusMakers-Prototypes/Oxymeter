@@ -1,5 +1,5 @@
 <section *ngIf="!globalService.alarmsService.hasAnySubscription()" class="alarms-wrapper animated fadeInLeft d-flex justify-content-center align-items-center">
     <mat-card>
-        <div class="warning fa fa-warning">{{ 'alerts.there-are-not-zone-subscriptions' | translate}}</div>
+        <div class="warning fa fa-warning"><span class="padding-l-5-px">{{ 'alerts.there-are-not-zone-subscriptions' | translate}}</span></div>
     </mat-card>
 </section>
