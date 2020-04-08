@@ -123,7 +123,7 @@ Type: GET
 # Buildings: devuelve los buildings de un hospital
 
 ```
-Url: /buildingsByIdHospital/:id_hospital
+Url: /buildings/byIdHospital/:id_hospital
 Type: GET
  ```
 
@@ -141,7 +141,7 @@ Type: GET
 # Floors: devuelve los floors de un building
 
 ```
-Url: /floorsByIdBuilding/:id_building
+Url: /floors/byIdBuilding/:id_building
 Type: GET
  ```
 
@@ -159,7 +159,7 @@ Type: GET
 # Areas: devuelve las areas de un floor
 
 ```
-Url: /areasByIdFloor/:id_floor
+Url: /areas/byIdFloor/:id_floor
 Type: GET
  ```
 
@@ -177,7 +177,7 @@ Type: GET
 # Rooms: devuelve las rooms de un area
 
 ```
-Url: /roomsByIdArea/:id_area
+Url: /rooms/byIdArea/:id_area
 Type: GET
  ```
 
@@ -195,7 +195,7 @@ Type: GET
 # Beds: devuelve las beds de una room
 
 ```
-Url: /bedsByIdRoom/:id_room
+Url: /beds/byIdRoom/:id_room
 Type: GET
  ```
 
@@ -226,7 +226,7 @@ SIN DEFINIR
 # Alarms: devuelve las alarmas para un usuario
 
 ```
-Url: /alarmsByIdUser/:id_user
+Url: /alarms/byIdUser/:id_user
 Type: GET
  ```
 
@@ -256,7 +256,7 @@ En el segundo se trata de una alarma a nivel de habitación.
 # NEW - Patient by bed_id: devuelve el paciente asignado a una cama
 
 ```
-Url: /patientByIdBed/:id_bed
+Url: /patient/byIdBed/:id_bed
 Type: GET
  ```
 
@@ -284,7 +284,7 @@ Type: GET
 # NEW - Meassurements for sensor id: devuelve las últimas mediciones registradas para un sensor
 
 ```
-Url: /meassurementByIdSensor/:id_sensor?timestamp=446465461
+Url: /meassurement/byIdSensor/:id_sensor?timestamp=446465461
 Type: GET
  ```
 

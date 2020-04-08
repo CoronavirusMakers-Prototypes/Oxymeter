@@ -36,7 +36,7 @@ export class HospitalService {
     return promise;
   }
   public getBuildings (id): Promise<any[]>{
-    const url = `/buildingsByIdHospital/${id}`;
+    const url = `/buildings/byIdHospital/${id}`;
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
@@ -50,7 +50,7 @@ export class HospitalService {
     return promise;
   }
   public getFloors (id): Promise<any[]>{
-    const url = `/floorsByIdBuilding/${id}`;
+    const url = `/floors/byIdBuilding/${id}`;
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
@@ -64,7 +64,7 @@ export class HospitalService {
     return promise;
   }
   public getAreas (id): Promise<any[]>{
-    const url = `/areasByIdFloor/${id}`;
+    const url = `/areas/byIdFloor/${id}`;
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
@@ -78,7 +78,7 @@ export class HospitalService {
     return promise;
   }
   public getRooms (id): Promise<any[]>{
-    const url = `/roomsByIdArea/${id}`;
+    const url = `/rooms/byIdArea/${id}`;
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
@@ -92,7 +92,7 @@ export class HospitalService {
     return promise;
   }
   public getBeds (id): Promise<any[]>{
-    const url = `/bedsByIdRoom/${id}`;
+    const url = `/beds/byIdRoom/${id}`;
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
