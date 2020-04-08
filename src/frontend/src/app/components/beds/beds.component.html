@@ -1,5 +1,8 @@
 <section class="cards-wrapper-list animated fadeInLeft d-flex justify-content-center align-items-center flex-wrap">
         <mat-card class="pointer" *ngFor="let bed of beds" routerLink="/bed/{{bed.id}}">
+            <div class="notification-bell inline-block" *ngIf="globalService.alarmsSubscriptionService.isSubscribed('bed', areaId, paramId)">
+                <span class="fa fa-bell margin-r-10-px"></span>
+            </div>
             {{bed.desc}}
         </mat-card>
     </section>

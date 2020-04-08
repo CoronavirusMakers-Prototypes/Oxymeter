@@ -17,7 +17,7 @@ import { AlarmsComponent } from './components/alarms/alarms.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'notifications', pathMatch: 'full'},
+  { path: '', redirectTo: 'alarms', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'about', component: AboutComponent },
