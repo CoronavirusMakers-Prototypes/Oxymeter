@@ -55,9 +55,8 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-// TODO: hay que implementar un endpoint GET del estilo:
-// /builds/byIdHospital/:id_hospital o `/builds?id_hospital=1`
-// (est'a por definir con frontend)
+// TODO: hay que implementar un endpoint
+// GET /byIdHospital/:id_hospital
 // La query para devlorver los edificios que pertenecen a un hostipal se puede ir escribiendo
 
 router.put('/:id', async (req, res) => {

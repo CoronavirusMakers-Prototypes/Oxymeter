@@ -57,9 +57,8 @@ router.get('/:id', async (req, res) => {
 })
 
 
-// TODO: hay que implementar un endpoint GET del estilo:
-// /rooms/byIdFloor/:id_area o `/rooms?id_area=1`
-// (est'a por definir con frontend)
+// TODO: hay que implementar un endpoint:
+// GET /byIdFloor/:id_area
 // La query para devlorver las habitaciones que pertenecen a un area se puede ir escribiendo
 
 
