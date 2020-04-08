@@ -29,7 +29,7 @@ io.on('connection', function(socket){
 
 // Doing some actions before expose the service.
 (async () => {
-  // await createDatabaseAndSchemaIfNotExists(); // commented for now after latest database chages TODO: lets try to fix later
+  await createDatabaseAndSchemaIfNotExists();
   dataConsumer;
   http.listen(port, () => logger.info(`${info.name}@${info.version} running at: ${port}!`));
 

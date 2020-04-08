@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthenticationService } from '@services/authentication/authentication.service';
 import { HospitalService } from '../byFuncionality/hospital.service';
 import { UtilsService } from '../byFuncionality/utils.service';
+import { UserAsignementService } from '../byFuncionality/user-asignement.service';
 import { AlarmsSubscriptionService } from '../byFuncionality/alarms-subscription.service';
 
 @Injectable({
@@ -26,9 +27,9 @@ export class GlobalService {
   room$ = this.roomSource.asObservable();
 
   constructor(public authService: AuthenticationService, public utils: UtilsService,
-              public hospitalService: HospitalService, public alarmsService: AlarmsSubscriptionService) {
+              public hospitalService: HospitalService, public userasignementService: UserAsignementService,
+              public alarmsService: AlarmsSubscriptionService) {
     try{
-      alarmsService.setUserId(authService.getId());
       const localData: any = localStorage.getItem(this.KEY);
       if (localData && localData !== '[object Object]') {
         this.localData = JSON.parse(localData);
@@ -98,7 +99,6 @@ export class GlobalService {
   }
 
   public logout = () => {
-    localStorage.clear();
     this.resetData();
     this.authService.logout();
     this.alarmsService.logout();

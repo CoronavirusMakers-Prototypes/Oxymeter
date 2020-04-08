@@ -10,7 +10,7 @@
         </div>
         <div class="d-flex justify-content-between align-items-center">
             <button mat-raised-button color="secundary" class="margin-t-10-px margin-l-5-px margin-r-5-px"
-            routerLink="/room/{{paramId}}/{{room.id}}" (click)="globalService.setRoom(room)" [disabled]="!globalService.alarmsService.isSubscribed('room', room, paramId)" >
+            routerLink="/room/{{room.id}}" (click)="globalService.setRoom(room)">
                 {{'common.view-room' | translate }}
             </button>
             <button [hidden]="globalService.alarmsService.isSubscribed('room', room, paramId)" mat-raised-button color="primary" class="margin-t-10-px margin-l-5-px margin-r-5-px "

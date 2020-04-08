@@ -44,8 +44,6 @@ import { AreasComponent } from './components/areas/areas.component';
 import { RoomsComponent } from './components/rooms/rooms.component';
 import { BedsComponent } from './components/beds/beds.component';
 import { AlarmsComponent } from './components/alarms/alarms.component';
-import { ChartsModule } from 'ng2-charts';
-
 
 @NgModule({
   declarations: [
@@ -100,8 +98,7 @@ import { ChartsModule } from 'ng2-charts';
       primaryColour: '#fff', 
       secondaryColour: '#fff', 
       tertiaryColour: '#fff'
-    }),
-    ChartsModule
+    })
   ],
   providers: [
     SocketService,
