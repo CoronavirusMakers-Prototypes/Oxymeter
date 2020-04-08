@@ -8,7 +8,7 @@ El hardware es de bajo coste y accesible en cualquier proveedor de electrónica.
 
 Todo el trabajo de desarrollo se ha realizado por el trabajo desinteresado de voluntarios desde el 27 de Marzo de 2020.
 
-========================================================================================================================
+======================================================
 
 Coronavirus Makers Oxymeter Project Repository
 
