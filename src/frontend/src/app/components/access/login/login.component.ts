@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       if (result && result.getId()){
         this.globalService.alarmsService.setUserId(result.getId());
         this.globalService.alarmsSubscriptionService.setUserId(result.getId());
-         this.router.navigate([`/alarms`]);
+        this.router.navigate([`/alarms`]);
       }
     }).catch(error => {
       console.log(error);

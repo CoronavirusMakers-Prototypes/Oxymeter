@@ -24,7 +24,7 @@ export class AlarmsSubscriptionService {
     if (localData && localData !== '[object Object]') {
       this.localData = JSON.parse(localData);
       console.log(this.localData);
-    }else{
+    }else if(this.userId){
       this.initData();
       this.getAlarmsSubscriptionForUser().then( results => {
         this.alarmsSubscriptionForUser = results;

@@ -1,7 +1,13 @@
 <mat-toolbar color="primary" class="header d-flex flex-wrap justify-content-between align-items-center mat-elevation-z6" >
-    <h1 class="pointer" routerLink="/alarms"  title="{{ 'title' | translate }}">
-      <img src="/assets/img/logo.png" alt="{{ 'title' | translate }}"/>{{ title | translate}}
-    </h1>
+    <div class="d-flex justify-content-start align-items-center">
+        <h1 class="pointer" routerLink="/alarms"  title="{{ 'title' | translate }}">
+          <img src="/assets/img/logo.png" alt="{{ 'title' | translate }}"/>{{ title | translate}}
+        </h1>
+        <div class="claps" *ngIf="clapsTime">
+            <img class="hand1" src="/assets/img/hand1.png" title="{{ 'common.thanks' | translate }}"/>
+            <img class="hand2" src="/assets/img/hand2.png" title="{{ 'common.thanks' | translate }}"/>
+          </div>
+    </div>
     <div>
       <button *ngIf="!logged" mat-button [matMenuTriggerFor]="notLoggedMenu" ><span class="fa fa-bars"></span></button>
       <button *ngIf="logged" class="userLogged" mat-button  routerLink="/profile">{{userText}}</button>
