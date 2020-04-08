@@ -9,7 +9,7 @@ amqp.connect('amqp://vitalox:vitalox@localhost:5672', function(error0, connectio
       throw error1;
     }
 
-    const dummyProbeMsg = {"spo2": 322, "ppm": 226, "sequence": "1984", "batt":"23", "auth_id": "f00b4r" }
+    const dummyProbeMsg = {"spo2": 322, "ppm": 226, "sequence": "1984", "batt":"23", "auth_id": "f00b4r", "id":2 }
 
     const queue = 'open-vitalox-0';
     var msg = JSON.stringify(dummyProbeMsg)

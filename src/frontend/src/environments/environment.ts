@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  ulr_config: 'url_base',
+  url_base: '',
+  url_server: 'http://81fc1262.ngrok.io'
 };
 
 /*

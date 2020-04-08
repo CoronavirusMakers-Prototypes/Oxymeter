@@ -6,6 +6,8 @@
 
  `docker-compose up -d`
 
+- Import create database `cv19makers_vitalox` import the sql file at `backend/database/VitalOx.sql` to postgres
+
 - Install dependencies:
 
 `yarn` or `npm install`

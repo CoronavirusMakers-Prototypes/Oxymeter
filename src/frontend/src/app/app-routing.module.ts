@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'building/:id', component: FloorsComponent, canActivate: [AuthGuard]  }, // Muestra las plantas
   { path: 'floor/:id', component: AreasComponent, canActivate: [AuthGuard]  }, // Muestra las areas
   { path: 'area/:id', component: RoomsComponent, canActivate: [AuthGuard]  }, // Muestra las habitaciones
-  { path: 'room/:id', component: BedsComponent, canActivate: [AuthGuard]  }, // Muestra las camas
+  { path: 'room/:areaId/:id', component: BedsComponent, canActivate: [AuthGuard]  }, // Muestra las camas
   { path: 'bed/:id', component: BedComponent, canActivate: [AuthGuard]  } // Muestra la cama
 ];
 
