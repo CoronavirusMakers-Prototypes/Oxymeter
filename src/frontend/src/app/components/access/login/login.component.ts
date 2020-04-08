@@ -38,7 +38,8 @@ export class LoginComponent implements OnInit {
     this.globalService.authService.login(this.formData.login.value, this.formData.password.value).then( result => {
       this.globalService.setLoading(false);
       if (result && result.getId()){
-         this.router.navigate([`/alarms`]);
+        this.globalService.alarmsService.setUserId(result.getId());
+        this.router.navigate([`/alarms`]);
       }
     }).catch(error => {
       console.log(error);
