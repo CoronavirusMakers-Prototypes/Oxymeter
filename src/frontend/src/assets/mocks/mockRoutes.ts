@@ -3,31 +3,32 @@ export const mockRoutes = {
     '/user': '/assets/mocks/userData.json',
     '/hospitals': '/assets/mocks/hospitals.json',
     '/hospitals/1': '/assets/mocks/hospitalIfema.json', // :id_hospital
-    '/buildingsByIdHospital/1': '/assets/mocks/buildingsIfema.json', // :id_hospital
-    '/floorsByIdBuilding/1': '/assets/mocks/floorsIfema.json', // :id_building
-    '/areasByIdFloor/1': '/assets/mocks/areasIfema.json', // :id_floor
-    '/areasByIdFloor/2': '/assets/mocks/areasIfema.json',
-    '/areasByIdFloor/4': '/assets/mocks/areasIfema.json',
-    '/areasByIdFloor/5': '/assets/mocks/areasIfema.json',
-    '/areasByIdFloor/6': '/assets/mocks/areasIfema.json',
-    '/areasByIdFloor/7': '/assets/mocks/areasIfema.json',
-    '/areasByIdFloor/8': '/assets/mocks/areasIfema.json',
-    '/areasByIdFloor/9': '/assets/mocks/areasIfema.json',
-    '/areasByIdFloor/10': '/assets/mocks/areasIfema.json',
-    '/roomsByIdArea/1': '/assets/mocks/roomsIfema.json',  // :id_area
-    '/roomsByIdArea/2': '/assets/mocks/roomsIfema.json',
-    '/roomsByIdArea/3': '/assets/mocks/roomsIfema.json',
-    '/roomsByIdArea/4': '/assets/mocks/roomsIfema.json',
-    '/roomsByIdArea/5': '/assets/mocks/roomsIfema.json',
-    '/roomsByIdArea/6': '/assets/mocks/roomsIfema.json',
-    '/roomsByIdArea/7': '/assets/mocks/roomsIfema.json',
-    '/roomsByIdArea/8': '/assets/mocks/roomsIfema.json',
-    '/roomsByIdArea/9': '/assets/mocks/roomsIfema.json',
-    '/roomsByIdArea/10': '/assets/mocks/roomsIfema.json',
-    '/bedsByIdRoom/1': '/assets/mocks/bedsIfema.json', // :id_room
-    '/bedsByIdRoom/2': '/assets/mocks/bedsIfema.json',
-    '/bedsByIdRoom/3': '/assets/mocks/bedsIfema.json',
-    '/alarmsByIdUser/1': '/assets/mocks/alarmsSubscriptionUser1.json', // :id_user
-    '/patientByIdBed/1': '/assets/mocks/patientData.json', // :id_user
-    '/meassurementByIdSensor/453555': '/assets/mocks/meassurementsData.json', // :id_sensor
+    '/buildings/byIdHospital/1': '/assets/mocks/buildingsIfema.json', // :id_hospital
+    '/floors/byIdBuilding/1': '/assets/mocks/floorsIfema.json', // :id_building
+    '/areas/byIdFloor/1': '/assets/mocks/areasIfema.json', // :id_floor
+    '/areas/byIdFloor/2': '/assets/mocks/areasIfema.json',
+    '/areas/byIdFloor/4': '/assets/mocks/areasIfema.json',
+    '/areas/byIdFloor/5': '/assets/mocks/areasIfema.json',
+    '/areas/byIdFloor/6': '/assets/mocks/areasIfema.json',
+    '/areas/byIdFloor/7': '/assets/mocks/areasIfema.json',
+    '/areas/byIdFloor/8': '/assets/mocks/areasIfema.json',
+    '/areas/byIdFloor/9': '/assets/mocks/areasIfema.json',
+    '/areas/byIdFloor/10': '/assets/mocks/areasIfema.json',
+    '/rooms/byIdArea/1': '/assets/mocks/roomsIfema.json',  // :id_area
+    '/rooms/byIdArea/2': '/assets/mocks/roomsIfema.json',
+    '/rooms/byIdArea/3': '/assets/mocks/roomsIfema.json',
+    '/rooms/byIdArea/4': '/assets/mocks/roomsIfema.json',
+    '/rooms/byIdArea/5': '/assets/mocks/roomsIfema.json',
+    '/rooms/byIdArea/6': '/assets/mocks/roomsIfema.json',
+    '/rooms/byIdArea/7': '/assets/mocks/roomsIfema.json',
+    '/rooms/byIdArea/8': '/assets/mocks/roomsIfema.json',
+    '/rooms/byIdArea/9': '/assets/mocks/roomsIfema.json',
+    '/rooms/byIdArea/10': '/assets/mocks/roomsIfema.json',
+    '/beds/byIdRoom/1': '/assets/mocks/bedsIfema.json', // :id_room
+    '/beds/byIdRoom/2': '/assets/mocks/bedsIfema.json',
+    '/beds/byIdRoom/3': '/assets/mocks/bedsIfema.json',
+    '/alarmSubscriptions/byIdUser/1': '/assets/mocks/alarmsSubscriptionUser1.json', // :id_user
+    '/alarms/byIdUser/1': '/assets/mocks/alarmsUser.json', // :id_user
+    '/patient/byIdBed/1': '/assets/mocks/patientData.json', // :id_user
+    '/meassurement/byIdSensor/453555': '/assets/mocks/meassurementsData.json', // :id_sensor
 }

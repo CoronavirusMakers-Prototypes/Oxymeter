@@ -1,1 +1,7 @@
-<div class="notification-bell in-circle active critical" routerLink="/alarms"><span class="fa fa-bell"></span></div>
+<div class="notifications-list">
+    <mat-card *ngFor="let al of alarms">
+        Alarma en : <br>
+        {{al.area_desc}} - {{ al.room_desc}}
+    </mat-card>
+</div>
+<div class="notification-bell in-circle" routerLink="/alarms"><span class="fa fa-bell"></span></div>
