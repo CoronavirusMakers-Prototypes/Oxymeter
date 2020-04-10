@@ -21,7 +21,7 @@ class RabbitAlarmSender {
       await this.init();
     }
     // we want the sended alarms will remind over broker restarts
-    await this.channel.assertQueue(queue, {durable: true});
+    await this.channel.assertQueue(queue, {durable: true}); // TODO: configurable
     this.channel.sendToQueue(queue, Buffer.from(alarmMessage))
   }
 

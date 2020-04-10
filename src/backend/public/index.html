@@ -8,10 +8,19 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
-          socket.on('oxy_message', function(msg){
-            console.log(msg)
-            document.getElementById("message").innerHTML = JSON.stringify(msg, null, 5);
-          });
+      socket.on('oxy_message', function(msg){
+        console.log(msg)
+        document.getElementById("message").innerHTML = JSON.stringify(msg, null, 5);
+      });
+      socket.on('connect', () => {
+        console.log('hi');
+        socket.emit('subscribeTo', 'area_1');
+
+      });
+      socket.on('alarm-in-area', (data) => {
+        console.log("lol_______");
+        console.log(data);
+      })
     </script>
   </body>
 </html>
