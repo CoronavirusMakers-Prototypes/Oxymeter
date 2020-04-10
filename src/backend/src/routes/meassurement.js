@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
 
 // TODO: Espera un timestamp de inicio (lastTimestamp) y devuelve los 100 anteriores
 // resgistros en bbdd y el timestamp del registro m'as antig:uo (firstTimestamp)
-// /meassurement/23?lastTimestamp=1586207555868
+// /meassurement/byIdSensor/23?lastTimestamp=1586207555868
 //{
 // "lastTimestamp":  "1000100",
 // "firstTimestamp": "1000000",

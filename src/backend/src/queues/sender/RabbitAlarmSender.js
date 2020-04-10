@@ -1,6 +1,6 @@
 const amqp       = require('amqplib');
-const { logger } = require('./../../util/logger')
-const config     = require('config')
+const { logger } = require('./../../util/logger');
+const config     = require('config');
 
 const { processPayloadFromProbes } = require('./../../controllers/meassurementController');
 

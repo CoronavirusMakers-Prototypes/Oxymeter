@@ -9,11 +9,12 @@
     <script>
       var socket = io();
       socket.on('oxy_message', function(msg){
-        console.log(msg)
+        console.log('oxi mensage')
+        console.log(msg);
         document.getElementById("message").innerHTML = JSON.stringify(msg, null, 5);
       });
       socket.on('connect', () => {
-        console.log('hi');
+        console.log('hi!');
         socket.emit('subscribeTo', 'area_1');
 
       });
