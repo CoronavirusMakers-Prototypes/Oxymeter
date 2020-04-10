@@ -12,7 +12,8 @@ body {
 app-notifications{
 	position: fixed;
     bottom: 30px;
-    right: 20px;
+	right: 20px;
+	direction: rtl;
 }
 
 .hidden {
@@ -137,9 +138,20 @@ mat-card-header{
             transform-origin: top right;
         }
         &.critical{
-            color: red;
+			color: red;
+			.text{
+				color: black;
+				font-size: .8em;
+			}
         }
+		.text{
+			color: black;
+			font-size: .8em;
+		}
     }
+	.text{
+		font-size: .8em;
+	}
 }
 
 

@@ -2,7 +2,7 @@
     <mat-card class="pointer" *ngFor="let area of areas" >
         <div class="d-flex justify-content-around align-items-center">
             <div>
-                <div class="notification-bell inline-block" *ngIf="globalService.alarmsSubscriptionService.isSubscribed('area', area)">
+                <div class="notification-bell inline-block" *ngIf="globalService.alarmsSubscriptionService.isSubscribed(area.id)">
                     <span class="fa fa-bell margin-r-10-px"></span>
                 </div>
                 {{area.desc}}
@@ -14,12 +14,12 @@
             routerLink="/area/{{area.id}}" (click)="globalService.setArea(area)">
                 {{'common.view-area' | translate }}
             </button>
-            <button [hidden]="globalService.alarmsSubscriptionService.isSubscribed('area', area)" mat-raised-button color="primary" class="margin-t-10-px margin-l-5-px margin-r-5-px "
-            (click)="globalService.alarmsSubscriptionService.setSubscription('area', area, globalService.getFloor().id)">
+            <button [hidden]="globalService.alarmsSubscriptionService.isSubscribed(area.id)" mat-raised-button color="primary" class="margin-t-10-px margin-l-5-px margin-r-5-px "
+            (click)="globalService.alarmsSubscriptionService.setSubscription(paramId, area.id)">
                 {{'common.subscribe' | translate }}
             </button>
-            <button [hidden]="!globalService.alarmsSubscriptionService.isSubscribed('area', area)" mat-raised-button color="warn" class="margin-t-10-px margin-l-5-px margin-r-5-px "
-            (click)="globalService.alarmsSubscriptionService.unsetSubscription('area', area, globalService.getFloor().id)">
+            <button [hidden]="!globalService.alarmsSubscriptionService.isSubscribed(area.id)" mat-raised-button color="warn" class="margin-t-10-px margin-l-5-px margin-r-5-px "
+            (click)="globalService.alarmsSubscriptionService.unsetSubscription(paramId, area.id)">
                 {{'common.unsubscribe' | translate }}
             </button>
         </div>

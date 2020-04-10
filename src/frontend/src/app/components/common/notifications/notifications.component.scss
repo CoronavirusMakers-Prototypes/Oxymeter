@@ -1,6 +1,8 @@
 @import 'styles.scss';
 .notifications-list{
-    background-color: blue;
+    mat-card{
+        margin-bottom: 5px;
+    }
 }
 
 

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SocketService } from '../socket/socket.service';
+import { unwatchFile } from 'fs';
+import { parse } from 'path';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +11,8 @@ export class AlarmsSubscriptionService {
 
   private KEY = 'oxymetercc_alarmssubscriptiondata';
 
-  private localData: any;
+  private localData: any[];
   private userId: any;
-
-  private alarmsSubscriptionForUser: any[];
 
   constructor(private http: HttpClient, public socketService: SocketService) {
   }
@@ -23,30 +23,24 @@ export class AlarmsSubscriptionService {
     const localData: any = localStorage.getItem(this.KEY);
     if (localData && localData !== '[object Object]') {
       this.localData = JSON.parse(localData);
-      console.log(this.localData);
-    }else if(this.userId){
+    }else if (this.userId){
       this.initData();
       this.getAlarmsSubscriptionForUser().then( results => {
-        this.alarmsSubscriptionForUser = results;
         results.forEach( r => {
-          if(r.id_room){
-            this.localData.roomsSubscribed[r.id_area+'-'+r.id_room] = {id: r.id_room, desc: r.room_desc};
+          if (r.id_room){
             this.socketService.subscribeTo(`room_${r.id_room}`);
           }else if(r.id_area){
-            this.localData.areasSubscribed[r.id_area] = {id: r.id_area, desc: r.area_desc};
             this.socketService.subscribeTo(`area_${r.id_area}`);
           }
-        })
-        localStorage.setItem(this.KEY, JSON.stringify(this.localData));
-      })
+        });
+        this.localData = results;
+        localStorage.setItem(this.KEY, JSON.stringify(results));
+      });
     }
   }
 
   private initData = () => {
-    this.localData = {
-      areasSubscribed: {},
-      roomsSubscribed: {}
-    };
+    this.localData = [];
   }
 
   private resetData = () => {
@@ -63,104 +57,43 @@ export class AlarmsSubscriptionService {
     this.loadData();
   }
 
-  public setSubscription = (key: string, obj: any, parentId?, grandFatherId?) => {
-    switch (key){
-      case 'area':
-        this.localData.areasSubscribed[obj.id] = obj;
-        this.socketService.subscribeTo(`area_${obj.id}`)
-        this.addAlarmSubscription(parentId,obj.id,null);
-        break;
-      case 'room':
-        if(this.localData.areasSubscribed[parentId]){
-          delete this.localData.areasSubscribed[parentId];
-          this.socketService.unsubscribe(`area_${obj.id}`);
-          this.deleteAlarmSubscription(parentId,obj.id,null);
-        }
-        this.localData.roomsSubscribed[parentId+'-'+obj.id] = obj;
-        this.socketService.subscribeTo(`room_${obj.id}`)
-        this.addAlarmSubscription(grandFatherId,parentId,obj.id);
-        break;
+  public setSubscription = (id_floor, id_area, id_room = null) => {
+    if (id_room){
+      this.socketService.subscribeTo(`room_${id_room}`);
+    }else if (id_area){
+      this.socketService.subscribeTo(`area_${id_area}`)
     }
-    localStorage.setItem(this.KEY, JSON.stringify(this.localData));
+    this.addAlarmSubscription(id_floor, id_area, id_room);
   }
 
-  public unsetSubscription = (key: string, obj: any, parentId?, grandFatherId?) => {
-    switch (key){
-      case 'area':
-        if(this.localData.areasSubscribed[obj.id]){
-          delete this.localData.areasSubscribed[obj.id];
-          this.socketService.unsubscribe(`area_${obj.id}`);
-          this.deleteAlarmSubscription(parentId,obj.id,null);
-        }
-        Object.keys(this.localData.roomsSubscribed).forEach(k => {
-          if (k.indexOf(obj.id+'-') >= 0 ){
-            delete this.localData.roomsSubscribed[k];
-            this.socketService.unsubscribe(`room_${k.split('-')[1]}`);
-            this.deleteAlarmSubscription(parentId,obj.id,k.split('-')[1]);
-          }
-        })
-        break;
-      case 'room':
-        if(this.localData.areasSubscribed[parentId]){
-          delete this.localData.areasSubscribed[parentId];
-          this.socketService.unsubscribe(`area_${parentId}`);
-          this.deleteAlarmSubscription(grandFatherId,parentId,obj.id);
-        }
-        delete this.localData.roomsSubscribed[parentId+'-'+obj.id];
-        this.socketService.unsubscribe(`room_${obj.id}`);
-        this.deleteAlarmSubscription(grandFatherId,parentId,obj.id);
-        break;
+  public unsetSubscription = (id_floor, id_area, id_room = null) => {
+    if (id_room){
+      this.socketService.unsubscribe(`room_${id_room}`);
+    }else if (id_area){
+      this.socketService.unsubscribe(`area_${id_area}`);
     }
-    localStorage.setItem(this.KEY, JSON.stringify(this.localData));
+    this.deleteAlarmSubscription(id_floor, id_area, id_room);
   }
 
-  public isSubscribed = (key: string, obj: any, parentId?) => {
+  public isSubscribed = (id_area, id_room = null) => {
     let result = false;
-    switch (key){
-      case 'area':
-        result = this.localData.areasSubscribed[obj.id] ? true : false;
-        if (!result){
-          Object.keys(this.localData.roomsSubscribed).forEach( k => {
-            if (k.indexOf(obj.id) === 0){
-              result = true;
-            };
-          })
-        }
-        break;
-      case 'room':
-        result = this.localData.roomsSubscribed[parentId+'-'+obj.id] || this.localData.areasSubscribed[parentId] ? true : false;
-        break;
-      case 'bed':
-        result = this.localData.roomsSubscribed[obj+'-'+parentId] || this.localData.areasSubscribed[obj] ? true : false;
-    }
-    return result;
-  }
-
-  public isPartialSubscribed = (key: string, obj: any) => {
-    let result = false;
-    switch (key){
-      case 'area':
-        result = !this.localData.areasSubscribed[obj.id] && this.localData.partialAreasSubscribed.indexOf(obj.id) ? true : false;
-        break;
-    }
+    this.localData.forEach( d => {
+      if(id_area && id_room && parseInt(id_area) === parseInt(d.id_area) 
+        && (!d.id_room || parseInt(d.id_room) === parseInt(id_room) )){
+        result = true;
+      }else if(id_area && !id_room && parseInt(id_area) === parseInt(d.id_area)){
+        result = true;
+      }
+    })
     return result;
   }
 
   public hasRoomSubscriptions = areaId => {
-    let result = false;
-    if(!this.localData.areasSubscribed[areaId]){
-      Object.keys(this.localData.roomsSubscribed).forEach(k => {
-        if (k.indexOf(areaId+'-') >= 0 ){
-          result = true;
-        }
-      })
-    }
-    return result;
+    const hasRooms = this.localData.filter(d => parseInt(d.id_area) === parseInt(areaId) && d.id_room );
+    return hasRooms.length > 0;
   }
 
-  public hasAnySubscription = () => this.localData && this.localData.areasSubscribed && this.localData.roomsSubscribed && 
-                                    (Object.keys(this.localData.areasSubscribed).length 
-                                    || Object.keys(this.localData.roomsSubscribed).length);
+  public hasAnySubscription = () => this.localData.length > 0;
 
   public logout = () => this.deleteData();
 
@@ -187,11 +120,12 @@ export class AlarmsSubscriptionService {
       id_floor: parseInt(floor_id),
       id_area: parseInt(area_id),
       id_room: floor_id ? parseInt(room_id): null
-    }
+    };
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.post<any>(url, data).subscribe(
         (response) => {
-          this.alarmsSubscriptionForUser = response;
+          this.localData = response;
+          localStorage.setItem(this.KEY, JSON.stringify(response));
           resolve(response);
         },
         (error) => { // Función de fallo en la petición
@@ -201,28 +135,25 @@ export class AlarmsSubscriptionService {
       });
     return promise;
   }
-  public deleteAlarmSubscription(floor_id, area_id, room_id): Promise<any>{
-    let idToDelete = null;
-    this.alarmsSubscriptionForUser.forEach(alarma => {
-      if(parseInt(alarma.id_floor) === parseInt(floor_id) && parseInt(alarma.id_area) === parseInt(area_id) && ((!alarma.id_room && !room_id) || parseInt(alarma.id_room) === parseInt(room_id))){
-        idToDelete = alarma.id;
+  public deleteAlarmSubscription(floor_id, area_id, room_id){
+    let idToDelete = [];
+    this.localData.forEach(alarma => {
+      if(parseInt(alarma.id_floor) === parseInt(floor_id) && parseInt(alarma.id_area) === parseInt(area_id)
+       && (!alarma.id_room || parseInt(alarma.id_room) === parseInt(room_id))){
+        idToDelete.push(alarma.id);
       }
     })
-    if(!idToDelete) return;
-    const url = `/alarmSubscriptions/${idToDelete}`;
-    const promise = new Promise<any[]>((resolve, reject) => {
+    idToDelete.forEach( id => {
+      let url = `/alarmSubscriptions/${id}`;
       this.http.delete<any>(url).subscribe(
         (response) => {
-          this.alarmsSubscriptionForUser = response;
-          resolve(response);
+          this.localData = response;
+          localStorage.setItem(this.KEY, JSON.stringify(response));
         },
         (error) => { // Función de fallo en la petición
-            reject(error);
+          console.log(error);
         }
       );
-      });
-    return promise;
+    });
   }
-
-
 }

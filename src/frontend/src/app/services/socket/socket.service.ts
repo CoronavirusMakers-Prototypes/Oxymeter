@@ -18,6 +18,9 @@ export class SocketService {
   private publicVapidKey ='BJ4yXKga1U4YkEdqEK-b_sakIPmc0zmlxFDtZvrdP2hpBnaarE4lBsITi4qX4ji72Wdyl_krizpMPila42j2PQQ';
 
   private socket: any;
+  private alarms: any[] = [];
+  private audio: any;
+  private soundAlarmActive = true;
 
   private alarmAreaEventSource = new BehaviorSubject<any>(null);
   alarmAreaEvent$ = this.alarmAreaEventSource.asObservable();
@@ -27,51 +30,86 @@ export class SocketService {
   bedDataEvent$ = this.bedDataEventSource.asObservable();
 
   constructor(public authService: AuthenticationService, public dialog: MatDialog) {
-    this.socket = io.connect(`${this.SOCKET_URL}:${this.SOCKET_PORT}`);
-    this.setSocketsActions();
+    // this.socket = io.connect(`${this.SOCKET_URL}:${this.SOCKET_PORT}`);
+    // this.setSocketsActions();
     // this.setNotificationsAndServiceWorker();
+    this.mockSocket();
+    this.audio = new Audio();
+    this.audio.src = '../../../assets/sound/alarm.mp3';
+    this.audio.load();
   }
 
   public subscribeTo = room => {
+    if (!this.socket){ return; }
     this.socket.emit('subscribeTo', room);
   }
   public unsubscribe = room => {
+    if(!this.socket){ return; }
     this.socket.emit('disconnect', room);
   }
 
   private setSocketsActions = () => {
       this.socket.on('alarm-in-area', function(data){
+        this.alarms.push(data);
         this.alarmAreaEventSource.next(data);
       });
       this.socket.on('alarm-in-room', function(data){
+        this.alarms.push(data);
         this.alarmRoomEventSource.next(data);
       });
       this.socket.on('updated_data_for_bed', function(data){
         this.bedDataEventSource.next(data);
       });
-      this.mockSocket();
   }
 
   public mockSocket = () => {
-    let delay = Math.floor(Math.random()*1000+2000)
-    setTimeout(()=>{
+    let delay = Math.floor(Math.random()*20000+2000)
+    setTimeout(() => {
+      let idArea  = Math.floor((Math.random()*20)+1);
+      let idRoom = Math.floor((Math.random()*6)+1);
       let data = {
-          "id": 1,
-          "date": 1586362504462,
-          "id_patient": 1,
-          "id_sensor": 1,
-          "ack_user": 1,
-          "ack_date": 1586362504462,
-          "status": 1,
-          "id_bed": 1,
-          "id_area": 1,
-          "id_room": 1,
-          "area_desc": "Area desc",
-          "room_desc": "Room desc"
+          id: new Date().getTime(),
+          date: new Date().getTime(),
+          id_patient: 1,
+          id_sensor: 1,
+          ack_user: null,
+          ack_date: 1586362504462,
+          status: Math.floor((Math.random()*2)+1),
+          id_bed: Math.floor((Math.random()*6)+1),
+          id_area: idArea,
+          id_room: idRoom,
+          area_desc: 'Area '+idArea,
+          room_desc: 'Room '+idRoom
       }
+      this.alarms.push(data);
       this.alarmRoomEventSource.next(data);
+      this.playAlarm();
       this.mockSocket();
-    },delay)
+    }, delay);
+  }
+
+  public playAlarm = () => {
+    if(this.soundAlarmActive){
+      this.audio.play();
+    }
+  }
+
+  public getSoundAlarm = () => this.soundAlarmActive;
+  public setSoundAlarm = active => this.soundAlarmActive = active;
+
+  public getAlarms = () => this.alarms;
+
+  public worstStatusAlarms = () => {
+    let worst = 0;
+    this.alarms.forEach( a => {
+      if(!a.ack_user && a.status > worst ){ worst = a.status; }
+    })
+    return worst;
+  }
+
+  public setAckUser = (aId, uId = null) => {
+      const alarm = this.alarms.find(a => parseInt(a.id) === parseInt(aId));
+      alarm.ack_user = uId;
   }
 
   /* NOTIFICATION SERVICE WORKER NOT USED

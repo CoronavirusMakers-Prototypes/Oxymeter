@@ -28,8 +28,8 @@ export class AlarmsService {
       this.initData();
       this.getAlarmsForUser().then( results => {
         this.localData = results;
+        localStorage.setItem(this.KEY, JSON.stringify(this.localData));
       })
-      localStorage.setItem(this.KEY, JSON.stringify(this.localData));
     }
   }
 

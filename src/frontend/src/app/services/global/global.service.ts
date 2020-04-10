@@ -86,7 +86,7 @@ export class GlobalService {
     localStorage.setItem(this.KEY, JSON.stringify(this.localData));
   }
 
-  public getFloor = () => this.floorSource.getValue();
+  public getFloor = () => this.localData.floor;
 
   public setArea = ( obj ) => {
     this.areaSource.next(obj);
@@ -96,7 +96,7 @@ export class GlobalService {
     localStorage.setItem(this.KEY, JSON.stringify(this.localData));
   }
   
-  public getArea = () => this.areaSource.getValue();
+  public getArea = () => this.localData.area;
 
   public setRoom = ( obj ) => {
     this.roomSource.next(obj);

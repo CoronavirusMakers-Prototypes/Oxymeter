@@ -9,6 +9,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { PerfilComponent } from '@components/perfil/perfil.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -90,6 +91,7 @@ import { ChartsModule } from 'ng2-charts';
     MatFormFieldModule,
     MatSelectModule,
     MatMenuModule,
+    MatCheckboxModule,
     FormsModule,
     MatDialogModule,
     ReactiveFormsModule,
