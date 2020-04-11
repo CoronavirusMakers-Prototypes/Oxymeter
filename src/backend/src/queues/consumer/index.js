@@ -6,6 +6,13 @@ const { processPayloadFromProbes } = require('./../../controllers/meassurementCo
 
 const rabbitmqURL = `amqp://${config.get('queues.consumer.dataProbes.user')}:${config.get('queues.consumer.dataProbes.password')}@${config.get('queues.consumer.dataProbes.ip')}:${config.get('queues.consumer.dataProbes.port')}`
 
+let io = null;
+
+const setSocketIO = (ios) => {
+  console.log('l0l');
+  io = ios;
+}
+
 const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) => {
     if (error0) {
         throw error0;
@@ -30,7 +37,7 @@ const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) 
 
             // send the payload to the meassurementController and process there
 
-            processPayloadFromProbes(messageFromDataQueue);
+            processPayloadFromProbes(messageFromDataQueue, io);
 
         }, {
             noAck: true
@@ -40,4 +47,5 @@ const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) 
 
 module.exports = {
   rabbitDataProbesConsumer,
+  setSocketIO,
 }
