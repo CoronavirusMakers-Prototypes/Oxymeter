@@ -16,10 +16,7 @@ export class AuthenticationService {
   private loggedSource = new BehaviorSubject<boolean>(false);
   logged$ = this.loggedSource.asObservable();
 
-  // TODO: ¿cómo mando password MD5?
-
   constructor(private http: HttpClient) {
-    // TODO: ¿session or localstorage?
     try{
       let localData: any = localStorage.getItem(this.KEY);
       if (localData && localData !== '[object Object]') {
@@ -85,7 +82,7 @@ export class AuthenticationService {
   public login(login: string, password: string): Promise<User>{
     const url = '/login';
     const promise = new Promise<User>((resolve, reject) => {
-      this.http.post<any>(url, {login: login, pass: cryptoJS.MD5(password).toString()}).subscribe(
+      this.http.post<any>(url, {login: login, pass: cryptoJS.SHA256(password).toString()}).subscribe(
         (response) => {
             // Se resuelve la promesa
             if (response.user && response.token){
@@ -105,9 +102,8 @@ export class AuthenticationService {
   public logout = () => this.resetData();
 
   public registerUser = ( user: User, password) => {
-    const url = '/registration';
-    const data = { ...user.getObject(), password: cryptoJS.MD5(password).toString() };
-    console.log(data);
+    const url = '/user';
+    const data = { ...user.getObject(), password: cryptoJS.SHA256(password).toString() };
     const promise = new Promise<User>((resolve, reject) => {
       this.http.post<any>(url, data).subscribe(
         (response) => {

@@ -1,6 +1,5 @@
 const Router         = require('express-promise-router');
 const { logger }     = require('./../util/logger');
-const { check }      = require('./../util/requestChecker');
 
 const { processPayloadFromProbes } = require('./../controllers/meassurementController');
 

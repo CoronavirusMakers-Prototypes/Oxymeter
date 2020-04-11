@@ -4,9 +4,8 @@
 
 export const environment = {
   production: false,
-  ulr_config: 'url_base',
-  url_base: '',
-  url_server: 'http://81fc1262.ngrok.io'
+  socket_port: 9001,
+  socket_url: 'http://localhost'
 };
 
 /*

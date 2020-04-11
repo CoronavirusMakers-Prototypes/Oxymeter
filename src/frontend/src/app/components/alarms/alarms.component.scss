@@ -1,7 +1,22 @@
 @import 'styles.scss';
 .alarms-wrapper{
     margin: 10px 0;
-    mat-card{
-        padding: 16px;
+    mat-expansion-panel{
+        margin-bottom: 10px;
     }
+    mat-card{
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .buttons-wrapper{
+        button, mat-form-field{
+            margin: 0 20px; 
+        }
+    }
+    .cards-wrapper{
+        mat-card{
+            margin: 10px 10px;
+        }
+    }
+
 }

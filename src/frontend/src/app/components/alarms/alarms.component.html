@@ -1,5 +1,75 @@
-<section *ngIf="!globalService.alarmsService.hasAnySubscription()" class="alarms-wrapper animated fadeInLeft d-flex justify-content-center align-items-center">
-    <mat-card>
-        <div class="warning fa fa-warning">{{ 'alerts.there-are-not-zone-subscriptions' | translate}}</div>
+<section class="alarms-wrapper animated fadeInLeft w-100">
+    <mat-card *ngIf="!globalService.alarmsSubscriptionService.hasAnySubscription()">
+        <div class="warning fa fa-warning"><span class="padding-l-5-px">{{ 'alerts.there-are-not-zone-subscriptions' | translate}}</span></div>
     </mat-card>
+    <mat-expansion-panel class="w-100">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{'common.options' | translate}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="buttons-wrapper w-100 d-flex justify-content-center flex-wrap margin-b-10-px">
+                <mat-form-field>
+                    <mat-label>{{'pages.alarms.show' | translate}}:</mat-label>
+                    <mat-select [(ngModel)]="options.filterView" (selectionChange)="applyFilters()">
+                        <mat-option value="all">{{'pages.alarms.all' | translate}}</mat-option>
+                        <mat-option value="news">{{'pages.alarms.show-not-views' | translate}}</mat-option>
+                        <mat-option value="old">{{'pages.alarms.show-views' | translate}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'pages.alarms.order-by' | translate}}</mat-label>
+                    <mat-select [(ngModel)]="options.filterValue" (selectionChange)="applyFilters()">
+                        <mat-option value="status">{{'pages.alarms.importance' | translate}}</mat-option>
+                        <mat-option value="ubication">{{'pages.alarms.ubication' | translate}}</mat-option>
+                        <mat-option value="news">{{'pages.alarms.newers' | translate}}</mat-option>
+                        <mat-option value="old">{{'pages.alarms.olders' | translate}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'pages.alarms.group-by-area' | translate}}</mat-label>
+                    <mat-select [(ngModel)]="options.groupArea" (selectionChange)="setRoomsToFilter(); options.groupRoom = null; applyFilters()">
+                            <mat-option></mat-option>
+                        <mat-option *ngFor="let area of areas" value="{{area.id}}">{{area.desc}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'pages.alarms.group-by-room' | translate}}</mat-label>
+                    <mat-select [(ngModel)]="options.groupRoom" value="status" (selectionChange)="applyFilters()">
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let room of roomsToFilter" value="{{room.id}}">{{room.desc}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-stroked-button color="primary" (click)="changeSoundAlarms()">
+                    <span class="pointer padding-r-10-px fa " [ngClass]="alarmSoundActive? 'fa-volume-up': 'fa-volume-off'"></span>
+                    <span *ngIf="alarmSoundActive">{{'pages.alarms.sound-off' | translate}}</span>
+                    <span *ngIf="!alarmSoundActive">{{'pages.alarms.sound-on' | translate}}</span>
+                </button>
+            </div>
+    </mat-expansion-panel>
+    <section class="cards-wrapper w-100 d-flex justify-content-center flex-wrap">
+        <mat-card *ngFor="let alarm of alarmsToShow" class="notification-bell animated fadeIn" [ngClass]="{'critical': alarm.status === 2, 'active': !alarm.ack_user}">
+            <span class="fa fa-bell margin-r-10-px"></span>
+            <span class="text">
+                {{alarm.area_desc}} - {{alarm.room_desc}} - Bed: {{alarm.id_bed}} - {{alarm.date | date:'dd/MM h:mm '}}
+            </span>
+            <div class="w-100 d-flex justify-content-around margin-t-10-px">
+                <button *ngIf="!alarm.ack_user" mat-stroked-button color="primary" (click)="setAckUser(alarm)">
+                    <span class="pointer padding-r-10-px fa fa-eye" ></span>
+                    <span >{{'pages.alarms.attended' | translate}}</span> 
+                </button>
+                <button *ngIf="alarm.ack_user" mat-stroked-button color="primary" (click)="unSetAckUser(alarm)">
+                    <span class="pointer padding-r-10-px fa fa-eye" ></span>
+                    <span >{{'pages.alarms.not-attended' | translate}}</span> 
+                </button>
+                <button mat-stroked-button color="primary" routerLink="/bed/{{alarm.id_bed}}">
+                    <span class="pointer padding-r-10-px fa fa-bed" ></span>
+                    <span >{{'pages.alarms.view-pacient' | translate}}</span> 
+                </button>
+            </div>
+        </mat-card>
+        <mat-card *ngIf="alarmsToShow.length === 0" class="animated fadeIn">
+            <div class="">{{ 'pages.alarms.no-alarms-to-show' | translate}}</div>
+        </mat-card>
+    </section>
 </section>

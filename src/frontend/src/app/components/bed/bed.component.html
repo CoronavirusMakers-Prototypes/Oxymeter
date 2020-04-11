@@ -41,19 +41,46 @@
     </mat-form-field>
   </mat-expansion-panel>
 
-  <mat-card >
-    <div class="chart-wrapper">
-      <div class="canvas-wrapper" style="width: 3000px; height: 300px">
-        <canvas baseChart 
-            [datasets]="lineChartData" 
-            [labels]="lineChartLabels" 
-            [options]="lineChartOptions"
-            [colors]="lineChartColors" 
-            [legend]="lineChartLegend" 
-            [chartType]="lineChartType" 
-            [plugins]="lineChartPlugins"  height="300" width="0">
-        </canvas>
+  <mat-card class="mat-card-chart">
+    <h2>SPO2</h2>
+    <div class="global-chart-wrapper">
+      <div class="chart-wrapper">
+        <div class="canvas-wrapper" style="width: 150%; height: 300px">
+          <canvas id="lineChartSPO2"  height="300" width="0">
+          </canvas>
+        </div>
+        <canvas id="lineChartSPO2yaxe" height="300" width="0"></canvas>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="mat-card-chart">
+    <h2>PPM</h2>
+    <div class="global-chart-wrapper">
+      <div class="chart-wrapper">
+        <div class="canvas-wrapper" style="width: 150%; height: 300px">
+          <canvas id="lineChartPPM"  height="300" width="0">
+          </canvas>
+        </div>
+        <canvas id="lineChartPPMyaxe" height="300" width="0"></canvas>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="mat-card-chart">
+    <h2>Temperatura</h2>
+    <div class="global-chart-wrapper">
+      <div class="chart-wrapper">
+        <div class="canvas-wrapper" style="width: 150%; height: 300px">
+          <canvas id="lineChartTEMP"  height="300" width="0">
+          </canvas>
+        </div>
+        <canvas id="lineChartTEMPyaxe" height="300" width="0"></canvas>
       </div>
     </div>
   </mat-card>
 </section>
+
+<!-- 
+  https://jsfiddle.net/EmmaLouise/eb1aqpx8/3/
+-->

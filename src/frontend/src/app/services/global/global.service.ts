@@ -4,6 +4,7 @@ import { AuthenticationService } from '@services/authentication/authentication.s
 import { HospitalService } from '../byFuncionality/hospital.service';
 import { UtilsService } from '../byFuncionality/utils.service';
 import { AlarmsSubscriptionService } from '../byFuncionality/alarms-subscription.service';
+import { AlarmsService } from '../byFuncionality/alarms.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,10 @@ export class GlobalService {
   room$ = this.roomSource.asObservable();
 
   constructor(public authService: AuthenticationService, public utils: UtilsService,
-              public hospitalService: HospitalService, public alarmsService: AlarmsSubscriptionService) {
+              public hospitalService: HospitalService, public alarmsSubscriptionService: AlarmsSubscriptionService,
+              public alarmsService: AlarmsService) {
     try{
+      alarmsSubscriptionService.setUserId(authService.getId());
       alarmsService.setUserId(authService.getId());
       const localData: any = localStorage.getItem(this.KEY);
       if (localData && localData !== '[object Object]') {
@@ -83,6 +86,8 @@ export class GlobalService {
     localStorage.setItem(this.KEY, JSON.stringify(this.localData));
   }
 
+  public getFloor = () => this.localData.floor;
+
   public setArea = ( obj ) => {
     this.areaSource.next(obj);
     this.localData.area = obj;
@@ -90,6 +95,8 @@ export class GlobalService {
     this.localData.room = null;
     localStorage.setItem(this.KEY, JSON.stringify(this.localData));
   }
+  
+  public getArea = () => this.localData.area;
 
   public setRoom = ( obj ) => {
     this.roomSource.next(obj);
@@ -101,7 +108,7 @@ export class GlobalService {
     localStorage.clear();
     this.resetData();
     this.authService.logout();
-    this.alarmsService.logout();
+    this.alarmsSubscriptionService.logout();
   }
 
 }

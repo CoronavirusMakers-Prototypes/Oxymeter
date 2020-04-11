@@ -10,10 +10,10 @@ module.exports = router
 
 router.post('/', async (req, res) => {
   try {
-    if (!check(req.body, ['description'])) {
+    if (!check(req.body, ['id_user', 'id_room', 'id_area', 'id_floor'])) {
       res.status(400).send('bad request for endpoint')
     }
-    const response = await db.query(queries.role.create,[req.body.description])
+    const response = await db.query(queries.user_alarm_suscription.create,[req.body.id_user, req.body.id_room, req.body.id_area, req.body.id_floor])
     req.body.id = response.rows[0].id
     res.status(200).send(JSON.stringify(req.body))
   } catch (e) {
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params
-    await db.query(queries.role.delete,[id])
+    await db.query(queries.user_alarm_suscription.delete,[id])
     res.status(200).send({deleted: id})
   } catch (e) {
     logger.error(e)
@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
   try {
     const { id } = req.params
     const offset = req.query.offset
-    const result = await db.query(queries.role.read,[offset, config.get('database.query.limit')])
+    const result = await db.query(queries.user_alarm_suscription.read,[offset, config.get('database.query.limit')])
     res.status(200).send(JSON.stringify(result.rows))
   } catch (e) {
     logger.error(e)
@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params
-    const result = await db.query(queries.role.getById, [id])
+    const result = await db.query(queries.user_alarm_suscription.getById, [id])
     res.status(200).send(JSON.stringify(result.rows))
   } catch (e) {
     logger.error(e)
@@ -58,11 +58,11 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    if (!check(req.body, ['description'])) {
+    if (!check(req.body, ['id_user', 'id_room', 'id_area', 'id_floor'])) {
       res.status(400).send('bad request for endpoint')
     }
     const { id } = req.params
-    const result = await db.query(queries.role.update, [req.body.description, id])
+    const result = await db.query(queries.user_alarm_suscription.update, [req.body.id_user, req.body.id_room, req.body.id_area, req.body.id_floor, id])
     res.status(200).send({updated: id})
   } catch (e) {
     logger.error(e)

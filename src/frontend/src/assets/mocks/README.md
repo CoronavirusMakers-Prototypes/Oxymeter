@@ -17,7 +17,7 @@ Url: /login
 Type: POST
  ```
 
-## Request data:
+### Request data:
 
 ```
 {
@@ -26,7 +26,7 @@ Type: POST
 }
 ```
 
-## Response expected:
+### Response expected:
 
 ```
 {
@@ -48,11 +48,11 @@ Type: POST
 
 
 ```
-Url: /registration
+Url: /user
 Type: POST
  ```
 
-## Request data:
+### Request data:
 
 ```
 {
@@ -68,7 +68,7 @@ Type: POST
 }
 ```
 
-## Response expected:
+### Response expected:
 
 ```
 {
@@ -93,7 +93,7 @@ Url: /hospitals
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 [
@@ -107,11 +107,11 @@ Type: GET
 # Hospital: devuelve info de un hospital
 
 ```
-Url: /hospital/:id
+Url: /hospitals/:id
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 {
@@ -123,11 +123,11 @@ Type: GET
 # Buildings: devuelve los buildings de un hospital
 
 ```
-Url: /buildings/:id_hospital
+Url: /buildings/byIdHospital/:id_hospital
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 [
@@ -141,11 +141,11 @@ Type: GET
 # Floors: devuelve los floors de un building
 
 ```
-Url: /floors/:id_building
+Url: /floors/byIdBuilding/:id_building
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 [
@@ -159,11 +159,11 @@ Type: GET
 # Areas: devuelve las areas de un floor
 
 ```
-Url: /areas/:id_floor
+Url: /areas/byIdFloor/:id_floor
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 [
@@ -177,11 +177,11 @@ Type: GET
 # Rooms: devuelve las rooms de un area
 
 ```
-Url: /rooms/:id_area
+Url: /rooms/byIdArea/:id_area
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 [
@@ -195,11 +195,11 @@ Type: GET
 # Beds: devuelve las beds de una room
 
 ```
-Url: /beds/:id_room
+Url: /beds/byIdRoom/:id_room
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 [
@@ -217,20 +217,20 @@ Url: /bed/:id_bed
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 SIN DEFINIR
 ```
 
-# Alarms: devuelve las alarmas para un usuario
+# AlarmSubscriptions: devuelve las alarmas suscritas para un usuario
 
 ```
-Url: /alarms/:id_user
+Url: /alarmSubscriptions/byIdUser/:id_user
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 [
@@ -239,13 +239,17 @@ Type: GET
         "id_floor": "1",
         "id_area": "1",
         "id_room": "",
-        "id_user": "1"
+        "id_user": "1",
+        "area_desc": "Desc area",
+        "room_desc": ""
     },{
         "id": "1",
         "id_floor": "1",
         "id_area": "2",
         "id_room": "1",
-        "id_user": "1"
+        "id_user": "1",
+        "area_desc": "Desc area",
+        "room_desc": "Desc room"
     },
 ]
 
@@ -253,14 +257,116 @@ En el primer caso la alarma es a nivel de todo el area porque el id_room viene v
 En el segundo se trata de una alarma a nivel de habitación.
 ```
 
-# NEW - Patient by bed_id: devuelve el paciente asignado a una cama
+## POST: add alarmSubscription
 
 ```
-Url: /patientByIdBed/:id_bed
+Url: /alarmSubscriptions
+Type: POST
+ ```
+
+### Request:
+```
+{
+        "id_floor": "1",
+        "id_area": "1",
+        "id_room": "",
+        "id_user": "1"
+}
+```
+
+
+### Response expected:
+
+```
+[
+    {
+        "id": "1",
+        "id_floor": "1",
+        "id_area": "1",
+        "id_room": "",
+        "id_user": "1",
+        "area_desc": "Desc area",
+        "room_desc": ""
+    },{
+        "id": "1",
+        "id_floor": "1",
+        "id_area": "2",
+        "id_room": "1",
+        "id_user": "1",
+        "area_desc": "Desc area",
+        "room_desc": "Desc room"
+    },
+]
+```
+## DELETE: delete alarmSubscription
+
+```
+Url: /alarmSubscriptions/:id_alarmSubscription
+Type: delete
+ ```
+
+### Response expected:
+
+```
+[
+    {
+        "id": "1",
+        "id_floor": "1",
+        "id_area": "1",
+        "id_room": "",
+        "id_user": "1",
+        "area_desc": "Desc area",
+        "room_desc": ""
+    },{
+        "id": "1",
+        "id_floor": "1",
+        "id_area": "2",
+        "id_room": "1",
+        "id_user": "1",
+        "area_desc": "Desc area",
+        "room_desc": "Desc room"
+    },
+]
+```
+
+
+
+# Alarms: devuelve las alarmas activas para un usuario
+
+```
+Url: /alarms/byIdUser/:id_user
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
+
+```
+[
+    {
+        "id": 1,
+        "date": 1586362504462,
+        "id_patient": 1,
+        "id_sensor": 1,
+        "ack_user": 1,
+        "ack_date": 1586362504462,
+        "status": 1,
+        "id_bed": 1,
+        "id_area": 1,
+        "id_room": 1
+    }
+]
+
+```
+
+
+# Patient by bed_id: devuelve el paciente asignado a una cama
+
+```
+Url: /patient/byIdBed/:id_bed
+Type: GET
+ ```
+
+### Response expected:
 
 ```
 {
@@ -281,14 +387,14 @@ Type: GET
 }
 ```
 
-# NEW - Meassurements for sensor id: devuelve las últimas mediciones registradas para un sensor
+# Meassurements for sensor id: devuelve las últimas mediciones registradas para un sensor
 
 ```
-Url: /meassurement/:id_sensor?timestamp=446465461
+Url: /meassurement/byIdSensor/:id_sensor?timestamp=446465461
 Type: GET
  ```
 
-## Response expected:
+### Response expected:
 
 ```
 "firstTimestamp": 4564564,

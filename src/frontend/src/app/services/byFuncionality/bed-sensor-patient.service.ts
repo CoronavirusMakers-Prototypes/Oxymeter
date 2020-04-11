@@ -11,7 +11,7 @@ export class BedSensorPatientService {
   constructor(private http: HttpClient) { }
 
   public getPatientByBedId(idBed): Promise<Patient>{
-    const url = `/patientByIdBed/${idBed}`;
+    const url = `/patient/byIdBed/${idBed}`;
     const promise = new Promise<Patient>((resolve, reject) => {
       this.http.get<Patient>(url).subscribe(
         (response) => {
@@ -27,7 +27,7 @@ export class BedSensorPatientService {
 
   public getSensorData(idSensor, time?): Promise<any>{
     const timeToSend = time ? time : new Date().getTime();
-    const url = `/meassurement/${idSensor}?lastTimestamp=${timeToSend}`;
+    const url = `/meassurement/byIdSensor/${idSensor}?lastTimestamp=${timeToSend}`;
     const promise = new Promise<any>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {

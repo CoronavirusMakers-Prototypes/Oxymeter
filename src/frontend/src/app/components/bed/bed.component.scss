@@ -14,23 +14,30 @@
         }
     }
 
+    mat-card{
+        h2{
+            margin: 5px;
+            font-size: 1.2em;
+        }
+    }
+
+    .global-chart-wrapper{
+        padding: 20px;
+        position: relative;
+    }
+
     .chart-wrapper{
-        margin: 0 1%;
-        width: 98%;
+        width: 100%;
         overflow-x: auto;
         overflow-y:hidden;
+        direction: rtl;
     }
 
-    .canvasWrapper {
-        position: relative;
-        margin-right: 5px;
-    }
-
-    .canvasWrapper > canvas {
+    .chart-wrapper > canvas {
         position: absolute;
-        left: 0;
-        top: 0;
-        pointer-events:none;
+        left: 20px;
+        top: 20px;
+        pointer-events: none;
     }
 
     .chartAreaWrapper {

@@ -21,7 +21,7 @@ const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) 
         if (error1) {
             throw error1;
         }
-        logger.info(`Connected to rabbitMQ`);
+        logger.info(`Connected to rabbitMQ: ${rabbitmqURL}`);
         var queue = config.get('queues.consumer.dataProbes.queueName');
 
         channel.assertQueue(queue, {

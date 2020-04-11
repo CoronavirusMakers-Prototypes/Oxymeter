@@ -24,7 +24,8 @@
     "unsubscribe": "Quitar subscr.",
     "view-area": "Ver área",
     "view-room": "Ver habitación",
-    "thanks": "Gracias!!"
+    "thanks": "Gracias!!",
+    "options": "Opciones"
   },
   "pages": {
     "login": {
@@ -56,6 +57,27 @@
       "patient-data": "Datos del paciente",
       "sensor-configuration": "Conf. sensor",
       "sensor-configuration-desc": "Parámetros para la emisión de alertas"
+    },
+    "alarms": {
+      "sound-on": "Activar sonido",
+      "sound-off": "Desactivar sonido",
+      "all": "Todas las alarmas",
+      "show-not-views": "Alarmas marcadas como no atendidas",
+      "show-views": "Alarmas marcadas como atendidas",
+      "importance": "Importancia",
+      "newers": "Más recientes",
+      "olders": "Más antiguas",
+      "show": "Mostrar",
+      "order-by": "Ordenar por",
+      "filter-by": "Filtrar por",
+      "group-by": "Agrupar por",
+      "ubication": "Ubicación",
+      "group-by-area": "Mostrar del area",
+      "group-by-room": "Mostrar de la habitación",
+      "attended": "Alarma atendida",
+      "not-attended": "No atendida",
+      "view-pacient": "Ver paciente",
+      "no-alarms-to-show": "No hay alarmas visibles. Si ha aplicado filtros omítalos para ver todas las alarmas"
     }
   },
   "alerts": {
