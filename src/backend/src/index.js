@@ -4,7 +4,7 @@ const info              = require('../package.json');
 const mountRoutes       = require('./routes');
 const path              = require('path');
 const { logger }        = require('./util/logger');
-const dataConsumer      = require('./queues/consumer');
+const { dataConsumer, setSocketIO }  = require('./queues/consumer');
 const cors              = require('cors');
 const rabbitAlarmSender = require('./queues/sender/RabbitAlarmSender');
 const WebSocketHandler  = require('./websockets/WebSocketHandler')
@@ -20,7 +20,9 @@ const http = require('http').createServer(app);
 const io   = require('socket.io')(http);
 
 app.use(express.json());
+app.set('socketio', io);
 mountRoutes(app);
+
 
 const port = config.get('port');
 
@@ -42,6 +44,7 @@ app.get('/', (req, res) => {
 // Doing some actions before expose the service.
 (async () => {
   // await createDatabaseAndSchemaIfNotExists(); // commented for now after latest database chages TODO: lets try to fix later
+  setSocketIO(io);
   dataConsumer;
   http.listen(port, () => logger.info(`${info.name}@${info.version} running at: ${port}!`));
 
