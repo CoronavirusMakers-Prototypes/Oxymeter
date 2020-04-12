@@ -10,7 +10,8 @@ sensor = {
 }
 
 util = {
-  count: 'SELECT COUNT(*) FROM sensor',
+  count:      'SELECT COUNT(*) FROM sensor',
+  getUserJwt: 'SELECT * FROM personal WHERE jwt = $1',
 }
 
 alarm = {
