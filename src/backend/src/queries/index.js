@@ -86,7 +86,7 @@ room = {
 }
 
 personal = {
-  create:  'INSERT INTO personal (surname, lastname, professional_id, last_login, id_role, login, password, id_hospital) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+  create:  'INSERT INTO personal (surname, lastname, professional_id, last_login, id_role, login, password, id_hospital, jwt) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
   delete:  'DELETE FROM personal WHERE id = $1',
   update:  'UPDATE personal SET surname = $1, lastname = $2, professional_id = $3, last_login = $4, id_role = $5, login = $6, password = $7, id_hospital = $8 WHERE id = $9',
   read:    'SELECT * FROM personal WHERE 1=1 ORDER BY id',
