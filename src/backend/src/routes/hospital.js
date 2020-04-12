@@ -11,10 +11,10 @@ module.exports = router
 router.post('/', async (req, res) => {
   try {
     if (!check(req.body, ['desc'])) {
-      res.status(400).send('bad request for endpoint')
+      throw 'bad request for endpoint, mandatory: desc';
     }
     const response = await db.query(queries.hospital.create,[req.body.desc])
-    req.body.id = response.rows[0].id
+    req.body.id = parseInt(response.rows[0].id);
     res.status(200).send(JSON.stringify(req.body))
   } catch (e) {
     logger.error(e)
@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
   try {
     const { id } = req.params
     const offset = req.query.offset
-    const result = await db.query(queries.hospital.read,[offset, config.get('database.query.limit')])
+    const result = await db.query(queries.hospital.read)
     res.status(200).send(JSON.stringify(result.rows))
   } catch (e) {
     logger.error(e)
@@ -59,7 +59,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     if (!check(req.body, ['desc'])) {
-      res.status(400).send('bad request for endpoint')
+      throw 'bad request for endpoint, mandatory: desc';
     }
     const { id } = req.params
     const result = await db.query(queries.hospital.update, [req.body.desc, id])

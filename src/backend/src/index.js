@@ -4,12 +4,12 @@ const info              = require('../package.json');
 const mountRoutes       = require('./routes');
 const path              = require('path');
 const { logger }        = require('./util/logger');
-const { dataConsumer, setSocketIO }  = require('./queues/consumer');
 const cors              = require('cors');
 const rabbitAlarmSender = require('./queues/sender/RabbitAlarmSender');
 const WebSocketHandler  = require('./websockets/WebSocketHandler')
 
 const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit');
+const { dataConsumer, setSocketIO }          = require('./queues/consumer');
 
 // all CORS requests
 const app  = express();
