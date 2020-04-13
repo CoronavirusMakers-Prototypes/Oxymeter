@@ -10,6 +10,8 @@ const WebSocketHandler  = require('./websockets/WebSocketHandler')
 
 const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit');
 const { dataConsumer, setSocketIO }          = require('./queues/consumer');
+const { jwtValidator }                       = require('./middleware/jwtValidatorMiddleware');
+
 
 // all CORS requests
 const app  = express();
@@ -21,6 +23,8 @@ const io   = require('socket.io')(http);
 
 app.use(express.json());
 app.set('socketio', io);
+app.use(jwtValidator);
+
 mountRoutes(app);
 
 

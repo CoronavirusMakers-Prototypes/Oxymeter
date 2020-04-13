@@ -6,7 +6,7 @@ const config     = require('config');
 const { check }  = require('./../util/requestChecker');
 const { hasher } = require('./../util/hasher');
 
-const { jwtGen, jwtValidator } = require('./../controllers/jwtController');
+const { jwtGen } = require('./../controllers/jwtController');
 
 const router   = new Router();
 module.exports = router;
@@ -84,7 +84,6 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    await jwtValidator(req);
     const { id } = req.params;
     const result = await db.query(queries.personal.getById, [id]);
     res.status(200).send(JSON.stringify(result.rows));
