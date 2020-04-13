@@ -93,7 +93,8 @@ personal = {
   read:        'SELECT * FROM personal WHERE 1=1 ORDER BY id',
   getById:     'SELECT * FROM personal WHERE id = $1',
   credentials: 'SELECT * FROM personal WHERE login = $1 AND password = $2',
-  login:       'UPDATE personal SET jwt = $1 WHERE id = $2'
+  login:       'UPDATE personal SET jwt = $1 WHERE id = $2',
+  logout:       'UPDATE personal SET jwt = null WHERE id = $1',
 }
 
 personal_alarm_suscriptions = {

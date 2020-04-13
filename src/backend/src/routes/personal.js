@@ -59,6 +59,19 @@ router.post('/login', async (req, res) => {
   }
 })
 
+router.post('/logout', async (req, res) => {
+  try {
+    if (!check(req.body, ['login', 'id'])) {
+      throw 'bad request for endpoint, mandatory: login';
+    }
+    const result = await db.query(queries.personal.logout,[req.body.id]);
+    res.status(200).send(`User ${req.body.login} logout.`);
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+})
+
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;

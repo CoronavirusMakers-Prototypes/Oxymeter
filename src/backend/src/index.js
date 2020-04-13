@@ -35,7 +35,7 @@ webSocketHandler.listenToSuscribtors();
 
 // Sending alarm example
 setTimeout(()=>{
-  console.log("sending alarm");
+  logger.debug("sending alarm");
   webSocketHandler.sendAlarm('area_1', 'alarm-in-area', {'id_area': 2, 'sensor_data2': {}})
 }, 6000);
 

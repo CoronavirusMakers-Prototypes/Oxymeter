@@ -18,7 +18,7 @@ const processPayloadFromProbes = async (data, io) => {
     // Example of sending an alarm from a Controller.
     io.sockets.in('area_1').emit('alarm-in-area', {bar:"BooFoo!"});
   } catch (e) {
-    console.log(e);
+    logger.error(e);
   }
 }
 
