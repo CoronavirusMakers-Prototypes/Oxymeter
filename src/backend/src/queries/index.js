@@ -91,10 +91,10 @@ personal = {
   delete:      'DELETE FROM personal WHERE id = $1',
   update:      'UPDATE personal SET surname = $1, lastname = $2, professional_id = $3, last_login = $4, id_role = $5, login = $6, password = $7, id_hospital = $8 WHERE id = $9',
   read:        'SELECT * FROM personal WHERE 1=1 ORDER BY id',
-  getById:     'SELECT * FROM personal WHERE id = $1',
+  getById:     'SELECT p.id, p.surname, p.lastname, p.professional_id, p.last_login, p.id_role, p.login, p.id_hospital, r.description AS role FROM personal p JOIN role r ON p.id_role = r.id WHERE p.id = $1',
   credentials: 'SELECT * FROM personal WHERE login = $1 AND password = $2',
   login:       'UPDATE personal SET jwt = $1 WHERE id = $2',
-  logout:       'UPDATE personal SET jwt = null WHERE id = $1',
+  logout:      'UPDATE personal SET jwt = null WHERE id = $1',
 }
 
 personal_alarm_suscriptions = {
