@@ -56,11 +56,16 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-
-// TODO: hay que implementar un endpoint:
-// GET /byIdFloor/:id_area
-// La query para devlorver las habitaciones que pertenecen a un area se puede ir escribiendo
-
+router.get('/byIdArea/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(queries.room.getByIdRoom, [id]);
+    res.status(200).send(JSON.stringify(result.rows));
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+})
 
 router.put('/:id', async (req, res) => {
   try {

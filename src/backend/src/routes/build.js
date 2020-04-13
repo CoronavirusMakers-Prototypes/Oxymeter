@@ -55,9 +55,16 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-// TODO: hay que implementar un endpoint
-// GET /byIdHospital/:id_hospital
-// La query para devlorver los edificios que pertenecen a un hostipal se puede ir escribiendo
+router.get('/byIdHospital/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(queries.build.getByIdHospital, [id]);
+    res.status(200).send(JSON.stringify(result.rows));
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+})
 
 router.put('/:id', async (req, res) => {
   try {

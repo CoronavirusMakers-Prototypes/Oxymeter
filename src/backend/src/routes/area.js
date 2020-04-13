@@ -45,9 +45,16 @@ router.get('/', async (req, res) => {
   }
 })
 
-// TODO: hay que implementar un endpoint:
-// GET /byIdFloor/:id_floor
-// La query para devlorver las areas que pertenecen a una planta se puede ir escribiendo
+router.get('/byIdFloor/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(queries.area.getByIdFloor, [id]);
+    res.status(200).send(JSON.stringify(result.rows));
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+})
 
 router.get('/:id', async (req, res) => {
   try {

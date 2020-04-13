@@ -10,10 +10,10 @@ module.exports = router;
 
 router.post('/', async (req, res) => {
   try {
-    if (!check(req.body, ['desc', 'id_floor'])) {
-      throw 'bad request for endpoint, mandatory: desc, id_floor';
+    if (!check(req.body, ['desc', 'id_room'])) {
+      throw 'bad request for endpoint, mandatory: desc, id_room';
     }
-    const response = await db.query(queries.area.create,[req.body.desc, req.body.id_floor]);
+    const response = await db.query(queries.bed.create,[req.body.desc, req.body.id_room]);
     req.body.id = parseInt(response.rows[0].id);
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await db.query(queries.area.delete,[id]);
+    await db.query(queries.bed.delete,[id]);
     res.status(200).send({deleted: id});
   } catch (e) {
     logger.error(e);
@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
   try {
     const { id } = req.params;
     const offset = req.query.offset;
-    const result = await db.query(queries.area.read);
+    const result = await db.query(queries.bed.read);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
@@ -45,14 +45,21 @@ router.get('/', async (req, res) => {
   }
 })
 
-// TODO: hay que implementar un endpoint:
-// GET /byIdFloor/:id_floor
-// La query para devlorver las areas que pertenecen a una planta se puede ir escribiendo
+router.get('/byIdRoom/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(queries.bed.getByIdRoom, [id]);
+    res.status(200).send(JSON.stringify(result.rows));
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+})
 
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await db.query(queries.area.getById, [id]);
+    const result = await db.query(queries.bed.getById, [id]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
@@ -66,7 +73,7 @@ router.put('/:id', async (req, res) => {
       throw 'bad request for endpoint, mandatory: desc, id_floor';
     }
     const { id } = req.params;
-    const result = await db.query(queries.area.update, [req.body.desc, req.body.id_floor, id]);
+    const result = await db.query(queries.bed.update, [req.body.desc, req.body.id_floor, id]);
     res.status(200).send({updated: id});
   } catch (e) {
     logger.error(e);

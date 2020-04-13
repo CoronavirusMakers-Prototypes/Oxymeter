@@ -27,7 +27,8 @@ bed = {
   delete:  'DELETE FROM bed WHERE id = $1',
   update:  'UPDATE bed SET description = $1, id_room = $2 WHERE id = $3',
   read:    'SELECT * FROM bed WHERE 1=1 ORDER BY id',
-  getById: 'SELECT * FROM bed WHERE id = $1'
+  getById: 'SELECT * FROM bed WHERE id = $1',
+  getByIdRoom: 'SELECT * FROM bed WHERE id_room = $1',
 }
 
 build = {
@@ -35,7 +36,8 @@ build = {
   delete:  'DELETE FROM build WHERE id = $1',
   update:  'UPDATE build SET description = $1, id_hospital = $2 WHERE id = $3',
   read:    'SELECT * FROM build WHERE 1=1 ORDER BY id_hospital',
-  getById: 'SELECT * FROM build WHERE id = $1'
+  getById: 'SELECT * FROM build WHERE id = $1',
+  getByIdHospital: 'SELECT * FROM build WHERE id_hospital = $1',
 }
 
 floor = {
@@ -43,7 +45,8 @@ floor = {
   delete:  'DELETE FROM floor WHERE id = $1',
   update:  'UPDATE floor SET description = $1, id_build = $2 WHERE id = $3',
   read:    'SELECT * FROM floor WHERE 1=1 ORDER BY id_build',
-  getById: 'SELECT * FROM floor WHERE id = $1'
+  getById: 'SELECT * FROM floor WHERE id = $1',
+  getByIdBuilding: 'SELECT * FROM floor WHERE id_build = $1',
 }
 
 area = {
@@ -51,7 +54,8 @@ area = {
   delete:  'DELETE FROM area WHERE id = $1',
   update:  'UPDATE area SET description = $1, id_floor = $2 WHERE id = $3',
   read:    'SELECT * FROM area WHERE 1=1 ORDER BY id',
-  getById: 'SELECT * FROM area WHERE id = $1'
+  getById: 'SELECT * FROM area WHERE id = $1',
+  getByIdFloor: 'SELECT * FROM area WHERE id_floor = $1',
 }
 
 hospital = {
@@ -83,7 +87,8 @@ room = {
   delete:  'DELETE FROM room WHERE id = $1',
   update:  'UPDATE room SET description = $1, id_area = $2 WHERE id = $3',
   read:    'SELECT * FROM room WHERE 1=1 ORDER BY id',
-  getById: 'SELECT * FROM room WHERE id = $1'
+  getById: 'SELECT * FROM room WHERE id = $1',
+  getByIdRoom: 'SELECT * FROM room WHERE id_area = $1',
 }
 
 personal = {

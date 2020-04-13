@@ -5,6 +5,7 @@ const mountRoutes       = require('./routes');
 const path              = require('path');
 const { logger }        = require('./util/logger');
 const cors              = require('cors');
+const bodyParser        = require('body-parser')
 const rabbitAlarmSender = require('./queues/sender/RabbitAlarmSender');
 const WebSocketHandler  = require('./websockets/WebSocketHandler')
 
@@ -17,6 +18,7 @@ const { jwtValidator }                       = require('./middleware/jwtValidato
 const app  = express();
 
 app.use(cors());
+app.use(bodyParser.json());
 
 const http = require('http').createServer(app);
 const io   = require('socket.io')(http);

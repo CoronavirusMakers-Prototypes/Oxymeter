@@ -45,10 +45,16 @@ router.get('/', async (req, res) => {
   }
 })
 
-// TODO: hay que implementar un endpoint
-// GET /byIdBuilding/:id_building
-// La query para devlorver las plantas que pertenecen a un edificio se puede ir escribiendo
-
+router.get('/byIdBuilding/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(queries.floor.getByIdBuilding, [id]);
+    res.status(200).send(JSON.stringify(result.rows));
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+})
 
 router.get('/:id', async (req, res) => {
   try {
