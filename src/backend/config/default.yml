@@ -2,6 +2,12 @@
 
 port: 9001
 
+# expiresIn secods also possible '2h' for expiration in two hours
+jwt:
+  algorithm: 'HS256'
+  expiresIn: '120m'
+  secret: '8VmSJ3yW00qgr5kPXpxc/MQr2HISl2RBIpVD/cVg98mPsNmuxP'
+
 database:
   user:     'postgres'
   password: 'postgres'

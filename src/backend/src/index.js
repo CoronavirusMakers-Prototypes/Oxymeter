@@ -4,23 +4,29 @@ const info              = require('../package.json');
 const mountRoutes       = require('./routes');
 const path              = require('path');
 const { logger }        = require('./util/logger');
-const { dataConsumer, setSocketIO }  = require('./queues/consumer');
 const cors              = require('cors');
+const bodyParser        = require('body-parser')
 const rabbitAlarmSender = require('./queues/sender/RabbitAlarmSender');
 const WebSocketHandler  = require('./websockets/WebSocketHandler')
 
 const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit');
+const { dataConsumer, setSocketIO }          = require('./queues/consumer');
+const { jwtValidator }                       = require('./middleware/jwtValidatorMiddleware');
+
 
 // all CORS requests
 const app  = express();
 
 app.use(cors());
+app.use(bodyParser.json());
 
 const http = require('http').createServer(app);
 const io   = require('socket.io')(http);
 
 app.use(express.json());
 app.set('socketio', io);
+app.use(jwtValidator);
+
 mountRoutes(app);
 
 
@@ -31,7 +37,7 @@ webSocketHandler.listenToSuscribtors();
 
 // Sending alarm example
 setTimeout(()=>{
-  console.log("sending alarm");
+  logger.debug("sending alarm");
   webSocketHandler.sendAlarm('area_1', 'alarm-in-area', {'id_area': 2, 'sensor_data2': {}})
 }, 6000);
 

@@ -9,7 +9,6 @@ const rabbitmqURL = `amqp://${config.get('queues.consumer.dataProbes.user')}:${c
 let io = null;
 
 const setSocketIO = (ios) => {
-  console.log('l0l');
   io = ios;
 }
 
@@ -21,7 +20,8 @@ const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) 
         if (error1) {
             throw error1;
         }
-        logger.info(`Connected to rabbitMQ: ${rabbitmqURL}`);
+
+        logger.info('Connected to rabbitMQ queue');
         var queue = config.get('queues.consumer.dataProbes.queueName');
 
         channel.assertQueue(queue, {
