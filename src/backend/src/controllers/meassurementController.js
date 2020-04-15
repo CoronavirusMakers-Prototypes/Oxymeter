@@ -99,10 +99,6 @@ const processPayloadFromProbes = async (dataarray, io) => {
 		
     }
 
-	// Create async(thread) insert into database to increase responsiveness
-	// TODO: Create trigger in database to avoid duplicate alarm in the last 5-10 minutes	
-
-
 
 
 // Fin Josemi	
