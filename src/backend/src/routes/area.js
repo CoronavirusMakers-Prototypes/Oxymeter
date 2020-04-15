@@ -10,10 +10,10 @@ module.exports = router;
 
 router.post('/', async (req, res) => {
   try {
-    if (!check(req.body, ['desc', 'id_hospital'])) {
-      throw 'bad request for endpoint, mandatory: desc, id_hospital';
+    if (!check(req.body, ['desc', 'id_floor'])) {
+      throw 'bad request for endpoint, mandatory: desc, id_floor';
     }
-    const response = await db.query(queries.build.create,[req.body.desc, req.body.id_hospital]);
+    const response = await db.query(queries.area.create,[req.body.desc, req.body.id_floor]);
     req.body.id = parseInt(response.rows[0].id);
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await db.query(queries.build.delete,[id]);
+    await db.query(queries.area.delete,[id]);
     res.status(200).send({deleted: id});
   } catch (e) {
     logger.error(e);
@@ -36,7 +36,19 @@ router.delete('/:id', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await db.query(queries.build.read);
+    const offset = req.query.offset;
+    const result = await db.query(queries.area.read);
+    res.status(200).send(JSON.stringify(result.rows));
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+})
+
+router.get('/byIdFloor/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(queries.area.getByIdFloor, [id]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
@@ -47,18 +59,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await db.query(queries.build.getById, [id]);
-    res.status(200).send(JSON.stringify(result.rows));
-  } catch (e) {
-    logger.error(e);
-    res.status(500).send(e);
-  }
-})
-
-router.get('/byIdHospital/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await db.query(queries.build.getByIdHospital, [id]);
+    const result = await db.query(queries.area.getById, [id]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
@@ -68,11 +69,11 @@ router.get('/byIdHospital/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    if (!check(req.body, ['desc', 'id_hospital'])) {
-      throw 'bad request for endpoint, mandatory: desc, id_hospital';
+    if (!check(req.body, ['desc', 'id_floor'])) {
+      throw 'bad request for endpoint, mandatory: desc, id_floor';
     }
     const { id } = req.params;
-    const result = await db.query(queries.build.update, [req.body.desc, req.body.id_hospital, id]);
+    const result = await db.query(queries.area.update, [req.body.desc, req.body.id_floor, id]);
     res.status(200).send({updated: id});
   } catch (e) {
     logger.error(e);
