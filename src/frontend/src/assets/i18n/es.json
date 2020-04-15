@@ -11,7 +11,7 @@
     "rpassword": "Repetir contraseña",
     "surname": "Nombre",
     "lastname": "Apellido",
-    "professionalId": "Identificador profesional",
+    "professional_id": "Identificador profesional",
     "hospital": "Hospital",
     "logout": "Cerrar sesión",
     "home": "Home",

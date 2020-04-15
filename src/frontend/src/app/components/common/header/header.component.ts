@@ -85,16 +85,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setTitle = () => {
-    let professionalId = this.localData && this.localData.getProfessionalId() ?  this.localData.getProfessionalId() : '';
+    let professional_id = this.localData && this.localData.getProfessionalId() ?  this.localData.getProfessionalId() : '';
     if(window.innerWidth < 600){
       this.title = 'smallTitle';
-      this.userText = professionalId;
+      this.userText = professional_id;
     }else{
       this.title = 'title';
       if(this.hospitalDesc){
-        this.userText = this.hospitalDesc+' user: '+professionalId;
+        this.userText = this.hospitalDesc+' user: '+professional_id;
       }else{
-        this.userText = 'User: '+professionalId;
+        this.userText = 'User: '+professional_id;
       }
     }
   }

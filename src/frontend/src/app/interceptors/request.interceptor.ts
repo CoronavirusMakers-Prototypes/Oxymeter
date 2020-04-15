@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http';
 import { AuthenticationService } from '@services/authentication/authentication.service';
 import { mockRoutes } from '../../assets/mocks/mockRoutes';
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
@@ -19,6 +20,10 @@ export class RequestInterceptor implements HttpInterceptor {
 
     if (mockRoutes[url[0]]){
       request = new HttpRequest('GET', mockRoutes[url[0]] );
+    }else if(request.url.indexOf('assets') === -1 ){
+      let prevUrl = environment.back_url;
+      if(environment.back_port){ prevUrl += `:${environment.back_port}`; }
+      request = request.clone({ url: prevUrl+request.url});
     }
 
     let authReq: any = null;

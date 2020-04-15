@@ -93,7 +93,7 @@ export class AlarmsSubscriptionService {
     return hasRooms.length > 0;
   }
 
-  public hasAnySubscription = () => this.localData.length > 0;
+  public hasAnySubscription = () => this.localData && this.localData.length > 0;
 
   public logout = () => this.deleteData();
 

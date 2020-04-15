@@ -16,10 +16,10 @@
                             <input matInput placeholder="{{ 'common.lastname' | translate}}" [formControl]="formData.lastname" [errorStateMatcher]="matcher" name="lastname" required>
                         </mat-form-field>
                         <mat-form-field >
-                            <input matInput placeholder="{{ 'common.professionalId' | translate}}" [formControl]="formData.professionalId" [errorStateMatcher]="matcher" name="professionalId" required>
+                            <input matInput placeholder="{{ 'common.professional_id' | translate}}" [formControl]="formData.professional_id" [errorStateMatcher]="matcher" name="professional_id" required>
                         </mat-form-field>
                         <mat-form-field >
-                            <mat-select placeholder="{{ 'common.hospital' | translate}}" [formControl]="formData.idHospital" [errorStateMatcher]="matcher" name="hospital" required>
+                            <mat-select placeholder="{{ 'common.hospital' | translate}}" [formControl]="formData.id_hospital" [errorStateMatcher]="matcher" name="hospital" required>
                                 <mat-option *ngFor="let hospital of hospitals" [value]="hospital.id">
                                     {{hospital.desc}}
                                 </mat-option>

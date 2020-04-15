@@ -12,8 +12,9 @@ const jwtValidator = async (req, res, next) => {
   try {
     // exclude some endpoints for jwt validation
     if (req.originalUrl === '/users/login'  ||
+        req.originalUrl === '/users/logout'  ||
         req.originalUrl === '/meassurement' ||
-        req.originalUrl === '/users/logout') {
+        req.originalUrl === '/users') {
       return next();
     }
     if (typeof req.get('token') === 'undefined' || req.get('token') === null) {

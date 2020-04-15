@@ -80,9 +80,9 @@ export class AuthenticationService {
   public getHospitalId = () => this.userData.getIdHospital();
 
   public login(login: string, password: string): Promise<User>{
-    const url = '/login';
+    const url = '/users/login';
     const promise = new Promise<User>((resolve, reject) => {
-      this.http.post<any>(url, {login: login, pass: cryptoJS.SHA256(password).toString()}).subscribe(
+      this.http.post<any>(url, {login: login, password: cryptoJS.SHA256(password).toString()}).subscribe(
         (response) => {
             // Se resuelve la promesa
             if (response.user && response.token){
@@ -102,7 +102,7 @@ export class AuthenticationService {
   public logout = () => this.resetData();
 
   public registerUser = ( user: User, password) => {
-    const url = '/user';
+    const url = '/users';
     const data = { ...user.getObject(), password: cryptoJS.SHA256(password).toString() };
     const promise = new Promise<User>((resolve, reject) => {
       this.http.post<any>(url, data).subscribe(

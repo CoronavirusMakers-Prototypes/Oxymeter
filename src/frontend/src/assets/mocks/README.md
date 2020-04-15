@@ -35,11 +35,11 @@ Type: POST
         "id": "1",
         "surname": "Marcos",
         "lastname": "González",
-        "professionalId": "x34522",
+        "professional_id": "x34522",
         "lastLogin": 1585681143878,
         "role": "admin",
         "login": "x34522",
-        "idHospital": 1 
+        "id_hospital": 1 
     }
 }
 ```
@@ -59,11 +59,11 @@ Type: POST
     id: undefined
     surname: "Nombre"
     lastname: "Apellido"
-    professionalId: "idProfesional"
+    professional_id: "idProfesional"
     lastLogin: undefined
     role: undefined
     login: "CampoLogin"
-    idHospital: 1
+    id_hospital: 1
     password: "487f7b22f68312d2c1bbc93b1aea445b"
 }
 ```
@@ -77,11 +77,11 @@ Type: POST
         "id": "1",
         "surname": "Marcos",
         "lastname": "González",
-        "professionalId": "x34522",
+        "professional_id": "x34522",
         "lastLogin": 1585681143878,
         "role": "admin",
         "login": "x34522",
-        "idHospital": 1 
+        "id_hospital": 1 
     }
 }
 ```

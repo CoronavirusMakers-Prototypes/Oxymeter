@@ -14,12 +14,12 @@ module.exports = router;
 
 router.post('/', async (req, res) => {
   try {
-    if (!check(req.body, ['surname', 'lastname', 'professional_id', 'last_login', 'id_role', 'login', 'password', 'id_hospital'])) {
-      throw 'bad request for endpoint, mandatory: surname, lastname, professional_id, last_login, id_role, login, password, id_hospital';
+    if (!check(req.body, ['surname', 'lastname', 'professional_id', 'login', 'password', 'id_hospital'])) {
+      throw 'bad request for endpoint, mandatory: surname, lastname, professional_id, login, password, id_hospital';
     }
     const jwt      = await jwtGen(req.body.login);
     const hash     = await hasher(req.body.password);
-    const response = await db.query(queries.personal.create,[req.body.surname, req.body.lastname, req.body.professional_id, req.body.last_login, req.body.id_role, req.body.login, hash, req.body.id_hospital, jwt]);
+    const response = await db.query(queries.personal.create,[req.body.surname, req.body.lastname, req.body.professional_id, req.body.last_login ? req.body.last_login : new Date().toGMTString() , req.body.id_role? req.body.id_role: 1, req.body.login, hash, req.body.id_hospital, jwt]);
     req.body.id = parseInt(response.rows[0].id);
     delete req.body.password;
     const userResponse = {

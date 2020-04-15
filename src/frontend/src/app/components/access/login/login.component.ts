@@ -44,7 +44,10 @@ export class LoginComponent implements OnInit {
       }
     }).catch(error => {
       console.log(error);
+      this.globalService.setLoading(false);
+      this.globalService.utils.openSimpleDialog('error.server-error')
     });
+
   }
 
 }
