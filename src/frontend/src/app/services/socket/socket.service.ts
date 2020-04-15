@@ -63,7 +63,7 @@ export class SocketService {
   }
 
   public mockSocket = () => {
-    let delay = Math.floor(Math.random()*20000+2000)
+    let delay = Math.floor(Math.random()*40000+5000)
     setTimeout(() => {
       let idArea  = Math.floor((Math.random()*20)+1);
       let idRoom = Math.floor((Math.random()*6)+1);

@@ -116,6 +116,9 @@ export class AlarmsComponent implements OnInit, OnDestroy {
           if(!x){
             x = a.id_room - b.id_room;
           }
+          if(!x){
+            x = a.id_bed - b.id_bed;
+          }
           return x;
         });
         break;

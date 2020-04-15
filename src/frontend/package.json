@@ -1,6 +1,8 @@
 {
   "name": "angular-app",
   "version": "0.0.0",
+  "author": "diego.gonzalezdc@gmail.com",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 8000",

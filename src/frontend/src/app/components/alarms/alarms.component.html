@@ -51,7 +51,7 @@
         <mat-card *ngFor="let alarm of alarmsToShow" class="notification-bell animated fadeIn" [ngClass]="{'critical': alarm.status === 2, 'active': !alarm.ack_user}">
             <span class="fa fa-bell margin-r-10-px"></span>
             <span class="text">
-                {{alarm.area_desc}} - {{alarm.room_desc}} - Bed: {{alarm.id_bed}} - {{alarm.date | date:'dd/MM h:mm '}}
+                {{alarm.area_desc}} - {{alarm.room_desc}} - Bed: {{alarm.id_bed}} - {{alarm.date | date:'dd/MM HH:mm '}}
             </span>
             <div class="w-100 d-flex justify-content-around margin-t-10-px">
                 <button *ngIf="!alarm.ack_user" mat-stroked-button color="primary" (click)="setAckUser(alarm)">
