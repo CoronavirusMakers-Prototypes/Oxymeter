@@ -4,22 +4,21 @@ const { logger } = require('./../util/logger');
 const queries    = require('./../queries');
 const config     = require('config');
 const { check }  = require('./../util/requestChecker');
-const { hasher } = require('./../util/hasher');
 
 const { jwtGen } = require('./../controllers/jwtController');
 
 const router   = new Router();
 module.exports = router;
 
-
-router.post('/', async (req, res) => {
+router.post('/signin', async (req, res) => {
   try {
-    if (!check(req.body, ['surname', 'lastname', 'professional_id', 'last_login', 'id_role', 'login', 'password', 'id_hospital'])) {
-      throw 'bad request for endpoint, mandatory: surname, lastname, professional_id, last_login, id_role, login, password, id_hospital';
+    if (!check(req.body, ['surname', 'lastname', 'professional_id', 'login', 'password', 'id_hospital'])) {
+      throw 'bad request for endpoint, mandatory: surname, lastname, professional_id, login, password, id_hospital';
     }
-    const jwt      = await jwtGen(req.body.login);
-    const hash     = await hasher(req.body.password);
-    const response = await db.query(queries.personal.create,[req.body.surname, req.body.lastname, req.body.professional_id, req.body.last_login, req.body.id_role, req.body.login, hash, req.body.id_hospital, jwt]);
+    const jwt         = await jwtGen(req.body.login);
+    const lastLogin   = new Date();
+    const defaultRole = 1;
+    const response = await db.query(queries.personal.create,[req.body.surname, req.body.lastname, req.body.professional_id, lastLogin, defaultRole, req.body.login, req.body.password, req.body.id_hospital, jwt]);
     req.body.id = parseInt(response.rows[0].id);
     delete req.body.password;
     const userResponse = {
@@ -38,14 +37,14 @@ router.post('/login', async (req, res) => {
     if (!check(req.body, ['login', 'password'])) {
       throw 'bad request for endpoint, mandatory: login, password';
     }
-    const hash     = await hasher(req.body.password);
-    const response = await db.query(queries.personal.credentials,[req.body.login, hash]);
+    const response = await db.query(queries.personal.credentials,[req.body.login, req.body.password]);
     if (response.rows.length === 0) {
       throw `Not valid credentials for user ${req.body.login}`;
     }
-    const personal = response.rows[0];
-    const jwt      = await jwtGen(req.body.login);
-    const result   = await db.query(queries.personal.login,[jwt, personal.id]);
+    const personal  = response.rows[0];
+    const jwt       = await jwtGen(req.body.login);
+    const lastLogin = new Date();
+    const result    = await db.query(queries.personal.login,[jwt, personal.id, lastLogin]);
     delete personal.password;
     delete personal.jwt;
     const userResponse = {
