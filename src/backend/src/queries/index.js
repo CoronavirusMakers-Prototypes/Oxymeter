@@ -99,7 +99,7 @@ personal = {
   read:        'SELECT * FROM personal WHERE 1=1 ORDER BY id',
   getById:     'SELECT p.id, p.surname, p.lastname, p.professional_id, p.last_login, p.id_role, p.login, p.id_hospital, r.description AS role FROM personal p JOIN role r ON p.id_role = r.id WHERE p.id = $1',
   credentials: 'SELECT * FROM personal WHERE login = $1 AND password = $2',
-  login:       'UPDATE personal SET jwt = $1 WHERE id = $2',
+  login:       'UPDATE personal SET jwt = $1, last_login = $3 WHERE id = $2',
   logout:      'UPDATE personal SET jwt = null WHERE id = $1',
 }
 
