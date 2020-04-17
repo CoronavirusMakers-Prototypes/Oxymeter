@@ -8,14 +8,22 @@ const config     = require('config');
 
 const jwtConfig = config.get('jwt');
 
+const routesToFilter = {
+  '/users/login': '',
+  '/meassurement':'',
+  '/users/logout':'',
+  '/users/signin':'',
+}
+
 const jwtValidator = async (req, res, next) => {
   try {
     // exclude some endpoints for jwt validation
-    if (req.originalUrl === '/users/login'  ||
-        req.originalUrl === '/users/logout'  ||
-        req.originalUrl === '/meassurement' ||
-        req.originalUrl === '/users') {
-      return next();
+    if (typeof routesToFilter[req.originalUrl] !== 'undefined' &&
+        routesToFilter[req.originalUrl]        !== null ||
+        (/\/hospitals.*/.test(req.originalUrl) &&
+         req.method === 'GET')
+       ) {
+         return next();
     }
     if (typeof req.get('token') === 'undefined' || req.get('token') === null) {
       throw 'bad request for endpoint, mandatory token at headers';
