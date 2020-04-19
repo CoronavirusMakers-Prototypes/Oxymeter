@@ -2,7 +2,7 @@
     <mat-card *ngIf="!globalService.alarmsSubscriptionService.hasAnySubscription()">
         <div class="warning fa fa-warning"><span class="padding-l-5-px">{{ 'alerts.there-are-not-zone-subscriptions' | translate}}</span></div>
     </mat-card>
-    <mat-expansion-panel class="w-100">
+    <mat-expansion-panel class="w-100" *ngIf="globalService.alarmsSubscriptionService.hasAnySubscription()">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 {{'common.options' | translate}}
@@ -47,7 +47,7 @@
                 </button>
             </div>
     </mat-expansion-panel>
-    <section class="cards-wrapper w-100 d-flex justify-content-center flex-wrap">
+    <section *ngIf="globalService.alarmsSubscriptionService.hasAnySubscription()" class="cards-wrapper w-100 d-flex justify-content-center flex-wrap">
         <mat-card *ngFor="let alarm of alarmsToShow" class="notification-bell animated fadeIn" [ngClass]="{'critical': alarm.status === 2, 'active': !alarm.ack_user}">
             <span class="fa fa-bell margin-r-10-px"></span>
             <span class="text">

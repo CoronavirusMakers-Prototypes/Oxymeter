@@ -33,7 +33,7 @@ export class SocketService {
     // this.socket = io.connect(`${this.SOCKET_URL}:${this.SOCKET_PORT}`);
     // this.setSocketsActions();
     // this.setNotificationsAndServiceWorker();
-    this.mockSocket();
+    // this.mockSocket();
     this.audio = new Audio();
     this.audio.src = '../../../assets/sound/alarm.mp3';
     this.audio.load();

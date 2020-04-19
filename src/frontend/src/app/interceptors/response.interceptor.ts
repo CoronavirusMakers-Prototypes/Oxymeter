@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse }   from '@angular/common/http';
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from "rxjs";
 import { tap, catchError } from "rxjs/operators";
 import { Router } from '@angular/router';
@@ -12,7 +12,8 @@ export class ResponseInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
         catchError((err: any) => {
             if(err instanceof HttpErrorResponse) {
-                if(err.status === 401 && err.error){
+                console.log(err)
+                if((err.status === 401 || err.status === 500) && (err.error && err.error.name === 'TokenExpiredError')){
                     this.router.navigate([`/logout`]);
                 }
             }

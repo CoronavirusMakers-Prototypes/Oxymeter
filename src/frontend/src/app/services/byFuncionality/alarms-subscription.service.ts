@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SocketService } from '../socket/socket.service';
-import { unwatchFile } from 'fs';
-import { parse } from 'path';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +75,9 @@ export class AlarmsSubscriptionService {
 
   public isSubscribed = (id_area, id_room = null) => {
     let result = false;
+    if(!Array.isArray(this.localData)) {
+      return false;
+    }
     this.localData.forEach( d => {
       if(id_area && id_room && parseInt(id_area) === parseInt(d.id_area) 
         && (!d.id_room || parseInt(d.id_room) === parseInt(id_room) )){
@@ -100,7 +101,7 @@ export class AlarmsSubscriptionService {
 
   /* Http requests */
   public getAlarmsSubscriptionForUser(): Promise<any>{
-    const url = `/alarmSubscriptions/byIdUser/${this.userId}`;
+    const url = `/alarms/suscriptions/byIdUser/${this.userId}`;
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
@@ -114,7 +115,7 @@ export class AlarmsSubscriptionService {
     return promise;
   }
   public addAlarmSubscription(floor_id, area_id, room_id): Promise<any>{
-    const url = `/alarmSubscriptions`;
+    const url = `/alarms/suscriptions`;
     const data = {
       id_user: parseInt(this.userId),
       id_floor: parseInt(floor_id),
@@ -144,7 +145,7 @@ export class AlarmsSubscriptionService {
       }
     })
     idToDelete.forEach( id => {
-      let url = `/alarmSubscriptions/${id}`;
+      let url = `/alarms/suscriptions/${id}`;
       this.http.delete<any>(url).subscribe(
         (response) => {
           this.localData = response;

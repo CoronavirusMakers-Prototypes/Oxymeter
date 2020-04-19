@@ -13,7 +13,7 @@
                 <div>
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="{{ 'pages.login.password' | translate }}" [formControl]="formData.password" [errorStateMatcher]="matcher" type="password"
-                            name="password" required>
+                            name="password" required (keyup.enter)="login()">
                     </mat-form-field>
                 </div>
             </form>

@@ -45,7 +45,8 @@
       "from-people-to-people": "De personas para personas"
     },
     "about":{
-      "about": "Sobre nosotros"
+      "about": "Sobre nosotros",
+      "text": "Proyecto Oxymeter de Coronavirus Makers<br/><br/>El proyecto trata de solucionar la escasez de medios sanitarios tras la pandemia provocada por el virus COVID-19.<br/><br/>Este proyecto nació con el objetivo de desarrollar un pulsioxímetro o de modificar uno comercial, para que pueda permitir la monitorización de pacientes.<br/><br/>El hardware es de bajo coste y accesible en cualquier proveedor de electrónica. El software se puede instalar en cualquier servidor Linux.<br/><br/>Todo el trabajo de desarrollo se ha realizado por el trabajo desinteresado de voluntarios desde el 27 de Marzo de 2020.<br/><br/>"
     },
     "profile": {
       "profile": "Perfil"
@@ -84,7 +85,7 @@
     "notifications-not-supported": "Este navegador no soporta las notificaciones, se recomienda el uso de Chrome.",
     "ask-for-notifications-permission": "Todavía no ha concedido permisos para enviarle notificaciones. Estas le alertarán de posibles alar ¿Desea permitir las notificaciones?",
     "service-wrokers-not-supported": "Este navegador no soporta las notificaciones si cierra la pestaña o el navegador, por lo que se recomienda no cerrar esta ventana.",
-    "there-are-not-zone-subscriptions": "Todavía no te has subscrito a ningún área o habitación del hospital. Selecciona el edificio y el piso, luego podrás subscribirte a las alertas de todas las habitaciones de las distintas áreas o seleccionar habitaciones concretas."
+    "there-are-not-zone-subscriptions": "Todavía no te has subscrito a ningún área o habitación del hospital. Selecciona el edificio y la planta, luego podrás subscribirte a las alertas de todas las habitaciones de las distintas áreas o seleccionar habitaciones concretas."
   },
   "error": {
     "server-error": "Lo sentimos se ha producido un error en el servidor" 

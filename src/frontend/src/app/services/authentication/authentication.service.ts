@@ -102,7 +102,7 @@ export class AuthenticationService {
   public logout = () => this.resetData();
 
   public registerUser = ( user: User, password: string) => {
-    const url = '/users/sigin';
+    const url = '/users/signin';
     const data = { ...user.getObject(), password: cryptoJS.SHA256(password).toString() };
     const promise = new Promise<User>((resolve, reject) => {
       this.http.post<any>(url, data).subscribe(

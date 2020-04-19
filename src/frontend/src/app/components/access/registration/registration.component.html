@@ -32,7 +32,8 @@
                             <mat-hint >{{getErrorMessagePassword() | translate }}</mat-hint>
                         </mat-form-field>
                         <mat-form-field >
-                            <input matInput type="password" placeholder="{{ 'common.rpassword' | translate}}" [formControl]="formData.rpassword" [errorStateMatcher]="matcher" name="rpassword" required>
+                            <input matInput type="password" placeholder="{{ 'common.rpassword' | translate}}" [formControl]="formData.rpassword" [errorStateMatcher]="matcher" name="rpassword" 
+                            (keyup.enter)="registerUser()" required>
                         </mat-form-field>      
                     </div>
                 </form>

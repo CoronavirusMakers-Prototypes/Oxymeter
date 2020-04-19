@@ -76,7 +76,7 @@ export class RegistrationComponent implements OnInit {
       login: this.formData.login.value,
       id_hospital: this.formData.id_hospital.value,
     };
-    this.globalService.authService.registerUser(new User(data), this.formData.password).then((response) => {
+    this.globalService.authService.registerUser(new User(data), this.formData.password.value).then((response) => {
       console.log(response);
       this.globalService.setLoading(false);
       if (response && response.getId()){

@@ -33,7 +33,7 @@ export class RequestInterceptor implements HttpInterceptor {
         headers: request.headers
           .set('Accept', 'application/json;charset=UTF-8')
           .set('Content-Type', 'application/json;charset=UTF-8')
-          .set('Authorization', 'Bearer '+token)
+          .set('Token', token)
       });
     }else{
       authReq = request.clone({
