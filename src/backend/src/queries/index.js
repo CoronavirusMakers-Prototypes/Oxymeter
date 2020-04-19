@@ -14,12 +14,17 @@ util = {
   getUserJwt: 'SELECT * FROM personal WHERE jwt = $1',
 }
 
+meassurement = {
+  add: 'INSERT INTO meassurement (spo2, ppm, batt, sequence, sensorid) VALUES ($1, $2, $3, $4, $5) RETURNING id'
+}
+
 alarm = {
   create:  'INSERT INTO alarm (id_patient, id_sensor, ack_user, ack_date, status, id_bed) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
   delete:  'DELETE FROM alarm WHERE id = $1',
   update:  'UPDATE alarm SET id_patient = $1, id_sensor = $2, ack_user = $3, ack_date = $4, status = $5, id_bed = $6 WHERE id = $7',
   read:    'SELECT * FROM alarm WHERE 1=1 ORDER BY id',
-  getById: 'SELECT * FROM alarm WHERE id = $1'
+  getById: 'SELECT * FROM alarm WHERE id = $1',
+  createByTrigger: 'INSERT INTO alarm (id_patient, id_sensor, status, id_bed) (SELECT $1, $2, $3, $4 WHERE NOT EXISTS (SELECT id_patient,id_sensor,status FROM alarm WHERE id_patient = $1 AND id_sensor = $2 AND (status = $3 or status = $5) AND created > $6)) RETURNING id',
 }
 
 bed = {
@@ -124,5 +129,6 @@ module.exports = {
   room,
   personal,
   area,
+  meassurement,
   personal_alarm_suscriptions,
 }

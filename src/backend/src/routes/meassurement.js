@@ -16,10 +16,7 @@ router.post('/', async (req, res) => {
       logger.warn('No data from probe');
     } else {
       var io = req.app.get('socketio');
-      logger.debug(`Probe payload: ${JSON.stringify(req.body)}`);
-
       var data = req.body;
-
       if (!data instanceof Array) {
         data = [req.body];
       }
