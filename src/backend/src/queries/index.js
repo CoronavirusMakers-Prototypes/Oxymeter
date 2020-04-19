@@ -70,7 +70,7 @@ patient = {
   create:  'INSERT INTO patient (surname, lastname, hospital_reference, suscribed, unsuscribed, id_bed, id_sensor, spo2_max, spo2_min, pulse_max, pulse_min, temp_max, temp_min, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id',
   delete:  'DELETE FROM patient WHERE id = $1',
   update:  'UPDATE patient SET surname = $1, lastname = $2, hospital_reference = $3, suscribed = $4, unsuscribed = $5, id_bed = $6, id_sensor = $7, spo2_max = $8, spo2_min = $9, pulse_max = $10, pulse_min = $11, temp_max = $12, temp_min = $13, status = $14 WHERE id = $15',
-  read:    'SELECT * FROM patient WHERE 1=1 ORDER BY surname',
+  read:    'SELECT * FROM patient ORDER BY id',
   getById: 'SELECT * FROM patient WHERE id = $1',
   getByIdBed: 'SELECT * FROM patient WHERE id_bed = $1',
 }
