@@ -17,12 +17,17 @@ database:
   sqlFile:  './../../database/VitalOx.sql'
   query:
     limit: 50
+  cache:
+    ttl: 2 # minutes
 
 logger:
   path: './logs/'
   level:
     console: 'silly'
     file:    'error'
+
+alarms:
+  interval: 5 # minutes
 
 queues:
     consumer:

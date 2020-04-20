@@ -16,8 +16,13 @@ router.post('/', async (req, res) => {
       logger.warn('No data from probe');
     } else {
       var io = req.app.get('socketio');
-      logger.debug(`Probe payload: ${JSON.stringify(req.body)}`);
-      processPayloadFromProbes(req.body, io);
+      var data = req.body;
+      if (!data instanceof Array) {
+        data = [req.body];
+      }
+      processPayloadFromProbes(data, io);
+      logger.debug("Metrics payload " + JSON.stringify(req.body));
+
       // Example In case of need to send an alarm (or comunicate with frontend) from a ROUTE!!!
       io.sockets.in('area_1').emit('alarm-in-area', {foo:"BarBoo"});
     }

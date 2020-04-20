@@ -33,11 +33,16 @@ const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) 
         channel.consume(queue, (msg) => {
             logger.debug(`[x] Received payload from queue ${queue}: ${msg.content.toString()}`);
 
-            const messageFromDataQueue = JSON.parse(msg.content);
+            let messageFromDataQueue = JSON.parse(msg.content);
 
             // send the payload to the meassurementController and process there
 
+            if (!messageFromDataQueue instanceof Array) {
+              messageFromDataQueue = [messageFromDataQueue];
+            }
+
             processPayloadFromProbes(messageFromDataQueue, io);
+            logger.debug("payload at RabbitMQ: " + JSON.stringify(messageFromDataQueue));
 
         }, {
             noAck: true
