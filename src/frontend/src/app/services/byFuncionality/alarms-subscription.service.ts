@@ -90,6 +90,7 @@ export class AlarmsSubscriptionService {
   }
 
   public hasRoomSubscriptions = areaId => {
+    if( !this.localData || !Array.isArray(this.localData)){ return false; }
     const hasRooms = this.localData.filter(d => parseInt(d.id_area) === parseInt(areaId) && d.id_room );
     return hasRooms.length > 0;
   }

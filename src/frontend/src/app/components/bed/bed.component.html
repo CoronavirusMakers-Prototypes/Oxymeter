@@ -45,7 +45,7 @@
     <h2>SPO2</h2>
     <div class="global-chart-wrapper">
       <div class="chart-wrapper">
-        <div class="canvas-wrapper" style="width: 150%; height: 300px">
+        <div class="canvas-wrapper" style="position: relative; height: 300px" [style.width.%]="canvasWidth" >
           <canvas id="lineChartSPO2"  height="300" width="0">
           </canvas>
         </div>
@@ -58,7 +58,7 @@
     <h2>PPM</h2>
     <div class="global-chart-wrapper">
       <div class="chart-wrapper">
-        <div class="canvas-wrapper" style="width: 150%; height: 300px">
+        <div class="canvas-wrapper" style="position: relative; height: 300px" [style.width.%]="canvasWidth">
           <canvas id="lineChartPPM"  height="300" width="0">
           </canvas>
         </div>
@@ -71,7 +71,7 @@
     <h2>Temperatura</h2>
     <div class="global-chart-wrapper">
       <div class="chart-wrapper">
-        <div class="canvas-wrapper" style="width: 150%; height: 300px">
+        <div class="canvas-wrapper" style="position: relative; height: 300px" [style.width.%]="canvasWidth">
           <canvas id="lineChartTEMP"  height="300" width="0">
           </canvas>
         </div>

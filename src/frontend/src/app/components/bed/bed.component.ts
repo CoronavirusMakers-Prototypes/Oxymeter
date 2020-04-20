@@ -18,6 +18,8 @@ export class BedComponent implements OnInit, AfterViewInit {
   public idBed: string;
   public patientData: Patient;
   public activeServices = 0;
+  public canvasWidth = 100;
+  public canvasWidthRelation = 4;
 
   constructor(public bedService: BedSensorPatientService,
     public globalService: GlobalService,
@@ -33,43 +35,47 @@ export class BedComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.chartsToDraw.forEach( chart => {
-      this.charts[chart] = new Chart(<HTMLCanvasElement>document.getElementById(chart), {
-        type: 'line',
-        data: this.chartData,
-        options: {
-          maintainAspectRatio: false,
-          responsive: true,
-          tooltips: {
-            titleFontSize: 0,
-            titleMarginBottom: 0,
-            bodyFontSize: 12
-          },
-          legend: {
-            display: false
-          },
-          scales: {
-            xAxes: [{
-              ticks: {
-                fontSize: 12
-              }
-            }],
-            yAxes: [{
-              ticks: {
-                fontSize: 12,
-                beginAtZero: true,
-                display: true
-              }
-            }]
-          },
-          animation: {
-            onComplete: () => { this.lineChartComplete(chart) },
-            onProgress: () => { this.lineChartProgress(chart) }
-          }
-        }
-      });
+      this.newChart(chart, <HTMLCanvasElement>document.getElementById(chart));
     })  
 
     this.addData();
+  }
+
+  private newChart = (chart: string, elementOrContext: any) => {
+    this.charts[chart] = new Chart(elementOrContext, {
+      type: 'line',
+      data: this.chartData,
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        tooltips: {
+          titleFontSize: 0,
+          titleMarginBottom: 0,
+          bodyFontSize: 12
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            ticks: {
+              fontSize: 12
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              fontSize: 12,
+              beginAtZero: true,
+              display: true
+            }
+          }]
+        },
+        animation: {
+          onComplete: () => { this.lineChartComplete(chart) },
+          onProgress: () => { this.lineChartProgress(chart) }
+        }
+      }
+    });
   }
 
   private getPatientData = () => {
@@ -135,10 +141,13 @@ export class BedComponent implements OnInit, AfterViewInit {
 
   public lineChartProgress = (id) => {
     if (this.lineChartCanvasSet[id] === true) {
+      /*let chart = <HTMLCanvasElement>document.getElementById(id);
+      let ctx = chart.getContext('2d');
+      ctx.canvas.width = document.getElementsByClassName('canvas-wrapper')[0].clientWidth;
+      this.newChart(id, ctx);*/
       const chartTest = this.charts[id];
       var copyWidth = chartTest.scales['y-axis-0'].width;
       var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
-
       var sourceCtx = chartTest.chart.canvas.getContext('2d');
       sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
     }
@@ -154,6 +163,8 @@ export class BedComponent implements OnInit, AfterViewInit {
   }
 
   generateData = () => {
+    let numb = 60;
+    this.canvasWidth = numb * this.canvasWidthRelation > 100 ? numb * this.canvasWidthRelation : 100;
     let chartData = [];
     for (let x = 0; x < 60; x++) {
       chartData.push(Math.floor((Math.random() * 100) + 1));
@@ -165,6 +176,7 @@ export class BedComponent implements OnInit, AfterViewInit {
   addData = () => {
     setTimeout( () => {
       this.count++;
+      this.canvasWidth = this.count * this.canvasWidthRelation > 100 ? this.count * this.canvasWidthRelation : 100;
       this.chartData.labels.push("Label "+this.count);
       this.chartData.datasets[0].data.push(Math.floor((Math.random() * 100) + 1));
       this.chartsToDraw.forEach( chart => {

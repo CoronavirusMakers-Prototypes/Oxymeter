@@ -27,8 +27,8 @@ export const mockRoutes = {
     '/beds/byIdRoom/1': '/assets/mocks/bedsIfema.json', // :id_room
     '/beds/byIdRoom/2': '/assets/mocks/bedsIfema.json',
     '/beds/byIdRoom/3': '/assets/mocks/bedsIfema.json',
-    '/alarms/suscriptions/byIdUser/1': '/assets/mocks/alarmsSubscriptionUser1.json', // :id_user
-    '/alarms/byIdUser/1': '/assets/mocks/alarmsUser.json', // :id_user
-    '/patient/byIdBed/1': '/assets/mocks/patientData.json', // :id_user
+    '/alarms/suscriptions/byIdUser/20': '/assets/mocks/alarmsSubscriptionUser1.json', // :id_user
+    '/alarms/byIdUser/20': '/assets/mocks/alarmsUser.json', // :id_user
+    '/patient/byIdBed/20': '/assets/mocks/patientData.json', // :id_user
     '/meassurement/byIdSensor/453555': '/assets/mocks/meassurementsData.json', // :id_sensor
 }
