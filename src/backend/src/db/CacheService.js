@@ -1,4 +1,5 @@
-import NodeCache from 'node-cache';
+const NodeCache  = require('node-cache');
+const { logger } = require('./../util/logger');
 
 class Cache {
 
@@ -9,9 +10,10 @@ class Cache {
   get(key, storeFunction) {
     const value = this.cache.get(key);
     if (value) {
+      logger.debug(`Cached values for ${key}`);
       return Promise.resolve(value);
     }
-
+    logger.debug(`No cached values for ${key} refreshing from DB.`);
     return storeFunction().then((result) => {
       this.cache.set(key, result);
       return result;
@@ -40,5 +42,4 @@ class Cache {
   }
 }
 
-
-export default Cache;
+module.exports = Cache

@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
         data = [req.body];
       }
       processPayloadFromProbes(data, io);
-      logger.debug("single payload " + JSON.stringify(req.body));
+      logger.debug("Metrics payload " + JSON.stringify(req.body));
 
       // Example In case of need to send an alarm (or comunicate with frontend) from a ROUTE!!!
       io.sockets.in('area_1').emit('alarm-in-area', {foo:"BarBoo"});
