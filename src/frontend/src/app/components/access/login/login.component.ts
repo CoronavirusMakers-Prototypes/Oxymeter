@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
-  FormGroupDirective,
-  NgForm,
   Validators
 } from '@angular/forms';
 import { MyErrorStateMatcher } from '@class/MyErrosStateMatcher';

@@ -1,6 +1,9 @@
 @import 'styles.scss';
 .alarms-wrapper{
     margin: 10px 0;
+    mat-expansion-panel, mat-card{
+        padding: 5px;
+    }
     mat-expansion-panel{
         margin-bottom: 10px;
     }

@@ -226,7 +226,7 @@ SIN DEFINIR
 # AlarmSubscriptions: devuelve las alarmas suscritas para un usuario
 
 ```
-Url: /alarmSubscriptions/byIdUser/:id_user
+Url: /alarms/subscriptions/byIdUser/:id_user
 Type: GET
  ```
 
@@ -260,7 +260,7 @@ En el segundo se trata de una alarma a nivel de habitación.
 ## POST: add alarmSubscription
 
 ```
-Url: /alarmSubscriptions
+Url: /alarms/subscriptions
 Type: POST
  ```
 
@@ -301,7 +301,7 @@ Type: POST
 ## DELETE: delete alarmSubscription
 
 ```
-Url: /alarmSubscriptions/:id_alarmSubscription
+Url: /alarms/subscriptions/:id_alarmSubscription
 Type: delete
  ```
 

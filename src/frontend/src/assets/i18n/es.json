@@ -4,7 +4,10 @@
   "common": {
     "no": "No",
     "yes": "Sí",
+    "create": "Crear",
+    "save": "Guardar",
     "close": "Cerrar",
+    "cancel": "Cancelar",
     "go-to-registration": "Registrarse",
     "username": "Identificador de usuario",
     "password": "Contraseña",
@@ -16,7 +19,7 @@
     "logout": "Cerrar sesión",
     "home": "Home",
     "building": "Edificio",
-    "floor": "Piso",
+    "floor": "Planta",
     "area": "Área",
     "room": "Habitación",
     "alarms": "Alarmas",
@@ -25,7 +28,19 @@
     "view-area": "Ver área",
     "view-room": "Ver habitación",
     "thanks": "Gracias!!",
-    "options": "Opciones"
+    "options": "Opciones",
+    "description": "Descripción"
+  },
+  "actions": {
+    "addHospital": "Añadir hospital",
+    "addBuilding": "Añadir edificio",
+    "addFloor": "Añadir planta",
+    "addArea": "Añadir área",
+    "addRoom": "Añadir habitación",
+    "addBed": "Añadir cama",
+    "addPacient": "Añadir paciente",
+    "quitPacient": "Quitar paciente",
+    "addSensor": "Añadir sensor"
   },
   "pages": {
     "login": {

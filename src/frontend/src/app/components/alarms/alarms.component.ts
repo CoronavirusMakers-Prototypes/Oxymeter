@@ -151,5 +151,19 @@ export class AlarmsComponent implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
+  addHospital = () => {
+    this.globalService.utils.openFormDialog(null, 'actions.addHospital').then(result => {
+      if(result){
+        this.globalService.setLoading(true);
+        this.globalService.hospitalService.add('/hospitals', {desc: result}).then(result => {
+          this.globalService.setLoading(false);
+        }).catch(error => {
+          console.log(error);
+          this.globalService.setLoading(false);
+          this.globalService.utils.openSimpleDialog('error.server-error')
+        })
+      }
+    })
+  }
 
 }

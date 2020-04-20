@@ -1,7 +1,7 @@
 export const mockRoutes = {
     // '/users/login': '/assets/mocks/userData.json',
     // '/users/signin': '/assets/mocks/userData.json',
-    '/hospitals': '/assets/mocks/hospitals.json',
+    // '/hospitals': '/assets/mocks/hospitals.json',
     '/hospitals/1': '/assets/mocks/hospitalIfema.json', // :id_hospital
     '/buildings/byIdHospital/1': '/assets/mocks/buildingsIfema.json', // :id_hospital
     '/floors/byIdBuilding/1': '/assets/mocks/floorsIfema.json', // :id_building

@@ -45,6 +45,10 @@
                     <span *ngIf="alarmSoundActive">{{'pages.alarms.sound-off' | translate}}</span>
                     <span *ngIf="!alarmSoundActive">{{'pages.alarms.sound-on' | translate}}</span>
                 </button>
+                <button mat-stroked-button color="primary" (click)="addHospital()" *ngIf="globalService.authService.hasPermission('editHospitalStructure')">
+                    <span class="pointer padding-r-10-px fa fa-hospital-o"></span>
+                    <span>{{'actions.addHospital' | translate}}</span>
+                </button>
             </div>
     </mat-expansion-panel>
     <section *ngIf="globalService.alarmsSubscriptionService.hasAnySubscription()" class="cards-wrapper w-100 d-flex justify-content-center flex-wrap">

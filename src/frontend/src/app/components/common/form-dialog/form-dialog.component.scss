@@ -1,0 +1,18 @@
+.mat-dialog-content{
+    h2{
+        font-size: 1.2em;
+        color: rgb(2, 2, 112);
+        margin-bottom: 20px;
+    }
+    div{
+        margin-bottom: 5px;
+    }
+}
+.mat-dialog-actions{
+    justify-content: flex-end;
+    button{
+        .fa{
+            padding-right: 5px;
+        }
+    }
+}

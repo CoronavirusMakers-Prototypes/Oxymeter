@@ -46,6 +46,7 @@ import { RoomsComponent } from './components/rooms/rooms.component';
 import { BedsComponent } from './components/beds/beds.component';
 import { AlarmsComponent } from './components/alarms/alarms.component';
 import { ChartsModule } from 'ng2-charts';
+import { FormDialogComponent } from './components/common/form-dialog/form-dialog.component';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { ChartsModule } from 'ng2-charts';
     RoomsComponent,
     BedsComponent,
     AlarmsComponent,
+    FormDialogComponent,
   ],
   imports: [
     BrowserModule,

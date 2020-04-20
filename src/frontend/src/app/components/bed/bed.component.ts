@@ -117,7 +117,7 @@ export class BedComponent implements OnInit, AfterViewInit {
       const chartTest = this.charts[id];
       const scale = window.devicePixelRatio;
       let sourceCanvas = chartTest.chart.canvas;
-      let copyWidth = chartTest.scales['y-axis-0'].width - 10;
+      let copyWidth = chartTest.scales['y-axis-0'].width - 5;
       let copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
       let target: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id+"yaxe");
       let targetCtx = target.getContext("2d");

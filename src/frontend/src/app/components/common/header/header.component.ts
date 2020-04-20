@@ -52,7 +52,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setClapsTime = () => {
     const time = new Date();
-    const timeClapS = 71940; // 19:59
+    const timeClapsH = 19;
+    const timeClapsM = 59;
+    const timeClapS = (timeClapsH*60*60) + (timeClapsM*60) ;
     const timeDayS = 86400; // 24:00
     const timeS = (time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds());
     let delay = 0;

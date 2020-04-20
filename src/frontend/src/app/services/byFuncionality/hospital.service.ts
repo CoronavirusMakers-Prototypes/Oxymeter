@@ -105,4 +105,18 @@ export class HospitalService {
       });
     return promise;
   }
+  
+  public add(url, data): Promise<any>{
+    const promise = new Promise<any>((resolve, reject) => {
+      this.http.post<any>(url, data).subscribe(
+        (response) => {
+            resolve(response);
+        },
+        (error) => { // Función de fallo en la petición
+            reject(error);
+        }
+      );
+      });
+    return promise;
+  }
 }

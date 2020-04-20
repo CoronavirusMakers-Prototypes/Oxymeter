@@ -2,4 +2,8 @@
         <mat-card class="pointer" *ngFor="let floor of floors" routerLink="/floor/{{floor.id}}" (click)="globalService.setFloor(floor)">
             {{floor.desc}}
         </mat-card>
+        <button mat-raised-button (click)="addFloor()" *ngIf="globalService.authService.hasPermission('editHospitalStructure')">
+            <span class="pointer padding-r-10-px fa fa-plus"></span>
+            <span>{{'actions.addFloor' | translate}}</span>
+        </button>
     </section>

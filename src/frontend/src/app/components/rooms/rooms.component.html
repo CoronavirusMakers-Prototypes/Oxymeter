@@ -23,4 +23,8 @@
             </button>
         </div>
     </mat-card>
+    <button mat-raised-button (click)="addRoom()" *ngIf="globalService.authService.hasPermission('editHospitalStructure')">
+        <span class="pointer padding-r-10-px fa fa-plus"></span>
+        <span>{{'actions.addRoom' | translate}}</span>
+    </button>
 </section>

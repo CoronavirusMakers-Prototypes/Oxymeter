@@ -59,7 +59,7 @@ export class AuthenticationService {
     return this.userData.getRole();
   }
 
-  public hasPermiso(role): boolean {
+  public hasRole(role): boolean {
     return this.userData.getRole() === role;
   }
 
@@ -78,6 +78,22 @@ export class AuthenticationService {
   public getToken = () => this.token;
 
   public getHospitalId = () => this.userData.getIdHospital();
+
+  public hasPermission = (permission: string) => {
+    // editHospitalStructure, 
+    let role = this.userData.getRole();
+    if ( role === 'superadmin'){
+      return true;
+    }else if ( role === 'editor' &&
+    (permission === 'editPacient' || permission === 'addPacient')){
+      return true;
+    }else if ( role === 'viewer' ){
+      return false;
+    }else{
+      // TODO: devolver false
+      return true;
+    }
+  }
 
   public login(login: string, password: string): Promise<User>{
     const url = '/users/login';
