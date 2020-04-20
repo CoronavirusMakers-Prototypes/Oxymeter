@@ -5,19 +5,12 @@ const { check }         = require('./../util/requestChecker');
 const Promise           = require('bluebird');
 const rabbitAlarmSender = require('./../queues/sender/RabbitAlarmSender');
 const CacheService      = require('./../db/CacheService');
+const config            = require('config');
 
-const alarmInterval = 5; // TODO: add to config
+const alarmInterval = config.get('alarms.interval');
+const ttl           = 60 * parseInt(config.get('database.cache.ttl'));
 
-const ttl   = 60 * 2; // 2 minutes of cache TODO: add to config
 const cache = new CacheService(ttl);
-
-// var patientsData = {};
-
-//Todo: verificar que está compartido entre diferentes peticiones (sesión de servidor?) ???
-
-
-//Todo: verificar que está compartido entre diferentes peticiones(sesión de servidor?) ????
-// const patientLevels = new DataCache(getPatientLevels,2);
 
 const getPatientLevels = async () => {
   return cache.get('patientData', async () => {
