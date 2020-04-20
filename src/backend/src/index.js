@@ -7,9 +7,9 @@ const { logger }        = require('./util/logger');
 const cors              = require('cors');
 const bodyParser        = require('body-parser')
 const rabbitAlarmSender = require('./queues/sender/RabbitAlarmSender');
-const WebSocketHandler  = require('./websockets/WebSocketHandler')
+const WebSocketHandler  = require('./websockets/WebSocketHandler');
 
-const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit');
+// const { createDatabaseAndSchemaIfNotExists } = require('./db/dbInit');
 const { dataConsumer, setSocketIO }          = require('./queues/consumer');
 const { jwtValidator }                       = require('./middleware/jwtValidatorMiddleware');
 
@@ -53,7 +53,6 @@ app.get('/', (req, res) => {
   setSocketIO(io);
   dataConsumer;
   http.listen(port, () => logger.info(`${info.name}@${info.version} running at: ${port}!`));
-
   // Sending an alarm to RabbitMQ EXAMPLE
   const alarmSender = await rabbitAlarmSender.getInstance();
   await alarmSender.send('An alarm!');
