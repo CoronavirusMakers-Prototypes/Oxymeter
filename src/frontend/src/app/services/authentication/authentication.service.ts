@@ -11,7 +11,9 @@ export class AuthenticationService {
 
   private userData: User;
   private token: string;
+  private sessionIni: any;
   private KEY = 'oxymetercc_userdata';
+  private sessionExpiration = 2*60*60*1000; // 8 horas
 
   private loggedSource = new BehaviorSubject<boolean>(false);
   logged$ = this.loggedSource.asObservable();
@@ -25,6 +27,7 @@ export class AuthenticationService {
       if(localData.token && localData.user){
         this.userData = new User(localData.user);
         this.token = localData.token;
+        this.sessionIni = localData.sessionIni;
         this.loggedSource.next(true);
       }
       if (!localData || localData === '[object Object]') {
@@ -45,7 +48,8 @@ export class AuthenticationService {
     this.token = null;
     const obj = {
       user: this.userData.toString(),
-      token: null
+      token: null,
+      sessionIni: null
     };
     localStorage.setItem(this.KEY, JSON.stringify(obj));
     this.loggedSource.next(false);
@@ -63,12 +67,21 @@ export class AuthenticationService {
     return this.userData.getRole() === role;
   }
 
+  public hasSessionExpired = () => {
+    if(!this.sessionIni || this.sessionIni+this.sessionExpiration < new Date().getTime()){
+      return true;
+    }
+    return false;
+  }
+
   public setUserData = (data: User, token?) => {
     this.userData = data;
     if(token){ this.token = token; }
+    this.sessionIni = new Date().getTime();
     const obj = {
       user: data.getObject(),
-      token: token ? token : this.token
+      token: token ? token : this.token,
+      sessionIni: this.sessionIni
     }
     localStorage.setItem(this.KEY, JSON.stringify(obj));
   }

@@ -5,6 +5,7 @@ import { HospitalService } from '../byFuncionality/hospital.service';
 import { UtilsService } from '../byFuncionality/utils.service';
 import { AlarmsSubscriptionService } from '../byFuncionality/alarms-subscription.service';
 import { AlarmsService } from '../byFuncionality/alarms.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class GlobalService {
 
   private KEY = 'oxymetercc_globaldata';
   public localData: any;
+  private enabledRoutesWithoutLogin = ['/login', '/registration', '/about'];
 
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
@@ -28,7 +30,7 @@ export class GlobalService {
 
   constructor(public authService: AuthenticationService, public utils: UtilsService,
               public hospitalService: HospitalService, public alarmsSubscriptionService: AlarmsSubscriptionService,
-              public alarmsService: AlarmsService) {
+              public alarmsService: AlarmsService,  public router: Router) {
     try{
       alarmsSubscriptionService.setUserId(authService.getId());
       alarmsService.setUserId(authService.getId());
@@ -61,6 +63,13 @@ export class GlobalService {
   }
 
   public setLoading = loading => {
+    if(this.authService.hasSessionExpired()){
+      this.loadingSource.next(false);
+      if(this.enabledRoutesWithoutLogin.indexOf(this.router.url) === -1){
+        this.utils.openSimpleDialog('common.sessionExpired');
+        this.router.navigate([`/logout`]);
+      }
+    }
     this.loadingSource.next(loading);
   }
 

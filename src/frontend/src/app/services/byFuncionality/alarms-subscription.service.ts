@@ -15,8 +15,6 @@ export class AlarmsSubscriptionService {
   constructor(private http: HttpClient, public socketService: SocketService) {
   }
 
-  // TODO: se puede refactorizar para que lo que almacenemos en el localStorage concuerde con lo que se devuelve en el servicio
-
   public loadData = () => {
     const localData: any = localStorage.getItem(this.KEY);
     if (localData && localData !== '[object Object]') {

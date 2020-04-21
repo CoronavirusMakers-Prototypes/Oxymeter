@@ -36,7 +36,7 @@ export class HospitalService {
     return promise;
   }
   public getBuildings (id): Promise<any[]>{
-    const url = `/buildings/byIdHospital/${id}`;
+    const url = `/builds/byIdHospital/${id}`;
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {

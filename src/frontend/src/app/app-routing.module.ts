@@ -23,7 +23,6 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: PerfilComponent, canActivate: [AuthGuard] },
-  { path: 'about', component: AboutComponent, canActivate: [AuthGuard]  },
   { path: 'alarms', component: AlarmsComponent, canActivate: [AuthGuard]  },
   { path: 'hospital', component: HospitalComponent, canActivate: [AuthGuard] }, // Muestra el listado de buildings
   { path: 'building/:id', component: FloorsComponent, canActivate: [AuthGuard]  }, // Muestra las plantas

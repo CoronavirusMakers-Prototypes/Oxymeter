@@ -29,7 +29,8 @@
     "view-room": "Ver habitación",
     "thanks": "Gracias!!",
     "options": "Opciones",
-    "description": "Descripción"
+    "description": "Descripción",
+    "sessionExpired": "Lo sentimos, su sesión ha expirado."
   },
   "actions": {
     "addHospital": "Añadir hospital",

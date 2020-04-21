@@ -123,7 +123,7 @@ Type: GET
 # Buildings: devuelve los buildings de un hospital
 
 ```
-Url: /buildings/byIdHospital/:id_hospital
+Url: /builds/byIdHospital/:id_hospital
 Type: GET
  ```
 
