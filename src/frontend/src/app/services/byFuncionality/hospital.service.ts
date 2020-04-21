@@ -7,14 +7,21 @@ import { HttpClient } from '@angular/common/http';
 export class HospitalService {
 
   constructor(private http: HttpClient) { }
+  // TODO: quitar
+  private modifyResponse = response => {
+    if(response && Array.isArray(response) && response.length > 0 && response[0].description){
+      response.map( r => r.desc = r.description);
+    }
+    return response;
+  }
   public getHospitals(): Promise<any[]>{
     const url = '/hospitals';
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
-            resolve(response);
+            resolve(this.modifyResponse(response));
         },
-        (error) => { // Función de fallo en la petición
+        (error) => { 
             reject(error);
         }
       );
@@ -26,9 +33,9 @@ export class HospitalService {
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
-            resolve(response);
+            resolve(this.modifyResponse(response));
         },
-        (error) => { // Función de fallo en la petición
+        (error) => { 
             reject(error);
         }
       );
@@ -40,9 +47,9 @@ export class HospitalService {
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
-            resolve(response);
+            resolve(this.modifyResponse(response));
         },
-        (error) => { // Función de fallo en la petición
+        (error) => { 
             reject(error);
         }
       );
@@ -54,9 +61,9 @@ export class HospitalService {
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
-            resolve(response);
+            resolve(this.modifyResponse(response));
         },
-        (error) => { // Función de fallo en la petición
+        (error) => { 
             reject(error);
         }
       );
@@ -68,9 +75,9 @@ export class HospitalService {
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
-            resolve(response);
+            resolve(this.modifyResponse(response));
         },
-        (error) => { // Función de fallo en la petición
+        (error) => { 
             reject(error);
         }
       );
@@ -82,9 +89,9 @@ export class HospitalService {
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
-            resolve(response);
+            resolve(this.modifyResponse(response));
         },
-        (error) => { // Función de fallo en la petición
+        (error) => { 
             reject(error);
         }
       );
@@ -96,9 +103,9 @@ export class HospitalService {
     const promise = new Promise<any[]>((resolve, reject) => {
       this.http.get<any>(url).subscribe(
         (response) => {
-            resolve(response);
+            resolve(this.modifyResponse(response));
         },
-        (error) => { // Función de fallo en la petición
+        (error) => { 
             reject(error);
         }
       );
@@ -110,9 +117,9 @@ export class HospitalService {
     const promise = new Promise<any>((resolve, reject) => {
       this.http.post<any>(url, data).subscribe(
         (response) => {
-            resolve(response);
+            resolve(this.modifyResponse(response));
         },
-        (error) => { // Función de fallo en la petición
+        (error) => { 
             reject(error);
         }
       );
