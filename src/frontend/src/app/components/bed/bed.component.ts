@@ -22,8 +22,8 @@ export class BedComponent implements OnInit, AfterViewInit {
   public canvasWidthRelation = 4;
 
   constructor(public bedService: BedSensorPatientService,
-    public globalService: GlobalService,
-    private route: ActivatedRoute) {
+              public globalService: GlobalService,
+              private route: ActivatedRoute) {
     this.idBed = this.route.snapshot.paramMap.get('id');
   }
 
@@ -36,7 +36,7 @@ export class BedComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.chartsToDraw.forEach( chart => {
       this.newChart(chart, <HTMLCanvasElement>document.getElementById(chart));
-    })  
+    });
 
     this.addData();
   }
@@ -80,9 +80,19 @@ export class BedComponent implements OnInit, AfterViewInit {
 
   private getPatientData = () => {
     this.bedService.getPatientByBedId(this.idBed).then(result => {
-      this.patientData = result;
+      let data = result;
+      if(Array.isArray(result) && result.length > 0){
+        data = result[0];
+      }else if (Array.isArray(result) && result.length === 0){
+        data = null;
+      }
+      this.patientData = data;
       this.waitingForServices();
-      this.getSensorMeassurements(result.getId_sensor());
+      if(data.getId_sensor()){
+        this.getSensorMeassurements(result.getId_sensor());
+      }else{
+        this.waitingForServices();
+      }
     }).catch(error => {
       this.waitingForServices();
       this.waitingForServices();
@@ -130,11 +140,9 @@ export class BedComponent implements OnInit, AfterViewInit {
       targetCtx.canvas.style.height = `${copyHeight}px`;
       targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
 
-      var sourceCtx = sourceCanvas.getContext('2d');
+      let sourceCtx = sourceCanvas.getContext('2d');
 
       sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
-      /*chartTest.options.scales.yAxes[0].display = false;
-      chartTest.update();*/
       this.lineChartCanvasSet[id] = true;
     }
   }

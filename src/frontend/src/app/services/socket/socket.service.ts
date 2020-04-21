@@ -33,7 +33,7 @@ export class SocketService {
     // this.socket = io.connect(`${this.SOCKET_URL}:${this.SOCKET_PORT}`);
     // this.setSocketsActions();
     // this.setNotificationsAndServiceWorker();
-    // this.mockSocket();
+    this.mockSocket();
     this.audio = new Audio();
     this.audio.src = '../../../assets/sound/alarm.mp3';
     this.audio.load();
@@ -63,7 +63,7 @@ export class SocketService {
   }
 
   public mockSocket = () => {
-    let delay = Math.floor(Math.random()*40000+5000)
+    let delay = Math.floor(Math.random()*120000+5000)
     setTimeout(() => {
       let idArea  = Math.floor((Math.random()*20)+1);
       let idRoom = Math.floor((Math.random()*6)+1);
@@ -74,7 +74,7 @@ export class SocketService {
           id_sensor: 1,
           ack_user: null,
           ack_date: 1586362504462,
-          status: Math.floor((Math.random()*2)+1),
+          status: Math.floor((Math.random()*4)+1),
           id_bed: Math.floor((Math.random()*6)+1),
           id_area: idArea,
           id_room: idRoom,

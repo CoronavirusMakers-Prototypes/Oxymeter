@@ -11,7 +11,7 @@ export class BedSensorPatientService {
   constructor(private http: HttpClient) { }
 
   public getPatientByBedId(idBed): Promise<Patient>{
-    const url = `/patient/byIdBed/${idBed}`;
+    const url = `/patients/byIdBed/${idBed}`;
     const promise = new Promise<Patient>((resolve, reject) => {
       this.http.get<Patient>(url).subscribe(
         (response) => {

@@ -130,8 +130,20 @@ mat-card-header{
     }
     color: #d1d1d1;
     &.active{
-        color: rgb(255, 187, 0);
+        .fa-heartbeat{
+			color: red;
+		}
+        .fa-cloud{
+			color: blue;
+		}
+        .fa-thermometer-full{
+			color: orange;
+		}
+		.fa-battery-quarter{
+			color: rgb(255, 77, 77);
+		}
         .fa-bell{
+			color: rgb(255, 187, 0);
             animation: bellshake 2s cubic-bezier(.36,.07,.19,.97) both;
             animation-iteration-count:infinite;
             backface-visibility: hidden;

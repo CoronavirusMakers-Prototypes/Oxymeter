@@ -26,7 +26,7 @@
                 <mat-form-field>
                     <mat-label>{{'pages.alarms.order-by' | translate}}</mat-label>
                     <mat-select [(ngModel)]="options.filterValue" (selectionChange)="applyFilters()">
-                        <mat-option value="status">{{'pages.alarms.importance' | translate}}</mat-option>
+                        <mat-option value="type">{{'pages.alarms.type' | translate}}</mat-option>
                         <mat-option value="ubication">{{'pages.alarms.ubication' | translate}}</mat-option>
                         <mat-option value="news">{{'pages.alarms.newers' | translate}}</mat-option>
                         <mat-option value="old">{{'pages.alarms.olders' | translate}}</mat-option>
@@ -54,8 +54,8 @@
             </div>
     </mat-expansion-panel>
     <section *ngIf="globalService.alarmsSubscriptionService.hasAnySubscription()" class="cards-wrapper w-100 d-flex justify-content-center flex-wrap">
-        <mat-card *ngFor="let alarm of alarmsToShow" class="notification-bell animated fadeIn" [ngClass]="{'critical': alarm.status === 2, 'active': !alarm.ack_user}">
-            <span class="fa fa-bell margin-r-10-px"></span>
+        <mat-card *ngFor="let alarm of alarmsToShow" class="notification-bell" [ngClass]="{'active': !alarm.ack_user}">
+            <span class="fa margin-r-10-px" [ngClass]="getAlarmIcon(alarm.status)"></span>
             <span class="text">
                 {{alarm.area_desc}} - {{alarm.room_desc}} - Bed: {{alarm.id_bed}} - {{alarm.date | date:'dd/MM HH:mm '}}
             </span>

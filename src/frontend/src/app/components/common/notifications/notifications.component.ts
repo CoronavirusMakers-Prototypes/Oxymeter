@@ -65,17 +65,39 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.router.navigate([`/bed/${bedId}`]);
   }
 
+  getAlarmIcon = (status) => {
+    let icon = '';
+    switch(parseInt(status)){
+      case 1:
+        icon = 'fa-heartbeat';
+        break;
+      case 2:
+        icon = 'fa-cloud';
+        break;
+      case 3:
+        icon = 'fa-thermometer-full';
+        break;
+      case 4:
+        icon = 'fa-battery-quarter';
+        break;
+    }
+    return icon;
+  }
+
   getGeneralAlarmClass = () => {
     const status = this.alarmService.socketService.worstStatusAlarms();
     let classes = '';
-    switch (status){
+    if(status){
+      classes = 'active';
+    }
+    /*switch (status){
       case 1:
         classes = 'active';
         break;
       case 2:
         classes = 'active critical';
         break;
-    }
+    }*/
     return classes;
   }
 

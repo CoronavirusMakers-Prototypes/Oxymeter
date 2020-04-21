@@ -82,6 +82,7 @@
       "show-not-views": "Alarmas marcadas como no atendidas",
       "show-views": "Alarmas marcadas como atendidas",
       "importance": "Importancia",
+      "type": "Tipo",
       "newers": "Más recientes",
       "olders": "Más antiguas",
       "show": "Mostrar",

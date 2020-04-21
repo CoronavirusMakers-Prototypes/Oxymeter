@@ -362,7 +362,7 @@ Type: GET
 # Patient by bed_id: devuelve el paciente asignado a una cama
 
 ```
-Url: /patient/byIdBed/:id_bed
+Url: /patients/byIdBed/:id_bed
 Type: GET
  ```
 

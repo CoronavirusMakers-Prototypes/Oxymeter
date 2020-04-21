@@ -45,7 +45,7 @@ export class AlarmsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadAlarms();
-    this.options.filterValue = 'status';
+    this.options.filterValue = 'type';
     this.options.filterView = 'all';
   }
 
@@ -79,6 +79,25 @@ export class AlarmsComponent implements OnInit, OnDestroy {
   }
 
   setRoomsToFilter = () => this.roomsToFilter = this.rooms[this.options.groupArea];
+
+  getAlarmIcon = (status) => {
+    let icon = '';
+    switch(parseInt(status)){
+      case 1:
+        icon = 'fa-heartbeat';
+        break;
+      case 2:
+        icon = 'fa-cloud';
+        break;
+      case 3:
+        icon = 'fa-thermometer-full';
+        break;
+      case 4:
+        icon = 'fa-battery-quarter';
+        break;
+    }
+    return icon;
+  }
 
   checkAreaRoomBedAlarm(alarm) {
     let alarmFoundIndex = this.alarms.findIndex(a => {
@@ -122,8 +141,8 @@ export class AlarmsComponent implements OnInit, OnDestroy {
           return x;
         });
         break;
-      default: // status
-        alarmsToShow.sort((a,b)=> b.status - a.status );
+      default: // type
+        alarmsToShow.sort((a,b)=> a.status - b.status );
     }
     if(this.options.groupArea){
       alarmsToShow = alarmsToShow.filter(a => parseInt(a.id_area) === parseInt(this.options.groupArea));
