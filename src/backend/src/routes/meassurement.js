@@ -53,6 +53,24 @@ router.post('/', async (req, res) => {
 //         "sensorId": 45645644
 //     }, ...
 // }
+router.get('/meassurement/byIdSensor/:id?lastTimestamp', async (req, res) => {
+  try {
+    if (!check(req.query, ['lastTimestamp'])) {
+      throw 'bad request for endpoint, mandatory: lastTimestamp';
+    }
+	if (!check(req.query, ['id'])) {
+      throw 'bad request for endpoint, mandatory: lastTimestamp';
+    }
+	var lastdate= new Date(parseInt(req.query.lastTimestamp);
+	const result = await db.query(queries.meassurement.last100ForSensor, [id], [lastdate]);
+    res.status(200).send(JSON.stringify(result.rows));
+    //res.status(200).send('Not yet implemented ' + new Date(parseInt(req.query.lastTimestamp)));
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+});
+
 
 router.get('/:id', async (req, res) => {
   try {
