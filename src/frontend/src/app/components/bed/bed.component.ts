@@ -42,6 +42,7 @@ export class BedComponent implements OnInit, AfterViewInit {
   }
 
   private newChart = (chart: string, elementOrContext: any) => {
+    this.generateData();
     this.charts[chart] = new Chart(elementOrContext, {
       type: 'line',
       data: this.chartData,
@@ -173,11 +174,11 @@ export class BedComponent implements OnInit, AfterViewInit {
   generateData = () => {
     let numb = 60;
     this.canvasWidth = numb * this.canvasWidthRelation > 100 ? numb * this.canvasWidthRelation : 100;
-    let chartData = [];
     for (let x = 0; x < 60; x++) {
-      chartData.push(Math.floor((Math.random() * 100) + 1));
+      this.chartData.datasets[0].data.push(Math.floor((Math.random() * 100) + 1));
+      this.chartData.datasets[1].data.push(20);
+      this.chartData.datasets[2].data.push(80);
     }
-    return chartData;
   }
 
   public count = 59;
@@ -187,6 +188,8 @@ export class BedComponent implements OnInit, AfterViewInit {
       this.canvasWidth = this.count * this.canvasWidthRelation > 100 ? this.count * this.canvasWidthRelation : 100;
       this.chartData.labels.push("Label "+this.count);
       this.chartData.datasets[0].data.push(Math.floor((Math.random() * 100) + 1));
+      this.chartData.datasets[1].data.push(20);
+      this.chartData.datasets[2].data.push(80);
       this.chartsToDraw.forEach( chart => {
         this.charts[chart].update();
       });
@@ -199,7 +202,22 @@ export class BedComponent implements OnInit, AfterViewInit {
     labels: this.generateLabels(),
     datasets: [{
       label: "Test Data Set",
-      data: this.generateData()
+      fill: false,
+      data: [],
+      backgroundColor: '#6058FF',
+      borderColor: '#6058FF'
+    },
+    {
+      label: "Min",
+      fill: false,
+      pointRadius: 0,
+      data: []
+    },
+    {
+      label: "Max",
+      fill: false,
+      pointRadius: 0,
+      data: []
     }]
   };
 

@@ -95,6 +95,7 @@ export class AuthenticationService {
   public hasPermission = (permission: string) => {
     // editHospitalStructure, 
     let role = this.userData.getRole();
+    role = 'editor';
     if ( role === 'superadmin'){
       return true;
     }else if ( role === 'editor' &&
@@ -104,7 +105,7 @@ export class AuthenticationService {
       return false;
     }else{
       // TODO: devolver false
-      return true;
+      return false;
     }
   }
 
