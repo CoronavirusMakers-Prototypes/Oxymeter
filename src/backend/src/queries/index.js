@@ -27,7 +27,7 @@ alarm = {
   read:    'SELECT * FROM alarm WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM alarm WHERE id = $1',
   createByTrigger: 'INSERT INTO alarm (id_patient, id_sensor, status, id_bed) (SELECT $1, $2, $3, $4 WHERE NOT EXISTS (SELECT id_patient,id_sensor,status FROM alarm WHERE id_patient = $1 AND id_sensor = $2 AND (status = $3 or status = $5) AND created > $6)) RETURNING id',
-  activeByUserId: 'select * from (select * from alarm where status<10) a  join (select distinct bed.id as id_bed,area.id as id_area,room.id as id_room from personal_alarm_suscriptions,bed,room,area,floor where personal_alarm_suscriptions.id_user=$1 and (room.id=personal_alarm_suscriptions.id_room or area.id=personal_alarm_suscriptions.id_area or floor.id=personal_alarm_suscriptions.id_floor)  and room.id=bed.id_room and area.id=room.id_area) b on a.id_bed=b.id_bed'	
+  activeByUserId: 'select * from (select * from alarm where status<10) a  join (select distinct bed.id as id_bed,area.id as id_area,room.id as id_room from personal_alarm_suscriptions,bed,room,area,floor where personal_alarm_suscriptions.id_user=$1 and (room.id=personal_alarm_suscriptions.id_room or area.id=personal_alarm_suscriptions.id_area or floor.id=personal_alarm_suscriptions.id_floor)  and room.id=bed.id_room and area.id=room.id_area) b on a.id_bed=b.id_bed'
   }
 
 bed = {
@@ -116,8 +116,8 @@ personal_alarm_suscriptions = {
   delete:  'DELETE FROM personal_alarm_suscriptions WHERE id = $1',
   update:  'UPDATE personal_alarm_suscriptions SET id_user = $1, id_room = $2, id_area = $3, id_floor = $4 WHERE id = $5',
   read:    'SELECT * FROM personal_alarm_suscriptions WHERE 1=1 ORDER BY id',
-  getById: 'SELECT * FROM personal_alarm_suscriptions WHERE id = $1'
-  byIdUser: 'SELECT personal_alarm_suscriptions.id as id, floor.id as id_floor, area.id as id_area, room.id as id_room,personal_alarm_suscriptions.id_user as id_user, area.description as area_desc, room.description as room_desc FROM personal_alarm_suscriptions,room,area,floor WHERE id_user = $1 and room.id=personal_alarm_suscriptions.id_room and area.id=personal_alarm_suscriptions.id_area'
+  getById: 'SELECT * FROM personal_alarm_suscriptions WHERE id = $1',
+  byIdUser: 'SELECT personal_alarm_suscriptions.id as id, floor.id as id_floor, area.id as id_area, room.id as id_room,personal_alarm_suscriptions.id_user as id_user, area.description as area_desc, room.description as room_desc FROM personal_alarm_suscriptions,room,area,floor WHERE id_user = $1 and room.id=personal_alarm_suscriptions.id_room and area.id=personal_alarm_suscriptions.id_area',
 }
 
 audit = {

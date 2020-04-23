@@ -1,5 +1,8 @@
-const Router         = require('express-promise-router');
-const { logger }     = require('./../util/logger');
+const Router     = require('express-promise-router');
+const { logger } = require('./../util/logger');
+const { check }  = require('./../util/requestChecker');
+const db         = require('../db');
+const queries    = require('./../queries');
 
 const { processPayloadFromProbes } = require('./../controllers/meassurementController');
 
@@ -34,37 +37,15 @@ router.post('/', async (req, res) => {
   }
 });
 
-
-// TODO: Espera un timestamp de inicio (lastTimestamp) y devuelve los 100 anteriores
-// resgistros en bbdd y el timestamp del registro m'as antig:uo (firstTimestamp)
-// /meassurement/byIdSensor/23?lastTimestamp=1586207555868
-//{
-// "lastTimestamp":  "1000100",
-// "firstTimestamp": "1000000",
-// "result": [
-//    {
-//         "id": 1,
-//         "time": 1586103700333,
-//         "spo2": 95,
-//         "ppm": 95,
-//         "batt": 90,
-//         "temp": 35.7,
-//         "sequence": 1222,
-//         "sensorId": 45645644
-//     }, ...
-// }
-router.get('/meassurement/byIdSensor/:id?lastTimestamp', async (req, res) => {
+router.get('/byIdSensor/:id', async (req, res) => {
   try {
     if (!check(req.query, ['lastTimestamp'])) {
       throw 'bad request for endpoint, mandatory: lastTimestamp';
     }
-	if (!check(req.query, ['id'])) {
-      throw 'bad request for endpoint, mandatory: lastTimestamp';
-    }
-	var lastdate= new Date(parseInt(req.query.lastTimestamp);
-	const result = await db.query(queries.meassurement.last100ForSensor, [id], [lastdate]);
+	const lastdate= new Date(parseInt(req.query.lastTimestamp));
+  const { id } = req.params;
+	const result = await db.query(queries.meassurement.last100ForSensor, [id, lastdate]);
     res.status(200).send(JSON.stringify(result.rows));
-    //res.status(200).send('Not yet implemented ' + new Date(parseInt(req.query.lastTimestamp)));
   } catch (e) {
     logger.error(e);
     res.status(500).send(e);
