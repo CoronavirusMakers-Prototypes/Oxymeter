@@ -29,9 +29,74 @@ export class SocketService {
   private bedDataEventSource = new BehaviorSubject<any>(null);
   bedDataEvent$ = this.bedDataEventSource.asObservable();
 
+  // MOCKS
+  public bedSubcriptions = [
+    {
+      id_patient: 1,
+      id_sensor: 1,
+      id_bed: 6,
+      id_area: 9,
+      id_room: 8,
+      area_desc: 'UE7.01',
+      room_desc: 'Habitación 1',
+      bed_desc: 'Cama 1'
+    },
+    {
+      id_patient: 2,
+      id_sensor: 2,
+      id_bed: 7,
+      id_area: 9,
+      id_room: 8,
+      area_desc: 'UE7.01',
+      room_desc: 'Habitación 1',
+      bed_desc: 'Cama 2'
+    },
+    {
+      id_patient: 3,
+      id_sensor: 3,
+      id_bed: 9,
+      id_area: 9,
+      id_room: 9,
+      area_desc: 'UE7.01',
+      room_desc: 'Habitación 2',
+      bed_desc: 'Cama 1'
+    },
+    {
+      id_patient: 4,
+      id_sensor: 4,
+      id_bed: 10,
+      id_area: 9,
+      id_room: 10,
+      area_desc: 'UE7.01',
+      room_desc: 'Habitación 3',
+      bed_desc: 'Cama 1'
+    },
+    {
+      id_patient: 5,
+      id_sensor: 5,
+      id_bed: 8,
+      id_area: 10,
+      id_room: 11,
+      area_desc: 'UE7.02',
+      room_desc: 'Habitación 1',
+      bed_desc: 'Cama 1'
+    },
+    {
+      id_patient: 6,
+      id_sensor: 6,
+      id_bed: 11,
+      id_area: 10,
+      id_room: 12,
+      area_desc: 'UE7.02',
+      room_desc: 'Habitación 2',
+      bed_desc: 'Cama 1'
+    }
+  ];
+  // FIN MOCKS
+
   constructor(public authService: AuthenticationService, public dialog: MatDialog) {
     // this.socket = io.connect(`${this.SOCKET_URL}:${this.SOCKET_PORT}`);
-    // this.setSocketsActions();
+    // this.setSocketsActions()
     // this.setNotificationsAndServiceWorker();
     this.mockSocket();
     this.audio = new Audio();
@@ -63,23 +128,23 @@ export class SocketService {
   }
 
   public mockSocket = () => {
-    let delay = Math.floor(Math.random()*120000+20000)
+    let delay = Math.floor(Math.random()*10000+1000)
     setTimeout(() => {
-      let idArea  = Math.floor((Math.random()*20)+1);
-      let idRoom = Math.floor((Math.random()*6)+1);
-      let data = {
+      const sub  = this.bedSubcriptions[Math.floor((Math.random()*this.bedSubcriptions.length))];
+      const data = {
           id: new Date().getTime(),
           date: new Date().getTime(),
-          id_patient: 1,
-          id_sensor: 1,
+          id_patient: sub.id_patient,
+          id_sensor: sub.id_sensor,
           ack_user: null,
           ack_date: 1586362504462,
           status: Math.floor((Math.random()*4)+1),
-          id_bed: Math.floor((Math.random()*6)+1),
-          id_area: idArea,
-          id_room: idRoom,
-          area_desc: 'Area '+idArea,
-          room_desc: 'Room '+idRoom
+          id_bed: sub.id_bed,
+          id_area: sub.id_area,
+          id_room: sub.id_room,
+          area_desc: sub.area_desc,
+          room_desc: sub.room_desc,
+          bed_desc: sub.bed_desc
       }
       this.alarms.push(data);
       this.alarmRoomEventSource.next(data);
@@ -98,6 +163,16 @@ export class SocketService {
   public setSoundAlarm = active => this.soundAlarmActive = active;
 
   public getAlarms = () => this.alarms;
+
+  public hasActiveAlarmIn = ( id_area = null, id_room = null, id_bed = null ) => {
+    return this.alarms.find( a => {
+      let result = false;
+      if(id_area){ result = parseInt(a.id_area) === parseInt(id_area) && !a.ack_user; }
+      if(id_room){ result =  parseInt(a.id_room) === parseInt(id_room) && !a.ack_user; }
+      if(id_bed){ result =  parseInt(a.id_bed) === parseInt(id_bed) && !a.ack_user; }
+      return result;
+    })
+  }
 
   public worstStatusAlarms = () => {
     let worst = 0;
