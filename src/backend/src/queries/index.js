@@ -17,7 +17,7 @@ util = {
 meassurement = {
   add: 'INSERT INTO meassurement (spo2, ppm, batt, sequence, sensorid) VALUES ($1, $2, $3, $4, $5) RETURNING id',
   last100ForPatient: 'SELECT meassurement.* FROM meassurement,sensor,patient WHERE patient.id = $1 and sensor.id=patient.id_sensor and meassurement.sensorid=sensor.id and meassurement.time<$2 order by time desc limit 100',
-  last100ForSensor: 'SELECT meassurement.* FROM meassurement WHERE meassurement.sensorid=$1 and meassurement.time<$2 order by time desc limit 100',
+  last100ForSensor: 'SELECT meassurement.* FROM meassurement WHERE meassurement.sensorid=$1 and meassurement.time < to_timestamp($2) order by time desc limit 100',
 }
 
 alarm = {
@@ -27,7 +27,7 @@ alarm = {
   read:    'SELECT * FROM alarm WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM alarm WHERE id = $1',
   createByTrigger: 'INSERT INTO alarm (id_patient, id_sensor, status, id_bed) (SELECT $1, $2, $3, $4 WHERE NOT EXISTS (SELECT id_patient,id_sensor,status FROM alarm WHERE id_patient = $1 AND id_sensor = $2 AND (status = $3 or status = $5) AND created > $6)) RETURNING id',
-  activeByUserId: 'select * from (select * from alarm where status<10) a  join (select distinct bed.id as id_bed,area.id as id_area,room.id as id_room from personal_alarm_suscriptions,bed,room,area,floor where personal_alarm_suscriptions.id_user=$1 and (room.id=personal_alarm_suscriptions.id_room or area.id=personal_alarm_suscriptions.id_area or floor.id=personal_alarm_suscriptions.id_floor)  and room.id=bed.id_room and area.id=room.id_area) b on a.id_bed=b.id_bed'	
+  activeByUserId: 'select * from (select * from alarm where status<10) a  join (select distinct bed.id as id_bed,area.id as id_area,room.id as id_room from personal_alarm_suscriptions,bed,room,area,floor where personal_alarm_suscriptions.id_user=$1 and (room.id=personal_alarm_suscriptions.id_room or area.id=personal_alarm_suscriptions.id_area or floor.id=personal_alarm_suscriptions.id_floor)  and room.id=bed.id_room and area.id=room.id_area) b on a.id_bed=b.id_bed'
   }
 
 bed = {
@@ -112,12 +112,12 @@ personal = {
 }
 
 personal_alarm_suscriptions = {
-  create:  'INSERT INTO personal_alarm_suscriptions (id_user, id_room, id_area, id_floor) VALUES ($1, $2, $3, $4) RETURNING id',
-  delete:  'DELETE FROM personal_alarm_suscriptions WHERE id = $1',
-  update:  'UPDATE personal_alarm_suscriptions SET id_user = $1, id_room = $2, id_area = $3, id_floor = $4 WHERE id = $5',
-  read:    'SELECT * FROM personal_alarm_suscriptions WHERE 1=1 ORDER BY id',
-  getById: 'SELECT * FROM personal_alarm_suscriptions WHERE id = $1'
-  byIdUser: 'SELECT personal_alarm_suscriptions.id as id, floor.id as id_floor, area.id as id_area, room.id as id_room,personal_alarm_suscriptions.id_user as id_user, area.description as area_desc, room.description as room_desc FROM personal_alarm_suscriptions,room,area,floor WHERE id_user = $1 and room.id=personal_alarm_suscriptions.id_room and area.id=personal_alarm_suscriptions.id_area'
+  create:   'INSERT INTO personal_alarm_suscriptions (id_user, id_room, id_area, id_floor) VALUES ($1, $2, $3, $4) RETURNING id',
+  delete:   'DELETE FROM personal_alarm_suscriptions WHERE id = $1',
+  update:   'UPDATE personal_alarm_suscriptions SET id_user = $1, id_room = $2, id_area = $3, id_floor = $4 WHERE id = $5',
+  read:     'SELECT * FROM personal_alarm_suscriptions WHERE 1=1 ORDER BY id',
+  getById:  'SELECT * FROM personal_alarm_suscriptions WHERE id = $1',
+  byIdUser: 'SELECT personal_alarm_suscriptions.id as id,personal_alarm_suscriptions.id_floor,personal_alarm_suscriptions.id_area,personal_alarm_suscriptions.id_room,personal_alarm_suscriptions.id_user,area.description as area_desc,room.description as room_desc FROM public.personal_alarm_suscriptions LEFT join room on room.id=personal_alarm_suscriptions.id_room left join area on area.id=personal_alarm_suscriptions.id_area where id_user=$1',
 }
 
 audit = {

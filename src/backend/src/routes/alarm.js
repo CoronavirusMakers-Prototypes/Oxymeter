@@ -45,9 +45,12 @@ router.post('/suscriptions', async (req, res) => {
       if (!check(req.body, ['id_user', 'id_room', 'id_area', 'id_floor'])) {
         throw 'bad request for endpoint, mandatory: id_user, id_room, id_area, id_floor';
       }
-      const response = await db.query(queries.personal_alarm_suscriptions.create,[req.body.id_user, req.body.id_room, req.body.id_area, req.body.id_floor]);
-      req.body.id = parseInt(response.rows[0].id);
-      res.status(200).send(JSON.stringify(req.body));
+      var result = await db.query(queries.personal_alarm_suscriptions.create,[req.body.id_user, req.body.id_room, req.body.id_area, req.body.id_floor]);
+      if (result.rows.length === 0) {
+        throw `Error creating alarm suscripcion with values: id_user ${req.body.id_user}, id_room ${req.body.id_room}, id_area ${req.body.id_area}, id_floor ${req.body.id_floor}`
+      }
+      result = await db.query(queries.personal_alarm_suscriptions.read);
+      res.status(200).send(JSON.stringify(result.rows));
     } catch (e) {
       logger.error(e);
       res.status(500).send(e);
