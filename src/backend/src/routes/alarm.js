@@ -27,19 +27,49 @@ router.post('/', async (req, res) => {
 // Si a este llega algo sin id_room se considera que la suscripcion de alarmas es para toda el area
 // Si a este llega algo sin id_area se considera que la suscripcion de alarmas es para toda la planta
 // Si a este llega algo sin id_floor se considera que la suscripcion de alarmas es para toda el edificio
+
+router.get('/byIdUser/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(queries.personal_alarm_suscriptions.byIdUser, [id]);
+    res.status(200).send(JSON.stringify(result.rows));
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+})
+
+
 router.post('/suscriptions', async (req, res) => {
     try {
       if (!check(req.body, ['id_user', 'id_room', 'id_area', 'id_floor'])) {
         throw 'bad request for endpoint, mandatory: id_user, id_room, id_area, id_floor';
       }
-      const response = await db.query(queries.personal_alarm_suscriptions.create,[req.body.id_user, req.body.id_room, req.body.id_area, req.body.id_floor]);
-      req.body.id = parseInt(response.rows[0].id);
-      res.status(200).send(JSON.stringify(req.body));
+      var result = await db.query(queries.personal_alarm_suscriptions.create,[req.body.id_user, req.body.id_room, req.body.id_area, req.body.id_floor]);
+      if (result.rows.length === 0) {
+        throw `Error creating alarm suscripcion with values: id_user ${req.body.id_user}, id_room ${req.body.id_room}, id_area ${req.body.id_area}, id_floor ${req.body.id_floor}`
+      }
+      result = await db.query(queries.personal_alarm_suscriptions.read);
+      res.status(200).send(JSON.stringify(result.rows));
     } catch (e) {
       logger.error(e);
       res.status(500).send(e);
     }
 })
+
+router.get('/suscriptions/byIdUser/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await db.query(queries.personal_alarm_suscriptions.byIdUser, [id]);
+    res.status(200).send(JSON.stringify(result.rows));
+  } catch (e) {
+    logger.error(e);
+    res.status(500).send(e);
+  }
+})
+
+
+
 
 router.delete('/:id', async (req, res) => {
   try {
