@@ -112,12 +112,12 @@ personal = {
 }
 
 personal_alarm_suscriptions = {
-  create:  'INSERT INTO personal_alarm_suscriptions (id_user, id_room, id_area, id_floor) VALUES ($1, $2, $3, $4) RETURNING id',
-  delete:  'DELETE FROM personal_alarm_suscriptions WHERE id = $1',
-  update:  'UPDATE personal_alarm_suscriptions SET id_user = $1, id_room = $2, id_area = $3, id_floor = $4 WHERE id = $5',
-  read:    'SELECT * FROM personal_alarm_suscriptions WHERE 1=1 ORDER BY id',
-  getById: 'SELECT * FROM personal_alarm_suscriptions WHERE id = $1',
-  byIdUser: 'SELECT personal_alarm_suscriptions.id as id, floor.id as id_floor, area.id as id_area, room.id as id_room,personal_alarm_suscriptions.id_user as id_user, area.description as area_desc, room.description as room_desc FROM personal_alarm_suscriptions,room,area,floor WHERE id_user = $1 and room.id=personal_alarm_suscriptions.id_room and area.id=personal_alarm_suscriptions.id_area',
+  create:   'INSERT INTO personal_alarm_suscriptions (id_user, id_room, id_area, id_floor) VALUES ($1, $2, $3, $4) RETURNING id',
+  delete:   'DELETE FROM personal_alarm_suscriptions WHERE id = $1',
+  update:   'UPDATE personal_alarm_suscriptions SET id_user = $1, id_room = $2, id_area = $3, id_floor = $4 WHERE id = $5',
+  read:     'SELECT * FROM personal_alarm_suscriptions WHERE 1=1 ORDER BY id',
+  getById:  'SELECT * FROM personal_alarm_suscriptions WHERE id = $1',
+  byIdUser: 'SELECT personal_alarm_suscriptions.id as id,personal_alarm_suscriptions.id_floor,personal_alarm_suscriptions.id_area,personal_alarm_suscriptions.id_room,personal_alarm_suscriptions.id_user,area.description as area_desc,room.description as room_desc FROM public.personal_alarm_suscriptions LEFT join room on room.id=personal_alarm_suscriptions.id_room left join area on area.id=personal_alarm_suscriptions.id_area where id_user=$1',
 }
 
 audit = {
