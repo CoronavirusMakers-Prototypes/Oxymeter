@@ -6,18 +6,32 @@
       <mat-panel-title>
         {{ "pages.bed.patient-data" | translate }}
       </mat-panel-title>
-      <mat-panel-description></mat-panel-description>
+      <mat-panel-description class="notification-bell active d-flex justify-content-end align-items-center">
+        <span class="fa fa-heartbeat" title="Alarma ppm" [hidden]="!hasAlarm(1)"></span>
+        <span class="fa fa-cloud" title="Alarma spo2" [hidden]="!hasAlarm(2)"></span>
+        <span class="fa fa-thermometer-full" title="Alarma temp" [hidden]="!hasAlarm(3)"></span>
+      </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-form-field>
-      <mat-label>First name</mat-label>
-      <input matInput />
-    </mat-form-field>
+    <div class="w-100 d-flex justify-content-between">
+      <mat-form-field class="w-45">
+        <mat-label>Nombre</mat-label>
+        <input matInput [value]="patientData.surname"/>
+      </mat-form-field> 
+      <mat-form-field class="w-45">
+        <mat-label>Apellidos</mat-label>
+        <input matInput [value]="patientData.lastname"/>
+      </mat-form-field> 
+    </div>
 
-    <mat-form-field>
-      <mat-label>Age</mat-label>
-      <input matInput type="number" min="1" />
-    </mat-form-field>
+    <div class="w-100 d-flex justify-content-between">
+      <mat-form-field class="w-45">
+        <mat-label>Hospital de referencia</mat-label>
+        <input matInput [value]="patientData.hospital_reference"/>
+      </mat-form-field> 
+      <div class="w-45"></div>
+    </div>
+
   </mat-expansion-panel>
 
   <mat-expansion-panel>
@@ -25,20 +39,47 @@
       <mat-panel-title>
         {{ "pages.bed.sensor-configuration" | translate }}
       </mat-panel-title>
-      <mat-panel-description>
-        {{ "pages.bed.sensor-configuration-desc" | translate }}
+      <mat-panel-description class="d-flex justify-content-end align-items-center notification-bell active" *ngIf="sensorData && sensorData.length > 0 && sensorData[sensorData.length-1]">
+        <span class="fa fa-battery-4" [title]="sensorData[sensorData.length-1]['batt']+'%'" [hidden]="sensorData[sensorData.length-1]['batt'] <= 75"></span>
+        <span class="fa fa-battery-3" [title]="sensorData[sensorData.length-1]['batt']+'%'" [hidden]="sensorData[sensorData.length-1]['batt'] <= 50 || sensorData[sensorData.length-1]['batt'] > 75"></span>
+        <span class="fa fa-battery-2" [title]="sensorData[sensorData.length-1]['batt']+'%'" [hidden]="sensorData[sensorData.length-1]['batt'] <= 25 || sensorData[sensorData.length-1]['batt'] > 50"></span>
+        <span class="fa fa-battery-1" [title]="sensorData[sensorData.length-1]['batt']+'%'" [hidden]="sensorData[sensorData.length-1]['batt'] > 25"></span>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-form-field>
-      <mat-label>First name</mat-label>
-      <input matInput />
-    </mat-form-field>
+    <div class="w-100 d-flex justify-content-between">
+      <mat-form-field class="w-45">
+        <mat-label>SPO2 max</mat-label>
+        <input matInput [value]="patientData.spo2_max"/>
+      </mat-form-field> 
+      <mat-form-field class="w-45">
+        <mat-label>SPO2 min</mat-label>
+        <input matInput [value]="patientData.spo2_min"/>
+      </mat-form-field> 
+    </div>
 
-    <mat-form-field>
-      <mat-label>Age</mat-label>
-      <input matInput type="number" min="1" />
-    </mat-form-field>
+    <div class="w-100 d-flex justify-content-between">
+      <mat-form-field class="w-45">
+        <mat-label>PPM max</mat-label>
+        <input matInput [value]="patientData.pulse_max"/>
+      </mat-form-field> 
+      <mat-form-field class="w-45">
+        <mat-label>PPM min</mat-label>
+        <input matInput [value]="patientData.pulse_min"/>
+      </mat-form-field> 
+    </div>
+
+    <div class="w-100 d-flex justify-content-between">
+      <mat-form-field class="w-45">
+        <mat-label>Temp max</mat-label>
+        <input matInput [value]="patientData.temp_max"/>
+      </mat-form-field> 
+      <mat-form-field class="w-45">
+        <mat-label>Temp min</mat-label>
+        <input matInput [value]="patientData.temp_min"/>
+      </mat-form-field> 
+    </div>
+
   </mat-expansion-panel>
 
   <mat-card class="mat-card-chart">

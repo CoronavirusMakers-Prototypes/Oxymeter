@@ -53,6 +53,10 @@ export class AlarmsService {
     return promise;
   }
 
+  public getAlarmsForBed = (idBed) => {
+    return this.socketService.getAlarms().filter( a => parseInt(a.id_bed) === parseInt(idBed) )
+  }
+
   public getData = () => this.localData;
 
 }

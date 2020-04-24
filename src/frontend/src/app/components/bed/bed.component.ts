@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { BedSensorPatientService } from '@services/byFuncionality/bed-sensor-patient.service';
 import { Patient } from '@app/class/Patient';
 import { GlobalService } from '@app/services/global/global.service';
 import { ActivatedRoute } from '@angular/router';
 import { Chart } from 'chart.js';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bed',
   templateUrl: './bed.component.html',
   styleUrls: ['./bed.component.scss']
 })
-export class BedComponent implements OnInit, AfterViewInit {
+export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public lineChartCanvasSet = {};
   public chartsToDraw = ['lineChartSPO2', 'lineChartPPM', 'lineChartTEMP'];
@@ -20,6 +21,79 @@ export class BedComponent implements OnInit, AfterViewInit {
   public activeServices = 0;
   public canvasWidth = 100;
   public canvasWidthRelation = 4;
+  public sensorData = [];
+  private bedSubscription: Subscription;
+
+  
+  public chartData = {
+    lineChartSPO2: {
+      labels: [],
+      datasets: [{
+        label: 'SPO2 ',
+        fill: false,
+        data: [],
+        backgroundColor: '#6058FF',
+        borderColor: '#6058FF'
+      },
+      {
+        label: "Min",
+        fill: false,
+        pointRadius: 0,
+        data: []
+      },
+      {
+        label: "Max",
+        fill: false,
+        pointRadius: 0,
+        data: []
+      }]
+    },
+    lineChartPPM: {
+      labels: [],
+      datasets: [{
+        label: 'PPM ',
+        fill: false,
+        data: [],
+        backgroundColor: '#6058FF',
+        borderColor: '#6058FF'
+      },
+      {
+        label: "Min",
+        fill: false,
+        pointRadius: 0,
+        data: []
+      },
+      {
+        label: "Max",
+        fill: false,
+        pointRadius: 0,
+        data: []
+      }]
+    },
+    lineChartTEMP: {
+      labels: [],
+      datasets: [{
+        label: 'Temp ',
+        fill: false,
+        data: [],
+        backgroundColor: '#6058FF',
+        borderColor: '#6058FF'
+      },
+      {
+        label: "Min",
+        fill: false,
+        pointRadius: 0,
+        data: []
+      },
+      {
+        label: "Max",
+        fill: false,
+        pointRadius: 0,
+        data: []
+      }]
+    }
+  };
+
 
   constructor(public bedService: BedSensorPatientService,
               public globalService: GlobalService,
@@ -28,24 +102,46 @@ export class BedComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.chartsToDraw.forEach( chart => {
+      this.newChart(chart, <HTMLCanvasElement>document.getElementById(chart));
+    });
     this.globalService.setLoading(true);
     this.activeServices = 2;
     this.getPatientData();
   }
 
   ngAfterViewInit(): void {
-    this.chartsToDraw.forEach( chart => {
-      this.newChart(chart, <HTMLCanvasElement>document.getElementById(chart));
+    this.bedSubscription = this.globalService.alarmsService.socketService.bedDataEvent$.subscribe( value => {
+      this.sensorData.push(value);
+      this.addData(value);
+      console.log(value)
     });
+  }
 
-    this.addData();
+  ngOnDestroy(): void{
+    this.globalService.alarmsService.socketService.unSubscribeToBed();   
+    this.bedSubscription.unsubscribe();
   }
 
   private newChart = (chart: string, elementOrContext: any) => {
-    this.generateData();
+    let max, min;
+    switch(chart){
+      case 'lineChartSPO2':
+        max = 120;
+        min = 70;
+        break;
+      case 'lineChartPPM':
+        max = 150;
+        min = 40;
+        break;
+      case 'lineChartTEMP':
+        max = 41;
+        min = 32;
+        break;
+    }
     this.charts[chart] = new Chart(elementOrContext, {
       type: 'line',
-      data: this.chartData,
+      data: this.chartData[chart],
       options: {
         maintainAspectRatio: false,
         responsive: true,
@@ -66,8 +162,10 @@ export class BedComponent implements OnInit, AfterViewInit {
           yAxes: [{
             ticks: {
               fontSize: 12,
-              beginAtZero: true,
-              display: true
+              beginAtZero: false,
+              display: true,
+              min: min,
+              max: max
             }
           }]
         },
@@ -89,23 +187,18 @@ export class BedComponent implements OnInit, AfterViewInit {
       }
       this.patientData = data;
       this.waitingForServices();
-      if(data.getId_sensor()){
-        this.getSensorMeassurements(result.getId_sensor());
+      if(data.getId_bed()){
+        this.globalService.alarmsService.socketService.subscribeToBed(data.getId_bed());       
+        this.sensorData = this.globalService.alarmsService.socketService.getLastDataForBed(data.getId_bed());
+        this.sensorData.forEach( data => {
+          this.addData(data);
+        });
+        this.waitingForServices();
       }else{
         this.waitingForServices();
       }
     }).catch(error => {
       this.waitingForServices();
-      this.waitingForServices();
-      this.globalService.utils.openSimpleDialog('error.server-error');
-    });
-  }
-
-  private getSensorMeassurements = (idSensor) => {
-    this.bedService.getSensorData(idSensor).then(result => {
-      this.setDataForGraphics(result.result);
-      this.waitingForServices();
-    }).catch(error => {
       this.waitingForServices();
       this.globalService.utils.openSimpleDialog('error.server-error');
     });
@@ -119,16 +212,12 @@ export class BedComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private setDataForGraphics = (data) => {
-
-  }
-
   public lineChartComplete = (id) => {
     if (!this.lineChartCanvasSet[id]) {
       const chartTest = this.charts[id];
       const scale = window.devicePixelRatio;
       let sourceCanvas = chartTest.chart.canvas;
-      let copyWidth = chartTest.scales['y-axis-0'].width - 5;
+      let copyWidth = chartTest.scales['y-axis-0'].width - 2;
       let copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
       let target: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id+"yaxe");
       let targetCtx = target.getContext("2d");
@@ -150,10 +239,6 @@ export class BedComponent implements OnInit, AfterViewInit {
 
   public lineChartProgress = (id) => {
     if (this.lineChartCanvasSet[id] === true) {
-      /*let chart = <HTMLCanvasElement>document.getElementById(id);
-      let ctx = chart.getContext('2d');
-      ctx.canvas.width = document.getElementsByClassName('canvas-wrapper')[0].clientWidth;
-      this.newChart(id, ctx);*/
       const chartTest = this.charts[id];
       var copyWidth = chartTest.scales['y-axis-0'].width;
       var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
@@ -162,64 +247,44 @@ export class BedComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-  generateLabels = () => {
-    let chartLabels = [];
-    for (let x = 0; x < 60; x++) {
-      chartLabels.push("Label " + x);
-    }
-    return chartLabels;
-  }
-
-  generateData = () => {
-    let numb = 60;
-    this.canvasWidth = numb * this.canvasWidthRelation > 100 ? numb * this.canvasWidthRelation : 100;
-    for (let x = 0; x < 60; x++) {
-      this.chartData.datasets[0].data.push(Math.floor((Math.random() * 100) + 1));
-      this.chartData.datasets[1].data.push(20);
-      this.chartData.datasets[2].data.push(80);
-    }
-  }
-
-  public count = 59;
-  addData = () => {
-    setTimeout( () => {
-      this.count++;
-      this.canvasWidth = this.count * this.canvasWidthRelation > 100 ? this.count * this.canvasWidthRelation : 100;
-      this.chartData.labels.push("Label "+this.count);
-      this.chartData.datasets[0].data.push(Math.floor((Math.random() * 100) + 1));
-      this.chartData.datasets[1].data.push(20);
-      this.chartData.datasets[2].data.push(80);
+  addData = (data) => {
+      if(!data) return;
+      this.canvasWidth = this.sensorData.length * this.canvasWidthRelation > 100 ? this.sensorData.length * this.canvasWidthRelation : 100;
+      let date = new Date(data.time);
+      let strDate = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
       this.chartsToDraw.forEach( chart => {
-        this.charts[chart].update();
+        if(this.charts[chart] && this.patientData){
+          let attr = '';
+          let max = null;
+          let min = null;
+          switch(chart){
+            case 'lineChartSPO2':
+              attr = 'spo2';
+              max = this.patientData.getSpo2_max();
+              min = this.patientData.getSpo2_min();
+              break;
+            case 'lineChartPPM':
+              attr = 'ppm';
+              max = this.patientData.getPulse_max();
+              min = this.patientData.getPulse_min();
+              break;
+            case 'lineChartTEMP':
+              attr = 'temp';
+              max = this.patientData.getTemp_max();
+              min = this.patientData.getTemp_min();
+              break;
+          }
+          this.chartData[chart].labels.push(strDate);
+          this.chartData[chart].datasets[0].data.push(data[attr]);
+          this.chartData[chart].datasets[1].data.push(min);
+          this.chartData[chart].datasets[2].data.push(max);
+          this.charts[chart].update();
+        }
       });
-      this.addData();
-    }, 5000);
   }
 
-
-  public chartData = {
-    labels: this.generateLabels(),
-    datasets: [{
-      label: 'Test Data Set',
-      fill: false,
-      data: [],
-      backgroundColor: '#6058FF',
-      borderColor: '#6058FF'
-    },
-    {
-      label: "Min",
-      fill: false,
-      pointRadius: 0,
-      data: []
-    },
-    {
-      label: "Max",
-      fill: false,
-      pointRadius: 0,
-      data: []
-    }]
-  };
-
+  public hasAlarm = status => {
+    return this.globalService.alarmsService.getAlarmsForBed(this.patientData.getId_bed()).filter( a => a.status === status).length > 0;
+  }
 
 }

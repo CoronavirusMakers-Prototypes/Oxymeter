@@ -1,0 +1,16 @@
+{
+    "surname": "Oscar",
+    "lastname": "Leopoldo",
+    "hospital_reference": "Ifema",
+    "suscribed": 1586103005311,
+    "unsuscribed": null,
+    "id_bed": 10,
+    "id_sensor": 453555,
+    "spo2_max": 99,
+    "spo2_min": 90,
+    "pulse_max": 90,
+    "pulse_min": 65,
+    "temp_max": 36.9,
+    "temp_min": 34,
+    "status": 1
+}

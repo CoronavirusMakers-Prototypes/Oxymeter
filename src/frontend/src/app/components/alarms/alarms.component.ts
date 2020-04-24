@@ -1,14 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { GlobalService } from '@app/services/global/global.service';
 import { SocketService } from '@app/services/socket/socket.service';
 import { Subscription } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alarms',
   templateUrl: './alarms.component.html',
   styleUrls: ['./alarms.component.scss']
 })
-export class AlarmsComponent implements OnInit, OnDestroy {
+export class AlarmsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private areaAlarmSubscription: Subscription;
   private roomAlarmSubscription: Subscription;
@@ -44,9 +45,14 @@ export class AlarmsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void{
     this.loadAlarms();
-    this.options.filterValue = 'type';
-    this.options.filterView = 'all';
+    setTimeout(() => {
+      this.options.filterValue = 'type';
+      this.options.filterView = 'all';
+    },100)
   }
 
   loadAlarms(){
