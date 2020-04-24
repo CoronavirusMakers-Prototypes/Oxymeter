@@ -30,5 +30,5 @@ export const mockRoutes = {
     '/alarms/suscriptions/byIdUser/23': '/assets/mocks/alarmsSubscriptionUser1.json', // :id_user
     '/alarms/byIdUser/23': '/assets/mocks/alarmsUser.json', // :id_user
     // '/patients/byIdBed/20': '/assets/mocks/patientData.json', // :id_user
-    '/meassurement/byIdSensor/453555': '/assets/mocks/meassurementsData.json', // :id_sensor
+    // '/meassurement/byIdSensor/453555': '/assets/mocks/meassurementsData.json', // :id_sensor
 }

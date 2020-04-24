@@ -1,27 +1,19 @@
 [
     {
         "id": "1",
-        "id_floor": "1",
-        "id_area": "1",
+        "id_floor": "6",
+        "id_area": "9",
         "id_room": "",
-        "id_user": "1",
+        "id_user": "23",
         "area_desc": "UE7.01",
         "room_desc": ""
     },{
         "id": "2",
-        "id_floor": "1",
-        "id_area": "2",
-        "id_room": "1",
-        "id_user": "1",
+        "id_floor": "6",
+        "id_area": "10",
+        "id_room": "",
+        "id_user": "23",
         "area_desc": "UE7.02",
-        "room_desc": "Hab 1"
-    },{
-        "id": "3",
-        "id_floor": "1",
-        "id_area": "2",
-        "id_room": "2",
-        "id_user": "1",
-        "area_desc": "UE7.02",
-        "room_desc": "Hab 2"
+        "room_desc": ""
     }
 ]
