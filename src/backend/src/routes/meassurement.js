@@ -42,9 +42,9 @@ router.get('/byIdSensor/:id', async (req, res) => {
     if (!check(req.query, ['lastTimestamp'])) {
       throw 'bad request for endpoint, mandatory: lastTimestamp';
     }
-	const lastdate= new Date(parseInt(req.query.lastTimestamp));
+	const lastDate = req.query.lastTimestamp;
   const { id } = req.params;
-	const result = await db.query(queries.meassurement.last100ForSensor, [id, lastdate]);
+	const result = await db.query(queries.meassurement.last100ForSensor, [id, lastDate]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);

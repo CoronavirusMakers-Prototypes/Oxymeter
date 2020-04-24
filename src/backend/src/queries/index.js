@@ -17,7 +17,7 @@ util = {
 meassurement = {
   add: 'INSERT INTO meassurement (spo2, ppm, batt, sequence, sensorid) VALUES ($1, $2, $3, $4, $5) RETURNING id',
   last100ForPatient: 'SELECT meassurement.* FROM meassurement,sensor,patient WHERE patient.id = $1 and sensor.id=patient.id_sensor and meassurement.sensorid=sensor.id and meassurement.time<$2 order by time desc limit 100',
-  last100ForSensor: 'SELECT meassurement.* FROM meassurement WHERE meassurement.sensorid=$1 and meassurement.time<$2 order by time desc limit 100',
+  last100ForSensor: 'SELECT meassurement.* FROM meassurement WHERE meassurement.sensorid=$1 and meassurement.time < to_timestamp($2) order by time desc limit 100',
 }
 
 alarm = {
