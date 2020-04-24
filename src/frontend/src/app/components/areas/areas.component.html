@@ -2,7 +2,7 @@
     <mat-card class="pointer" *ngFor="let area of areas" >
         <div class="d-flex justify-content-around align-items-center">
             <div>
-                <div class="notification-bell inline-block" *ngIf="globalService.alarmsSubscriptionService.isSubscribed(area.id)">
+                <div class="notification-bell inline-block" *ngIf="globalService.alarmsSubscriptionService.isSubscribed(area.id)" [ngClass]="{'active': globalService.alarmsService.socketService.hasActiveAlarmIn(area.id)}">
                     <span class="fa fa-bell margin-r-10-px"></span>
                 </div>
                 {{area.desc}}

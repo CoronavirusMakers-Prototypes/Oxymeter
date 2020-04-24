@@ -201,7 +201,7 @@ export class BedComponent implements OnInit, AfterViewInit {
   public chartData = {
     labels: this.generateLabels(),
     datasets: [{
-      label: "Test Data Set",
+      label: 'Test Data Set',
       fill: false,
       data: [],
       backgroundColor: '#6058FF',

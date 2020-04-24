@@ -99,6 +99,16 @@ export class SocketService {
 
   public getAlarms = () => this.alarms;
 
+  public hasActiveAlarmIn = ( id_area = null, id_room = null, id_bed = null ) => {
+    return this.alarms.find( a => {
+      let result = false;
+      if(id_area){ result = parseInt(a.id_area) === parseInt(id_area) && !a.ack_user; }
+      if(id_room){ result =  parseInt(a.id_room) === parseInt(id_room) && !a.ack_user; }
+      if(id_bed){ result =  parseInt(a.id_bed) === parseInt(id_bed) && !a.ack_user; }
+      return result;
+    })
+  }
+
   public worstStatusAlarms = () => {
     let worst = 0;
     this.alarms.forEach( a => {
