@@ -33,7 +33,7 @@ export class SocketService {
   // MOCKS
   private bedSubscribed = null;
   private firstDelay = 5000;
-  private prob = 700;
+  private prob = 800;
   public sensorDataByIdBed = {};
   public bedSubcriptions = [
     {
@@ -43,8 +43,8 @@ export class SocketService {
       id_area: 9,
       id_room: 8,
       area_desc: 'UE7.01',
-      room_desc: 'Habitación 1',
-      bed_desc: 'Cama 1'
+      room_desc: 'Room 1',
+      bed_desc: 'Bed 1'
     },
     {
       id_patient: 2,
@@ -53,8 +53,8 @@ export class SocketService {
       id_area: 9,
       id_room: 8,
       area_desc: 'UE7.01',
-      room_desc: 'Habitación 1',
-      bed_desc: 'Cama 2'
+      room_desc: 'Room 1',
+      bed_desc: 'Bed 2'
     },
     {
       id_patient: 3,
@@ -63,8 +63,8 @@ export class SocketService {
       id_area: 9,
       id_room: 9,
       area_desc: 'UE7.01',
-      room_desc: 'Habitación 2',
-      bed_desc: 'Cama 1'
+      room_desc: 'Room 2',
+      bed_desc: 'Bed 1'
     },
     {
       id_patient: 4,
@@ -73,8 +73,8 @@ export class SocketService {
       id_area: 9,
       id_room: 10,
       area_desc: 'UE7.01',
-      room_desc: 'Habitación 3',
-      bed_desc: 'Cama 1'
+      room_desc: 'Room 3',
+      bed_desc: 'Bed 1'
     },
     {
       id_patient: 5,
@@ -83,8 +83,8 @@ export class SocketService {
       id_area: 10,
       id_room: 11,
       area_desc: 'UE7.02',
-      room_desc: 'Habitación 1',
-      bed_desc: 'Cama 1'
+      room_desc: 'Room 1',
+      bed_desc: 'Bed 1'
     },
     {
       id_patient: 6,
@@ -93,8 +93,8 @@ export class SocketService {
       id_area: 10,
       id_room: 12,
       area_desc: 'UE7.02',
-      room_desc: 'Habitación 2',
-      bed_desc: 'Cama 1'
+      room_desc: 'Room 2',
+      bed_desc: 'Bed 1'
     }
   ];
   // FIN MOCKS
@@ -172,7 +172,7 @@ export class SocketService {
       }
     }
     if(!time && prob > this.prob){
-      this.prob = this.prob + 150 < 900 ? this.prob+100 : 990;
+      this.prob = this.prob + 70 < 900 ? this.prob+70 : 990;
       result.alarm = true;
       if(result.type === 1){ // ppm
         result.data.ppm = Math.floor(Math.random() * ((max.ppm + 20) - max.ppm+1)) + max.ppm+1

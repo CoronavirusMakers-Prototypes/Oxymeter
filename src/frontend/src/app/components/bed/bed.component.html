@@ -6,27 +6,27 @@
       <mat-panel-title>
         {{ "pages.bed.patient-data" | translate }}
       </mat-panel-title>
-      <mat-panel-description class="notification-bell active d-flex justify-content-end align-items-center">
-        <span class="fa fa-heartbeat" title="Alarma ppm" [hidden]="!hasAlarm(1)"></span>
-        <span class="fa fa-cloud" title="Alarma spo2" [hidden]="!hasAlarm(2)"></span>
-        <span class="fa fa-thermometer-full" title="Alarma temp" [hidden]="!hasAlarm(3)"></span>
+      <mat-panel-description class="notification-bell active d-flex justify-content-end align-items-center  padding-r-10-px">
+        <span class="fa fa-heartbeat" title="Ppm alarm" [hidden]="!hasAlarm(1)"></span>
+        <span class="fa fa-cloud" title="Spo2 alarm" [hidden]="!hasAlarm(2)"></span>
+        <span class="fa fa-thermometer-full" title="Temp alarm" [hidden]="!hasAlarm(3)"></span>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
     <div class="w-100 d-flex justify-content-between">
       <mat-form-field class="w-45">
-        <mat-label>Nombre</mat-label>
+        <mat-label>{{ 'pages.bed.surname' | translate }}</mat-label>
         <input matInput [value]="patientData.surname"/>
       </mat-form-field> 
       <mat-form-field class="w-45">
-        <mat-label>Apellidos</mat-label>
+        <mat-label>{{ 'pages.bed.lastname' | translate }}</mat-label>
         <input matInput [value]="patientData.lastname"/>
       </mat-form-field> 
     </div>
 
     <div class="w-100 d-flex justify-content-between">
       <mat-form-field class="w-45">
-        <mat-label>Hospital de referencia</mat-label>
+        <mat-label>{{ 'pages.bed.hospitalReference' | translate }}</mat-label>
         <input matInput [value]="patientData.hospital_reference"/>
       </mat-form-field> 
       <div class="w-45"></div>
@@ -39,7 +39,7 @@
       <mat-panel-title>
         {{ "pages.bed.sensor-configuration" | translate }}
       </mat-panel-title>
-      <mat-panel-description class="d-flex justify-content-end align-items-center notification-bell active" *ngIf="sensorData && sensorData.length > 0 && sensorData[sensorData.length-1]">
+      <mat-panel-description class="d-flex justify-content-end align-items-center notification-bell active padding-r-10-px" *ngIf="sensorData && sensorData.length > 0 && sensorData[sensorData.length-1]">
         <span class="fa fa-battery-4" [title]="sensorData[sensorData.length-1]['batt']+'%'" [hidden]="sensorData[sensorData.length-1]['batt'] <= 75"></span>
         <span class="fa fa-battery-3" [title]="sensorData[sensorData.length-1]['batt']+'%'" [hidden]="sensorData[sensorData.length-1]['batt'] <= 50 || sensorData[sensorData.length-1]['batt'] > 75"></span>
         <span class="fa fa-battery-2" [title]="sensorData[sensorData.length-1]['batt']+'%'" [hidden]="sensorData[sensorData.length-1]['batt'] <= 25 || sensorData[sensorData.length-1]['batt'] > 50"></span>
@@ -109,7 +109,7 @@
   </mat-card>
 
   <mat-card class="mat-card-chart">
-    <h2>Temperatura</h2>
+    <h2>{{ 'pages.bed.temperature' | translate }}</h2>
     <div class="global-chart-wrapper">
       <div class="chart-wrapper">
         <div class="canvas-wrapper" style="position: relative; height: 300px" [style.width.%]="canvasWidth">
@@ -121,7 +121,3 @@
     </div>
   </mat-card>
 </section>
-
-<!-- 
-  https://jsfiddle.net/EmmaLouise/eb1aqpx8/3/
--->

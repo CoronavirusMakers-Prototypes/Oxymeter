@@ -1,0 +1,114 @@
+{
+  "title": "VitalOx",
+  "smallTitle": "VitalOx",
+  "common": {
+    "no": "No",
+    "yes": "Yes",
+    "create": "Create",
+    "save": "Save",
+    "close": "Close",
+    "cancel": "Cancel",
+    "go-to-registration": "Sign in",
+    "username": "User identifier",
+    "password": "Password",
+    "rpassword": "Repeat password",
+    "surname": "Surnane",
+    "lastname": "Lastname",
+    "professional_id": "Professional identifier",
+    "hospital": "Hospital",
+    "logout": "Close session",
+    "home": "Home",
+    "building": "Building",
+    "floor": "Floor",
+    "area": "Area",
+    "room": "Room",
+    "alarms": "Alarms",
+    "subscribe": "Subscribe",
+    "unsubscribe": "Delete subscr.",
+    "view-area": "Watch area",
+    "view-room": "Watch room",
+    "thanks": "Thanks!!",
+    "options": "Options",
+    "description": "Descripction",
+    "sessionExpired": "Sorry, your session has expired"
+  },
+  "actions": {
+    "addHospital": "Add hospital",
+    "addBuilding": "Add building",
+    "addFloor": "Add floor",
+    "addArea": "Add area",
+    "addRoom": "Add room",
+    "addBed": "Add bed",
+    "addPacient": "Add patient",
+    "quitPacient": "Remove patient",
+    "addSensor": "Add sensor"
+  },
+  "pages": {
+    "login": {
+      "login": "Login",
+      "login-action": "Login",
+      "username": "User identifier",
+      "password": "Password",
+      "passwords-must-match": "Passwords don't match",
+      "passwords-min-length": "Min length 6 characters"
+    },
+    "registration": {
+      "registration": "Sign in",
+      "registration-action": "Sign in"
+    },
+    "footer": {
+      "powered-by": "Powered by",
+      "from-people-to-people": "From peoople to people"
+    },
+    "about":{
+      "about": "About us",
+      "text": "Coronavirus Makers oxymeter project<br/><br/>The project tries to solve the shortage of sanitary means after the pandemic caused by the COVID-19 virus.<br/><br/>In this project we try to develop a pulse oximeter or modify a commercial one, so that it can allow continuous patient monitoring.<br/><br/>The hardware is low cost and accessible from any electronics provider. The software can be installed on any Linux server.<br/><br/>All development work has been done by the selfless work of volunteers since March 27, 2020.<br/><br/>"
+    },
+    "profile": {
+      "profile": "Profile"
+    },
+    "areas":{
+      "subscriptions-in-rooms": "There're room's subscriptions"
+    },
+    "bed": {
+      "patient-data": "Patient data",
+      "sensor-configuration": "Sensor configuration",
+      "sensor-configuration-desc": "Alarm's emission params",
+      "surname": "Surname",
+      "lastname": "Lastname",
+      "temperature": "Temperature",
+      "hospitalReference": "Reference hospital"
+    },
+    "alarms": {
+      "sound-on": "Activate sound",
+      "sound-off": "Turn off sound",
+      "all": "All alarms",
+      "show-not-views": "Unanswered alarms",
+      "show-views": "Answered alarms",
+      "importance": "Importance",
+      "type": "Type",
+      "newers": "Newers",
+      "olders": "Olders",
+      "show": "Show",
+      "order-by": "Order by",
+      "filter-by": "Filter by",
+      "group-by": "Group by",
+      "ubication": "Ubication",
+      "group-by-area": "Show of area",
+      "group-by-room": "Show of room",
+      "attended": "Answered",
+      "not-attended": "Unanswered",
+      "view-pacient": "Watch patient",
+      "no-alarms-to-show": "There aren't visible alarms. If you have applied any filters, reset them."
+    }
+  },
+  "alerts": {
+    "notifications-not-supported": "This browser does not support notifications, the use of Chrome is recommended.",
+    "ask-for-notifications-permission": "You have not yet granted permissions to send you notifications. These will alert you to possible alarms. Do you want to allow notifications?",
+    "service-wrokers-not-supported": "This browser does not support notifications if you close the tab or the browser, so it is recommended not to close this window.",
+    "there-are-not-zone-subscriptions": "You have not yet subscribed to any hospital area or room. Select the building and the floor, then you can subscribe to the alerts of all the rooms in the different areas or select specific rooms."
+  },
+  "error": {
+    "server-error": "Sorry, there was an unexpected error. Try it again later." 
+  }
+}

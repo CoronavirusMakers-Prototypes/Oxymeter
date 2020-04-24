@@ -73,7 +73,11 @@
     "bed": {
       "patient-data": "Datos del paciente",
       "sensor-configuration": "Conf. sensor",
-      "sensor-configuration-desc": "Parámetros para la emisión de alertas"
+      "sensor-configuration-desc": "Parámetros para la emisión de alertas",
+      "surname": "Nombre",
+      "lastname": "Apellido",
+      "temperature": "Temperatura",
+      "hospitalReference": "Hospital de referencia"
     },
     "alarms": {
       "sound-on": "Activar sonido",
