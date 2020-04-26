@@ -13,18 +13,18 @@ const fileTransport = new (winston.transports.DailyRotateFile)({
   maxSize: '20m',
   maxFiles: '14d',
   format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
-    ),
+            winston.format.timestamp(),
+            winston.format.json(),
+          ),
 });
 
 const consoleTransport = new winston.transports.Console({
       level: `${config.get('logger.level.console')}`,
       format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.timestamp(),
-        winston.format.simple(),
-      ),
+                winston.format.colorize(),
+                winston.format.timestamp(),
+                winston.format.simple(),
+              ),
 });
 
 const logger = winston.createLogger({

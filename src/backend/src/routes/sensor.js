@@ -8,7 +8,7 @@ const { check }  = require('./../util/requestChecker');
 const router   = new Router();
 module.exports = router;
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     if (!check(req.body, ['type', 'auth_id'])) {
       throw 'bad request for endpoint, mandatory: type, auth_id';
@@ -18,22 +18,22 @@ router.post('/', async (req, res) => {
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     await db.query(queries.sensor.delete,[id]);
     res.status(200).send({deleted: id});
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const { id } = req.params;
     var   page   = req.query.page;
@@ -71,22 +71,22 @@ router.get('/', async (req, res) => {
     res.status(200).send(JSON.stringify(response));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await db.query(queries.sensor.getById, [id]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
   try {
     if (!check(req.body, ['type', 'auth_id'])) {
       throw 'bad request for endpoint, mandatory: type, auth_id';
@@ -96,6 +96,6 @@ router.put('/:id', async (req, res) => {
     res.status(200).send({updated: id});
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 });
