@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AlarmsSubscriptionService } from '@services/byFuncionality/alarms-subscription.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { AlarmsService } from '@app/services/byFuncionality/alarms.service';
 
 @Component({
   selector: 'app-notifications',
@@ -20,19 +21,21 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   // TODO: si supera una longitud quitar alguna
 
-  constructor( private alarmService: AlarmsSubscriptionService, private router: Router) {
-    this.areaAlarmSubscription = alarmService.socketService.alarmAreaEvent$.subscribe( value => {
-      if(value){ 
-        this.alarms.push(value); 
+  constructor( private alarmSubService: AlarmsSubscriptionService, private alarmService: AlarmsService, private router: Router) {
+    this.areaAlarmSubscription = alarmSubService.socketService.alarmAreaEvent$.subscribe( value => {
+      if(value){
+        this.alarmService.addAlarm(value);
+        this.alarms.push(value);
         if(this.alarms.length > this.maxAlarmsShown){
           this.forceRemove();
         }
       }
       if(this.alarms.length === 1){ this.removeAlarm(); }
     })
-    this.roomAlarmSubscription = alarmService.socketService.alarmRoomEvent$.subscribe( value => {
-      if(value){ 
-        this.alarms.push(value); 
+    this.roomAlarmSubscription = alarmSubService.socketService.alarmRoomEvent$.subscribe( value => {
+      if(value){
+        this.alarmService.addAlarm(value);
+        this.alarms.push(value);
         if(this.alarms.length > this.maxAlarmsShown){
           this.forceRemove();
         }
@@ -85,7 +88,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   getGeneralAlarmClass = () => {
-    const status = this.alarmService.socketService.worstStatusAlarms();
+    const status = this.alarmSubService.socketService.worstStatusAlarms();
     let classes = '';
     if(status){
       classes = 'active';

@@ -86,6 +86,8 @@ export class AlarmsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setRoomsToFilter = () => this.roomsToFilter = this.rooms[this.options.groupArea];
 
+  getAlarmsStatus = al => [...al.status];
+
   getAlarmIcon = (status) => {
     let icon = '';
     switch(parseInt(status)){
@@ -112,7 +114,15 @@ export class AlarmsComponent implements OnInit, OnDestroy, AfterViewInit {
             parseInt(a.id_bed) === parseInt(alarm.id_bed);
     });
     if(alarmFoundIndex >= 0){
-      this.alarms.splice(alarmFoundIndex, 1, alarm);
+      // Add status to alarm
+      const al = this.alarms[alarmFoundIndex];
+      if (al.status && Array.isArray(al.status) && al.status.indexOf(alarm.status) === -1){
+        al.status.push(alarm.status)
+      }else if(!Array.isArray(al.status)){
+        const arr = [al.status, alarm.status];
+        al.status = arr;
+      }
+      // this.alarms.splice(alarmFoundIndex, 1, alarm);
     }else{
       this.addAlarm(alarm);
     }

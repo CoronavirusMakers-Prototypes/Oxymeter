@@ -20,14 +20,21 @@ export class AlarmsService {
     this.localData = [];
   }
 
+  public addAlarm = alarm => {
+    this.localData.push(alarm);
+    localStorage.setItem(this.KEY, JSON.stringify(this.localData));
+  }
+
   public loadData = () => {
     const localData: any = localStorage.getItem(this.KEY);
     if (localData && localData !== '[object Object]') {
       this.localData = JSON.parse(localData);
+      this.socketService.addAlarms(this.localData);
     }else if(this.userId){
       this.initData();
       this.getAlarmsForUser().then( results => {
         this.localData = results;
+        this.socketService.addAlarms(results);
         localStorage.setItem(this.KEY, JSON.stringify(this.localData));
       })
     }

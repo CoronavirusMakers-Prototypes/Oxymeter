@@ -24,7 +24,6 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
   public sensorData = [];
   private bedSubscription: Subscription;
 
-  
   public chartData = {
     lineChartSPO2: {
       labels: [],
@@ -36,13 +35,13 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
         borderColor: '#6058FF'
       },
       {
-        label: "Min",
+        label: 'Min',
         fill: false,
         pointRadius: 0,
         data: []
       },
       {
-        label: "Max",
+        label: 'Max',
         fill: false,
         pointRadius: 0,
         data: []
@@ -58,13 +57,13 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
         borderColor: '#6058FF'
       },
       {
-        label: "Min",
+        label: 'Min',
         fill: false,
         pointRadius: 0,
         data: []
       },
       {
-        label: "Max",
+        label: 'Max',
         fill: false,
         pointRadius: 0,
         data: []
@@ -80,13 +79,13 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
         borderColor: '#6058FF'
       },
       {
-        label: "Min",
+        label: 'Min',
         fill: false,
         pointRadius: 0,
         data: []
       },
       {
-        label: "Max",
+        label: 'Max',
         fill: false,
         pointRadius: 0,
         data: []
@@ -119,7 +118,6 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void{
-    this.globalService.alarmsService.socketService.unSubscribeToBed();   
     this.bedSubscription.unsubscribe();
   }
 
@@ -188,8 +186,10 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
       this.patientData = data;
       this.waitingForServices();
       if(data.getId_bed()){
-        this.globalService.alarmsService.socketService.subscribeToBed(data.getId_bed());       
-        this.sensorData = this.globalService.alarmsService.socketService.getLastDataForBed(data.getId_bed());
+        // TODO subscribe to bed
+        // this.globalService.alarmsService.socketService.subscribeToBed(data.getId_bed());
+        // TODO get meassurements
+        // this.sensorData = this.globalService.alarmsService.socketService.getLastDataForBed(data.getId_bed());
         this.sensorData.forEach( data => {
           this.addData(data);
         });
@@ -216,11 +216,11 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.lineChartCanvasSet[id]) {
       const chartTest = this.charts[id];
       const scale = window.devicePixelRatio;
-      let sourceCanvas = chartTest.chart.canvas;
-      let copyWidth = chartTest.scales['y-axis-0'].width - 2;
-      let copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
-      let target: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id+"yaxe");
-      let targetCtx = target.getContext("2d");
+      const sourceCanvas = chartTest.chart.canvas;
+      const copyWidth = chartTest.scales['y-axis-0'].width - 2;
+      const copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
+      const target: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id+'yaxe');
+      const targetCtx = target.getContext('2d');
 
       targetCtx.scale(scale, scale);
       targetCtx.canvas.width = copyWidth * scale;
@@ -230,7 +230,7 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
       targetCtx.canvas.style.height = `${copyHeight}px`;
       targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth * scale, copyHeight * scale, 0, 0, copyWidth * scale, copyHeight * scale);
 
-      let sourceCtx = sourceCanvas.getContext('2d');
+      const sourceCtx = sourceCanvas.getContext('2d');
 
       sourceCtx.clearRect(0, 0, copyWidth * scale, copyHeight * scale);
       this.lineChartCanvasSet[id] = true;
@@ -240,9 +240,9 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
   public lineChartProgress = (id) => {
     if (this.lineChartCanvasSet[id] === true) {
       const chartTest = this.charts[id];
-      var copyWidth = chartTest.scales['y-axis-0'].width;
-      var copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
-      var sourceCtx = chartTest.chart.canvas.getContext('2d');
+      const copyWidth = chartTest.scales['y-axis-0'].width;
+      const copyHeight = chartTest.scales['y-axis-0'].height + chartTest.scales['y-axis-0'].top + 10;
+      const sourceCtx = chartTest.chart.canvas.getContext('2d');
       sourceCtx.clearRect(0, 0, copyWidth, copyHeight);
     }
   }

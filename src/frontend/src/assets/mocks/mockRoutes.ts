@@ -27,13 +27,13 @@ export const mockRoutes = {
     // '/beds/byIdRoom/1': '/assets/mocks/bedsIfema.json', // :id_room
     // '/beds/byIdRoom/2': '/assets/mocks/bedsIfema.json',
     // '/beds/byIdRoom/3': '/assets/mocks/bedsIfema.json',
-    '/alarms/suscriptions/byIdUser/23': '/assets/mocks/alarmsSubscriptionUser1.json', // :id_user
-    '/alarms/byIdUser/23': '/assets/mocks/alarmsUser.json', // :id_user
-    '/patients/byIdBed/6': '/assets/mocks/patientData1.json', // :id_user
-    '/patients/byIdBed/7': '/assets/mocks/patientData2.json', // :id_user
-    '/patients/byIdBed/8': '/assets/mocks/patientData3.json', // :id_user
-    '/patients/byIdBed/9': '/assets/mocks/patientData4.json', // :id_user
-    '/patients/byIdBed/10': '/assets/mocks/patientData5.json', // :id_user
-    '/patients/byIdBed/11': '/assets/mocks/patientData6.json', // :id_user
+    // '/alarms/suscriptions/byIdUser/23': '/assets/mocks/alarmsSubscriptionUser1.json', // :id_user
+    // '/alarms/byIdUser/23': '/assets/mocks/alarmsUser.json', // :id_user
+    // '/patients/byIdBed/6': '/assets/mocks/patientData1.json', // :id_user
+    // '/patients/byIdBed/7': '/assets/mocks/patientData2.json', // :id_user
+    // '/patients/byIdBed/8': '/assets/mocks/patientData3.json', // :id_user
+    // '/patients/byIdBed/9': '/assets/mocks/patientData4.json', // :id_user
+    // '/patients/byIdBed/10': '/assets/mocks/patientData5.json', // :id_user
+    // '/patients/byIdBed/11': '/assets/mocks/patientData6.json', // :id_user
     // '/meassurement/byIdSensor/453555': '/assets/mocks/meassurementsData.json', // :id_sensor
 }

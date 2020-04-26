@@ -55,7 +55,7 @@
     </mat-expansion-panel>
     <section *ngIf="globalService.alarmsSubscriptionService.hasAnySubscription()" class="cards-wrapper w-100 d-flex justify-content-center flex-wrap">
         <mat-card *ngFor="let alarm of alarmsToShow" class="notification-bell" [ngClass]="{'active': !alarm.ack_user}">
-            <span class="fa margin-r-10-px" [ngClass]="getAlarmIcon(alarm.status)"></span>
+            <span class="fa margin-r-5-px" *ngFor="let status of getAlarmsStatus(alarm)" [ngClass]="getAlarmIcon(status)" ></span>
             <span class="text">
                 {{alarm.area_desc}} - {{alarm.room_desc}} - {{alarm.bed_desc}} - {{alarm.date | date:'dd/MM HH:mm '}}
             </span>

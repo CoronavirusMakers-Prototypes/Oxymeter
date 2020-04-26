@@ -1,6 +1,7 @@
-<section
-  class="bed-wrapper animated fadeInLeft d-flex justify-content-between align-items-center flex-wrap"
->
+<section class="bed-wrapper animated fadeInLeft d-flex justify-content-between align-items-center flex-wrap" *ngIf="!patientData">
+  
+</section>
+<section class="bed-wrapper animated fadeInLeft d-flex justify-content-between align-items-center flex-wrap" *ngIf="patientData">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
