@@ -31,13 +31,13 @@ router.post('/', async (req, res) => {
     }
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    res.status(500).send('Error processing metric');
   } finally {
     res.status(200).send('ok');
   }
 });
 
-router.get('/byIdSensor/:id', async (req, res) => {
+router.get('/byIdSensor/:id', async (req, res, next) => {
   try {
     if (!check(req.query, ['lastTimestamp'])) {
       throw 'bad request for endpoint, mandatory: lastTimestamp';
@@ -52,12 +52,12 @@ router.get('/byIdSensor/:id', async (req, res) => {
      res.status(200).send(JSON.stringify(response));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 });
 
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
     if (!check(req.query, ['lastTimestamp'])) {
       throw 'bad request for endpoint, mandatory: lastTimestamp';
@@ -65,6 +65,6 @@ router.get('/:id', async (req, res) => {
     res.status(200).send('Not yet implemented ' + new Date(parseInt(req.query.lastTimestamp)));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 });

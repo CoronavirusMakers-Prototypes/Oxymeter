@@ -8,7 +8,7 @@ const { check }  = require('./../util/requestChecker');
 const router   = new Router();
 module.exports = router;
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   try {
     if (!check(req.body, ['id_patient', 'id_sensor', 'ack_user', 'ack_date', 'status', 'id_bed'])) {
       throw 'bad request for endpoint: date, id_patient, id_sensor, ack_user, ack_date, status, id_bed';
@@ -19,23 +19,23 @@ router.post('/', async (req, res) => {
     res.status(200).send(JSON.stringify(req.body));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.get('/byIdUser/:id', async (req, res) => {
+router.get('/byIdUser/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await db.query(queries.alarm.activeByUserId, [id]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
 
-router.post('/suscriptions', async (req, res) => {
+router.post('/suscriptions', async (req, res, next) => {
     try {
       if (!check(req.body, ['id_user', 'id_area', 'id_floor'])) {
         throw 'bad request for endpoint, mandatory: id_user, id_area, id_floor';
@@ -48,96 +48,89 @@ router.post('/suscriptions', async (req, res) => {
       res.status(200).send(JSON.stringify(result.rows));
     } catch (e) {
       logger.error(e);
-      res.status(500).send(e);
+      next(e);
     }
 })
 
-router.get('/suscriptions/byIdUser/:id', async (req, res) => {
+router.get('/suscriptions/byIdUser/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await db.query(queries.personal_alarm_suscriptions.byIdUser, [id]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     await db.query(queries.alarm.delete,[id]);
     res.status(200).send({deleted: id});
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.delete('/suscriptions/:id', async (req, res) => {
+router.delete('/suscriptions/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     await db.query(queries.personal_alarm_suscription.delete,[id]);
     res.status(200).send({deleted: id});
   } catch (e) {
-    console.log(typeof e);
-    console.log(e.stack);
-    console.log(Object.keys(e));
-    for (var k in e) {
-      console.log(k);
-      console.log(`${k}: ${e[k]}`);
-    }
-    logger.error(e.stack);
-    res.status(500).send(e.stack);
+    logger.error(e);
+    next(e);
   }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await db.query(queries.alarm.read);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.get('/suscriptions/', async (req, res) => {
+router.get('/suscriptions/', async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await db.query(queries.personal_alarm_suscriptions.read);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await db.query(queries.alarm.getById, [id]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.get('/suscriptions/:id', async (req, res) => {
+router.get('/suscriptions/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await db.query(queries.personal_alarm_suscriptions.getById, [id]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
   try {
     if (!check(req.body, ['id_patient', 'id_sensor', 'ack_user', 'ack_date', 'status', 'id_bed'])) {
       throw 'bad request for endpoint: id_patient, id_sensor, ack_user, ack_date, status, id_bed';
@@ -147,11 +140,11 @@ router.put('/:id', async (req, res) => {
     res.status(200).send({updated: id});
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.put('/suscriptions/:id', async (req, res) => {
+router.put('/suscriptions/:id', async (req, res, next) => {
   try {
     if (!check(req.body, ['id_user', 'id_room', 'id_area', 'id_floor'])) {
       throw 'bad request for endpoint, mandatory: id_user, id_room, id_area, id_floor';
@@ -161,6 +154,6 @@ router.put('/suscriptions/:id', async (req, res) => {
     res.status(200).send({updated: parseInt(id)});
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })

@@ -10,7 +10,7 @@ const { jwtGen } = require('./../controllers/jwtController');
 const router   = new Router();
 module.exports = router;
 
-router.post('/signin', async (req, res) => {
+router.post('/signin', async (req, res, next) => {
   try {
     if (!check(req.body, ['surname', 'lastname', 'professional_id', 'login', 'password', 'id_hospital'])) {
       throw 'bad request for endpoint, mandatory: surname, lastname, professional_id, login, password, id_hospital';
@@ -28,11 +28,11 @@ router.post('/signin', async (req, res) => {
     res.status(200).send(JSON.stringify(userResponse));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   try {
     if (!check(req.body, ['login', 'password'])) {
       throw 'bad request for endpoint, mandatory: login, password';
@@ -54,11 +54,11 @@ router.post('/login', async (req, res) => {
     res.status(200).send(JSON.stringify(userResponse));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.post('/logout', async (req, res) => {
+router.post('/logout', async (req, res, next) => {
   try {
     if (!check(req.body, ['login', 'id'])) {
       throw 'bad request for endpoint, mandatory: login';
@@ -67,22 +67,22 @@ router.post('/logout', async (req, res) => {
     res.status(200).send(`User ${req.body.login} logout.`);
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     await db.query(queries.personal.delete,[id]);
     res.status(200).send({deleted: id});
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
     const { id } = req.params;
     const offset = req.query.offset;
@@ -90,22 +90,22 @@ router.get('/', async (req, res) => {
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await db.query(queries.personal.getById, [id]);
     res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
-    res.status(500).send(e);
+    next(e);
   }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
   try {
     if (!check(req.body, ['surname', 'lastname', 'professional_id', 'last_login', 'id_role', 'login', 'password', 'id_hospital'])) {
       throw 'bad request for endpoint, mandatory: surname, lastname, professional_id, last_login, id_role, login, password, id_hospital';
