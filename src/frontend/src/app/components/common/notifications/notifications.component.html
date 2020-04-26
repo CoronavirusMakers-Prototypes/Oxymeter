@@ -1,1 +1,7 @@
-<div class="notification-bell in-circle active critical" routerLink="/alarms"><span class="fa fa-bell"></span></div>
+<div class="notifications-list">
+    <mat-card *ngFor="let al of alarms.reverse(); let i = index" class="notification-bell animated fadeInRight active pointer"  (click)="closeAndGo(i, al.id_bed)">
+        <span class="text">{{al.area_desc}} - {{ al.room_desc}}</span>
+        <span class="fa margin-r-10-px" [ngClass]="getAlarmIcon(al.status)"></span>
+    </mat-card>
+</div>
+<div class="notification-bell in-circle" [ngClass]="getGeneralAlarmClass()" routerLink="/alarms"><span class="fa fa-bell"></span></div>

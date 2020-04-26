@@ -2,22 +2,22 @@ export class User {
   private id: string;
   private surname: string;
   private lastname: string;
-  private professionalId: string;
+  private professional_id: string;
   private lastLogin: number;
   private role: string;
   private login: string;
-  private idHospital: string;
+  private id_hospital: string;
 
   constructor(obj?) {
     if (obj) {
       this.id = obj.id;
       this.surname = obj.surname;
       this.lastname = obj.lastname;
-      this.professionalId = obj.professionalId;
+      this.professional_id = obj.professional_id;
       this.lastLogin = obj.lastLogin;
       this.role = obj.role;
       this.login = obj.login;
-      this.idHospital = obj.idHospital;
+      this.id_hospital = obj.id_hospital;
     }
   }
 
@@ -46,11 +46,11 @@ export class User {
   }
 
   public getProfessionalId(): string {
-    return this.professionalId;
+    return this.professional_id;
   }
 
-  public setProfessionalId(professionalId: string): void {
-    this.professionalId = professionalId;
+  public setProfessionalId(professional_id: string): void {
+    this.professional_id = professional_id;
   }
 
   public getLastLogin(): number {
@@ -78,11 +78,11 @@ export class User {
   }
 
   public getIdHospital(): string {
-    return this.idHospital;
+    return this.id_hospital;
   }
 
-  public setIdHospital(idHospital: string): void {
-    this.idHospital = idHospital;
+  public setIdHospital(id_hospital: string): void {
+    this.id_hospital = id_hospital;
   }
 
   public getObject(): any {
@@ -90,11 +90,11 @@ export class User {
       id: this.id,
       surname: this.surname,
       lastname: this.lastname,
-      professionalId: this.professionalId,
+      professional_id: this.professional_id,
       lastLogin: this.lastLogin,
       role: this.role,
       login: this.login,
-      idHospital: this.idHospital
+      id_hospital: this.id_hospital
     };
     return userData;
   }

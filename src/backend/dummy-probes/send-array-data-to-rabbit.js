@@ -9,10 +9,11 @@ amqp.connect('amqp://vitalox:vitalox@localhost:5672', function(error0, connectio
       throw error1;
     }
 
-    const dummyProbeMsg = [{"spo2": 322, "ppm": 226, "sequence": "1984", "batt":"23", "auth_id": "f00b4r" },
-                          {"spo2": 22, "ppm": 16, "sequence": "1985", "batt":"3", "auth_id": "f00b4rBoo" }]
+    const dummyProbeMsg = [{"spo2": 2, "ppm": 26, "sequence": "1984", "batt":"23", "auth_id": "f00booBar", "id": 1 },
+                           {"spo2": 22, "ppm": 25, "sequence": "1985", "batt":"23", "auth_id": "f00booBar2", "id": 2 },
+                           {"spo2": 32, "ppm": 24, "sequence": "1986", "batt":"23", "auth_id": "f00booBar3", "id": 3 }];
 
-    const queue = 'open-vitalox-0';
+    const queue = 'data-open-vitalox-0';
     var msg = JSON.stringify(dummyProbeMsg)
 
     channel.assertQueue(queue, {

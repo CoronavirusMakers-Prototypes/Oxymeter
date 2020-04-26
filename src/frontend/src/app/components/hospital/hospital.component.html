@@ -2,4 +2,8 @@
     <mat-card class="pointer" *ngFor="let building of buildings" routerLink="/building/{{building.id}}" (click)="globalService.setBuilding(building)">
         {{building.desc}}
     </mat-card>
+    <button mat-raised-button (click)="addBuilding()" *ngIf="globalService.authService.hasPermission('editHospitalStructure')">
+        <span class="pointer padding-r-10-px fa fa-plus"></span>
+        <span>{{'actions.addBuilding' | translate}}</span>
+    </button>
 </section>

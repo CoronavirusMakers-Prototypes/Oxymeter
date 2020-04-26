@@ -4,10 +4,10 @@
         "id": "1",
         "surname": "Marcos",
         "lastname": "González",
-        "professionalId": "x34522",
+        "professional_id": "x34522",
         "lastLogin": 1585681143878,
         "role": "admin",
         "login": "x34522",
-        "idHospital": 1 
+        "id_hospital": 1 
     }
 }

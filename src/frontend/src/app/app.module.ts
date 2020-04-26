@@ -9,6 +9,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { PerfilComponent } from '@components/perfil/perfil.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -44,6 +45,9 @@ import { AreasComponent } from './components/areas/areas.component';
 import { RoomsComponent } from './components/rooms/rooms.component';
 import { BedsComponent } from './components/beds/beds.component';
 import { AlarmsComponent } from './components/alarms/alarms.component';
+import { ChartsModule } from 'ng2-charts';
+import { FormDialogComponent } from './components/common/form-dialog/form-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -65,6 +69,7 @@ import { AlarmsComponent } from './components/alarms/alarms.component';
     RoomsComponent,
     BedsComponent,
     AlarmsComponent,
+    FormDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +93,7 @@ import { AlarmsComponent } from './components/alarms/alarms.component';
     MatFormFieldModule,
     MatSelectModule,
     MatMenuModule,
+    MatCheckboxModule,
     FormsModule,
     MatDialogModule,
     ReactiveFormsModule,
@@ -98,7 +104,8 @@ import { AlarmsComponent } from './components/alarms/alarms.component';
       primaryColour: '#fff', 
       secondaryColour: '#fff', 
       tertiaryColour: '#fff'
-    })
+    }),
+    ChartsModule
   ],
   providers: [
     SocketService,

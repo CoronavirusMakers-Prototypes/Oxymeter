@@ -1,0 +1,17 @@
+
+<div mat-dialog-content>
+    <h2>{{title | translate}}</h2>
+    <div *ngIf="type === 'simple'" class="w-100 d-flex justify-content-around">
+        <form>
+            <div>
+                <mat-form-field>
+                    <input matInput placeholder="{{ 'common.description' | translate}}" [formControl]="formData.description" [errorStateMatcher]="matcher" name="desciption" required>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button class="botones" (click)="onNoClick()"><span class="fa fa-times" ></span>{{ 'common.cancel' | translate}}</button>
+    <button mat-button class="botones" (click)="save()"><span class="fa fa-save" ></span>{{ 'common.save' | translate}}</button>
+</div>

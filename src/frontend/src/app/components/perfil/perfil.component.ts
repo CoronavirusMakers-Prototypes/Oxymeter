@@ -12,7 +12,7 @@ export class PerfilComponent implements OnInit {
   constructor( public globalService: GlobalService,
                public router: Router) {
     if (!globalService.authService.getRole()){
-      router.navigate([`/hospital`]);
+      router.navigate([`/alarms`]);
     }
   }
 

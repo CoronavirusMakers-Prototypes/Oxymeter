@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
-  FormGroupDirective,
-  NgForm,
   Validators
 } from '@angular/forms';
 import { MyErrorStateMatcher } from '@class/MyErrosStateMatcher';
@@ -38,11 +36,16 @@ export class LoginComponent implements OnInit {
     this.globalService.authService.login(this.formData.login.value, this.formData.password.value).then( result => {
       this.globalService.setLoading(false);
       if (result && result.getId()){
-         this.router.navigate([`/alarms`]);
+        this.globalService.alarmsService.setUserId(result.getId());
+        this.globalService.alarmsSubscriptionService.setUserId(result.getId());
+        this.router.navigate([`/alarms`]);
       }
     }).catch(error => {
       console.log(error);
+      this.globalService.setLoading(false);
+      this.globalService.utils.openSimpleDialog('error.server-error')
     });
+
   }
 
 }

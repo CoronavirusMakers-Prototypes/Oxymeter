@@ -1,6 +1,6 @@
 const amqp       = require('amqplib');
-const { logger } = require('./../../util/logger')
-const config     = require('config')
+const { logger } = require('./../../util/logger');
+const config     = require('config');
 
 const { processPayloadFromProbes } = require('./../../controllers/meassurementController');
 
@@ -11,7 +11,6 @@ let instance = null;
 // Dealing with rabbitmq instance to send mesasge
 class RabbitAlarmSender {
   async init() {
-    console.log(rabbitmqURL);
     this.connection = await amqp.connect(rabbitmqURL);
     this.channel    = await this.connection.createChannel();
     return this;
@@ -22,7 +21,7 @@ class RabbitAlarmSender {
       await this.init();
     }
     // we want the sended alarms will remind over broker restarts
-    await this.channel.assertQueue(queue, {durable: true});
+    await this.channel.assertQueue(queue, {durable: true}); // TODO: configurable
     this.channel.sendToQueue(queue, Buffer.from(alarmMessage))
   }
 

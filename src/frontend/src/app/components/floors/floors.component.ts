@@ -16,11 +16,35 @@ export class FloorsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getFloors();
+  }
+
+  getFloors = () => {
+    this.globalService.setLoading(true);
     this.globalService.hospitalService.getFloors(this.paramId).then(results => {
+      this.globalService.setLoading(false);
       this.floors = results;
     }).catch(e => {
+      this.globalService.setLoading(false);
       this.globalService.utils.openSimpleDialog('error.server-error');
     });
+
+  }
+
+  addFloor = () => {
+    this.globalService.utils.openFormDialog(null, 'actions.addFloor').then(result => {
+      if(result){
+        this.globalService.setLoading(true);
+        const data =  {desc: result, id_build: parseInt(this.paramId)};
+        this.globalService.hospitalService.add('/floors', data).then(result => {
+          this.getFloors();
+        }).catch(error => {
+          console.log(error);
+          this.globalService.setLoading(false);
+          this.globalService.utils.openSimpleDialog('error.server-error')
+        })
+      }
+    })
   }
 
 }

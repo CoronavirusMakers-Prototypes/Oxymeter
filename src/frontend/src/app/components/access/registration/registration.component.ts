@@ -21,9 +21,9 @@ export class RegistrationComponent implements OnInit {
   formData = {
     surname: new FormControl('', [Validators.required, Validators.minLength(2)]),
     lastname: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    professionalId: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    professional_id: new FormControl('', [Validators.required, Validators.minLength(4)]),
     login: new FormControl('', [Validators.required, Validators.minLength(4)]),
-    idHospital: new FormControl('', [Validators.required]),
+    id_hospital: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required,  Validators.minLength(6)]),
     rpassword: new FormControl('', [Validators.required,  Validators.minLength(6)])
   };
@@ -72,16 +72,20 @@ export class RegistrationComponent implements OnInit {
     const data = {
       surname: this.formData.surname.value,
       lastname: this.formData.lastname.value,
-      professionalId: this.formData.professionalId.value,
+      professional_id: this.formData.professional_id.value,
       login: this.formData.login.value,
-      idHospital: this.formData.idHospital.value,
+      id_hospital: this.formData.id_hospital.value,
     };
-    this.globalService.authService.registerUser(new User(data), this.formData.password).then((response) => {
+    this.globalService.authService.registerUser(new User(data), this.formData.password.value).then((response) => {
       console.log(response);
       this.globalService.setLoading(false);
       if (response && response.getId()){
         this.router.navigate([`/alarms`]);
      }
+    }, error => {
+      console.log(error);
+      this.globalService.setLoading(false);
+      this.globalService.utils.openSimpleDialog('error.server-error')
     });
   }
 

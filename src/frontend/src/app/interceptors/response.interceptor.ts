@@ -1,19 +1,20 @@
 import { Injectable } from "@angular/core";
-import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse }   from '@angular/common/http';
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from "rxjs";
 import { tap, catchError } from "rxjs/operators";
-import { GlobalService } from '@app/services/global/global.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
-  constructor(private globalService: GlobalService) {}
+  constructor(private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
     return next.handle(request).pipe(
         catchError((err: any) => {
             if(err instanceof HttpErrorResponse) {
-                if(err.status === 401 && err.error){
-                    this.globalService.logout();
+                console.log(err)
+                if((err.status === 401 || err.status === 500) && (err.error && err.error.name === 'TokenExpiredError')){
+                    this.router.navigate([`/logout`]);
                 }
             }
             return throwError(err);

@@ -17,19 +17,18 @@ import { AlarmsComponent } from './components/alarms/alarms.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'notifications', pathMatch: 'full'},
+  { path: '', redirectTo: 'alarms', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'about', component: AboutComponent },
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: PerfilComponent, canActivate: [AuthGuard] },
-  { path: 'about', component: AboutComponent, canActivate: [AuthGuard]  },
   { path: 'alarms', component: AlarmsComponent, canActivate: [AuthGuard]  },
   { path: 'hospital', component: HospitalComponent, canActivate: [AuthGuard] }, // Muestra el listado de buildings
   { path: 'building/:id', component: FloorsComponent, canActivate: [AuthGuard]  }, // Muestra las plantas
   { path: 'floor/:id', component: AreasComponent, canActivate: [AuthGuard]  }, // Muestra las areas
   { path: 'area/:id', component: RoomsComponent, canActivate: [AuthGuard]  }, // Muestra las habitaciones
-  { path: 'room/:id', component: BedsComponent, canActivate: [AuthGuard]  }, // Muestra las camas
+  { path: 'room/:areaId/:id', component: BedsComponent, canActivate: [AuthGuard]  }, // Muestra las camas
   { path: 'bed/:id', component: BedComponent, canActivate: [AuthGuard]  } // Muestra la cama
 ];
 

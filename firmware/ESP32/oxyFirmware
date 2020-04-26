@@ -1,0 +1,292 @@
+#include <HTTPClient.h>
+#include <WiFi.h>
+#include <webDirection.h>
+#include <AutoConnect.h>
+#include <Wire.h>
+#include <Adafruit_SSD1306.h>
+#include "algorithm_by_RF.h"
+#include "max30102.h"
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET     4
+
+#define webDirection "https://65c2169d.ngrok.io"
+
+WebServer Server;
+AutoConnect Portal(Server);
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+
+const byte oxiInt = 34;
+uint32_t aun_ir_buffer[BUFFER_SIZE];
+uint32_t aun_red_buffer[BUFFER_SIZE];
+uint8_t uch_dummy = 0;
+
+unsigned long currentMillis = 0;
+unsigned long previousMillis = 0;
+
+long irValueMapped = 0;
+long irValueLow = 10000;
+long irValueHigh = 0;
+int q = 0;
+int qPrec = 0;
+
+String finalContent = "";
+String arraySpo2[10] = "";
+int z = 0;
+String arraySpo2Cutted[8] = "";
+int percentilsMeanSpo2 = 0;
+int finalPulse = 0;
+
+
+void rootPage() {
+  char content[] = "Hello, world";
+  Server.send(200, "text/plain", content);
+}
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println();
+
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.println("Comienzo");
+  display.setCursor(0, 16);
+  display.println("WiFi");
+  display.display();
+  delay(2000);
+
+  Server.on("/", rootPage);
+  if (Portal.begin()) {
+    Serial.println("WiFi connected: " + WiFi.localIP().toString());
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setTextColor(WHITE);
+    display.setCursor(0, 0);
+    display.println("WiFi");
+    display.setCursor(0, 16);
+    display.println("Ok");
+    display.display();
+    delay(2000);
+  }
+
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.println("Medicos");
+  display.setCursor(0, 16);
+  display.println("España");
+  display.setCursor(0, 32);
+  display.println("Medidor");
+  display.setCursor(0, 48);
+  display.println("Sat O2");
+  display.display();
+  delay(2000);
+  display.clearDisplay();
+  delay(2000);
+
+  pinMode(oxiInt, INPUT);
+  Wire.begin();
+
+  maxim_max30102_reset();
+  delay(1000);
+  maxim_max30102_read_reg(REG_INTR_STATUS_1, &uch_dummy);
+  maxim_max30102_init();
+}
+
+void loop() {
+  Portal.handleClient();
+
+  float n_spo2, ratio, correl;
+  int8_t ch_spo2_valid;
+  int32_t n_heart_rate;
+  int8_t  ch_hr_valid;
+  int32_t i;
+  char hr_str[10];
+
+  for (i = 0; i < 1; i++)
+  {
+    while (digitalRead(oxiInt) == 1);
+    maxim_max30102_read_fifo((aun_red_buffer + i), (aun_ir_buffer + i));
+  }
+  if (aun_ir_buffer[0] < 7000)
+  {
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setTextColor(WHITE);
+    display.setCursor(0, 0);
+    display.println("Insertar");
+    display.setCursor(0, 16);
+    display.println("Dedo");
+    display.setCursor(0, 32);
+    display.println("Quédese");
+    display.setCursor(0, 48);
+    display.println("Quieto");
+    display.display();
+  }
+
+  else {
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setTextColor(WHITE);
+    for (int y = 0; y < 128; y++) {
+      display.drawFastVLine( y, 16, 16, BLACK);
+    }
+    display.setCursor(10, 0);
+    display.println("BPM");
+    display.setCursor(10, 16);
+    if (n_heart_rate >= 30 && n_heart_rate <= 220) {
+      display.println(n_heart_rate, DEC);
+      finalPulse = n_heart_rate;
+    }
+    else if (n_heart_rate == -999) {
+      display.println("--");
+    }
+    display.setCursor(60, 0);
+    display.println("SatO2");
+    display.setCursor(60, 16);
+    if (n_spo2 >= 70 && n_spo2 <= 100) {
+      int intSpo2 = n_spo2;
+      display.println(intSpo2, DEC);
+      arraySpo2[z] = String(n_spo2);
+      z++;
+      Serial.println( "Saturación válida: " );
+      Serial.println( n_spo2 );
+    }
+    else if (n_spo2 == -999) {
+      display.println("--");
+    }
+    display.display();
+
+    for (i = 0; i < BUFFER_SIZE; i++)
+    {
+      while (digitalRead(oxiInt) == 1);
+      maxim_max30102_read_fifo((aun_red_buffer + i), (aun_ir_buffer + i));
+
+      currentMillis = millis();
+      if (currentMillis - previousMillis >= 4000) {
+        irValueLow = (aun_red_buffer[i]) - ((aun_red_buffer[i]) * 0.001);
+        irValueHigh = (aun_red_buffer[i]) + ((aun_red_buffer[i]) * 0.001);
+        previousMillis = currentMillis;
+      }
+      if (irValueLow > (aun_red_buffer[i]) && irValueLow > ((aun_red_buffer[i]) / 2)) {
+        irValueLow = (aun_red_buffer[i]);
+      }
+      if ((irValueHigh <= (aun_red_buffer[i])) && (irValueHigh <= ((aun_red_buffer[i]) * 2))) {
+        irValueHigh = (aun_red_buffer[i]);
+      }
+
+      irValueMapped = map2((aun_red_buffer[i]), irValueLow, irValueHigh, 64, 32);
+      if (i < BUFFER_SIZE) {
+        q = (i * 128);
+        q = q / 100;
+        if (q == qPrec + 1) {
+          Serial.println(q);
+          display.drawLine(q, 64, q, irValueMapped, WHITE);
+          qPrec = q;
+        }
+        else {
+          display.drawLine((q - 1), 64, (q - 1), irValueMapped, WHITE);
+          display.drawLine(q, 64, q, irValueMapped, WHITE);
+          qPrec = q;
+        }
+      }
+      else if (i >= BUFFER_SIZE) {
+        for (int y = 0; y < 128; y++) {
+          display.drawFastVLine( y, 32, 32, BLACK);
+        }
+        i = 0;
+      }
+      display.display();
+    }
+
+    rf_heart_rate_and_oxygen_saturation(aun_ir_buffer, BUFFER_SIZE, aun_red_buffer, &n_spo2, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid, &ratio, &correl);
+
+  }
+  if (z==9){ //Elimino 2 primeras mediciones por ser imprecisas, ordeno de menor a mayor, elimino las extremas y hago media.
+    for(int i = 2; i < 10; i++){
+      arraySpo2Cutted[i] = arraySpo2[i];
+    }
+    QuickSortAsc(arraySpo2Cutted,0,7);
+    for (int i = 1; i < 7; i++) {
+      percentilsMeanSpo2 = percentilsMeanSpo2 + arraySpo2Cutted[i];
+    }
+    percentilsMeanSpo2 = percentilsMeanSpo2 / 6;
+    z = 0;
+  }
+  sendHttpPost();
+}
+void QuickSortAsc(int* arr, const int left, const int right){
+   int i = left, j = right;
+   int tmp;
+
+   int pivot = arr[(left + right) / 2];
+   while (i <= j)
+   {
+      while (arr[i]<pivot) i++;
+      while (arr[j]>pivot) j--;
+      if (i <= j)
+      {
+         tmp = arr[i];
+         arr[i] = arr[j];
+         arr[j] = tmp;
+         i++;
+         j--;
+      }
+   };
+
+   if (left<j)
+      QuickSortAsc(arr, left, j);
+   if (i<right)
+      QuickSortAsc(arr, i, right);
+}
+void sendHttpPost() {
+  while (WiFi.status() != WL_CONNECTED) {
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setTextColor(WHITE);
+    display.setCursor(0, 0);
+    display.println("No WiFI");
+    display.setCursor(0, 16);
+    display.println("Iniciar");
+    display.setCursor(0, 32);
+    display.println("sesión");
+    display.display();
+    delay(5000);
+
+    Serial.print(".");
+  }
+
+  Serial.println();
+  Serial.println("WiFi connectado.");
+  Serial.println();
+  Serial.println("Preparando el envío");
+  Serial.println();
+
+  finalContent = "";
+  finalContent = finalContent + percentilsMeanSpo2;
+
+ //Send a HTTP Post:
+  HTTPClient http;
+  http.begin(webDirection); //Destino
+  http.addHeader("Content-Type","application/,json"); //Header
+
+  int reply= http.POST({"spo2": finalContent, "ppm": finalPulse, "sequence": "1984", "batt":"23", "auth_id": "f00b4r", "id":1}); //Envio
+
+  if (reply==200){
+    display.println("Envio realizado");
+  } else {
+    display.println("ERROR!");
+    }
+}
+
+long map2(long x, long in_min, long in_max, long out_min, long out_max)
+{
+  return (x - in_min) * (out_max - out_min + 1) / (in_max - in_min + 1) + out_min;
+}

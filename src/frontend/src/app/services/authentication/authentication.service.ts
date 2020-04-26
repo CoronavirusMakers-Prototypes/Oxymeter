@@ -11,15 +11,14 @@ export class AuthenticationService {
 
   private userData: User;
   private token: string;
+  private sessionIni: any;
   private KEY = 'oxymetercc_userdata';
+  private sessionExpiration = 2*60*60*1000; // 8 horas
 
   private loggedSource = new BehaviorSubject<boolean>(false);
   logged$ = this.loggedSource.asObservable();
 
-  // TODO: ¿cómo mando password MD5?
-
   constructor(private http: HttpClient) {
-    // TODO: ¿session or localstorage?
     try{
       let localData: any = localStorage.getItem(this.KEY);
       if (localData && localData !== '[object Object]') {
@@ -28,6 +27,7 @@ export class AuthenticationService {
       if(localData.token && localData.user){
         this.userData = new User(localData.user);
         this.token = localData.token;
+        this.sessionIni = localData.sessionIni;
         this.loggedSource.next(true);
       }
       if (!localData || localData === '[object Object]') {
@@ -48,7 +48,8 @@ export class AuthenticationService {
     this.token = null;
     const obj = {
       user: this.userData.toString(),
-      token: null
+      token: null,
+      sessionIni: null
     };
     localStorage.setItem(this.KEY, JSON.stringify(obj));
     this.loggedSource.next(false);
@@ -62,16 +63,25 @@ export class AuthenticationService {
     return this.userData.getRole();
   }
 
-  public hasPermiso(role): boolean {
+  public hasRole(role): boolean {
     return this.userData.getRole() === role;
+  }
+
+  public hasSessionExpired = () => {
+    if(!this.sessionIni || this.sessionIni+this.sessionExpiration < new Date().getTime()){
+      return true;
+    }
+    return false;
   }
 
   public setUserData = (data: User, token?) => {
     this.userData = data;
     if(token){ this.token = token; }
+    this.sessionIni = new Date().getTime();
     const obj = {
       user: data.getObject(),
-      token: token ? token : this.token
+      token: token ? token : this.token,
+      sessionIni: this.sessionIni
     }
     localStorage.setItem(this.KEY, JSON.stringify(obj));
   }
@@ -82,10 +92,26 @@ export class AuthenticationService {
 
   public getHospitalId = () => this.userData.getIdHospital();
 
+  public hasPermission = (permission: string) => {
+    // editHospitalStructure, 
+    let role = this.userData.getRole();
+    if ( role === 'superadmin'){
+      return true;
+    }else if ( role === 'editor' &&
+    (permission === 'editPacient' || permission === 'addPacient')){
+      return true;
+    }else if ( role === 'viewer' ){
+      return false;
+    }else{
+      // TODO: devolver false
+      return true;
+    }
+  }
+
   public login(login: string, password: string): Promise<User>{
-    const url = '/login';
+    const url = '/users/login';
     const promise = new Promise<User>((resolve, reject) => {
-      this.http.post<any>(url, {login: login, pass: cryptoJS.MD5(password).toString()}).subscribe(
+      this.http.post<any>(url, {login: login, password: cryptoJS.SHA256(password).toString()}).subscribe(
         (response) => {
             // Se resuelve la promesa
             if (response.user && response.token){
@@ -104,10 +130,9 @@ export class AuthenticationService {
 
   public logout = () => this.resetData();
 
-  public registerUser = ( user: User, password) => {
-    const url = '/registration';
-    const data = { ...user.getObject(), password: cryptoJS.MD5(password).toString() };
-    console.log(data);
+  public registerUser = ( user: User, password: string) => {
+    const url = '/users/signin';
+    const data = { ...user.getObject(), password: cryptoJS.SHA256(password).toString() };
     const promise = new Promise<User>((resolve, reject) => {
       this.http.post<any>(url, data).subscribe(
         (response) => {

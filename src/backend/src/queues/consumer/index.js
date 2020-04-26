@@ -6,6 +6,12 @@ const { processPayloadFromProbes } = require('./../../controllers/meassurementCo
 
 const rabbitmqURL = `amqp://${config.get('queues.consumer.dataProbes.user')}:${config.get('queues.consumer.dataProbes.password')}@${config.get('queues.consumer.dataProbes.ip')}:${config.get('queues.consumer.dataProbes.port')}`
 
+let io = null;
+
+const setSocketIO = (ios) => {
+  io = ios;
+}
+
 const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) => {
     if (error0) {
         throw error0;
@@ -14,7 +20,8 @@ const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) 
         if (error1) {
             throw error1;
         }
-        logger.info(`Connected to rabbitMQ: ${rabbitmqURL}`);
+
+        logger.info('Connected to rabbitMQ queue');
         var queue = config.get('queues.consumer.dataProbes.queueName');
 
         channel.assertQueue(queue, {
@@ -26,11 +33,16 @@ const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) 
         channel.consume(queue, (msg) => {
             logger.debug(`[x] Received payload from queue ${queue}: ${msg.content.toString()}`);
 
-            const messageFromDataQueue = JSON.parse(msg.content);
+            let messageFromDataQueue = JSON.parse(msg.content);
 
             // send the payload to the meassurementController and process there
 
-            processPayloadFromProbes(messageFromDataQueue);
+            if (!messageFromDataQueue instanceof Array) {
+              messageFromDataQueue = [messageFromDataQueue];
+            }
+
+            processPayloadFromProbes(messageFromDataQueue, io);
+            logger.debug("payload at RabbitMQ: " + JSON.stringify(messageFromDataQueue));
 
         }, {
             noAck: true
@@ -40,4 +52,5 @@ const rabbitDataProbesConsumer = amqp.connect(rabbitmqURL, (error0, connection) 
 
 module.exports = {
   rabbitDataProbesConsumer,
+  setSocketIO,
 }

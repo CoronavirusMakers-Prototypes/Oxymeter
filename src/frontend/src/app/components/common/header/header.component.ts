@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   userText = '';
   logged: boolean;
   hospitalDesc: string;
+  clapsTime: boolean;
 
   loggedSubscription: Subscription;
   routerEventsSubscription: Subscription;
@@ -34,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loggedSubscription = this.globalService.authService.logged$.subscribe( logged => {
       this.logged = logged;
       this.localData = globalService.authService.getData();
-      if(this.localData.getIdHospital() && !this.hospitalDesc){
+      if(this.localData && this.localData.getIdHospital() && !this.hospitalDesc){
         this.globalService.hospitalService.getHospitalById(this.localData.getIdHospital()).then( res => {
           this.hospitalDesc = res.desc;
           this.setTitle();
@@ -46,6 +47,33 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.setTitle();
+    this.setClapsTime();
+  }
+
+  setClapsTime = () => {
+    const time = new Date();
+    const timeClapsH = 19;
+    const timeClapsM = 59;
+    const timeClapS = (timeClapsH*60*60) + (timeClapsM*60) ;
+    const timeDayS = 86400; // 24:00
+    const timeS = (time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds());
+    let delay = 0;
+    if (timeS <= timeClapS){
+      delay = timeClapS - timeS;
+    }else{
+      delay = timeDayS - timeS + timeClapS;
+    }
+    setTimeout(() => {
+      this.showClaps(true);
+      setTimeout(() => {
+        this.showClaps(false);
+        this.setClapsTime();
+      }, 120000); // Se muestra durante 2 min hasta 20:01
+    }, delay * 1000);
+  }
+
+  showClaps = (act) => {
+    this.clapsTime = act;
   }
 
   ngOnDestroy() {
@@ -59,17 +87,19 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setTitle = () => {
+    let professional_id = this.localData && this.localData.getProfessionalId() ?  this.localData.getProfessionalId() : '';
     if(window.innerWidth < 600){
       this.title = 'smallTitle';
-      this.userText = this.localData.getProfessionalId();
+      this.userText = professional_id;
     }else{
       this.title = 'title';
       if(this.hospitalDesc){
-        this.userText = this.hospitalDesc+' user: '+this.localData.getProfessionalId();
+        this.userText = this.hospitalDesc+' user: '+professional_id;
       }else{
-        this.userText = 'User: '+this.localData.getProfessionalId();
+        this.userText = 'User: '+professional_id;
       }
     }
   }
+
 
 }

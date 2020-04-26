@@ -3,8 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthenticationService } from '@services/authentication/authentication.service';
 import { HospitalService } from '../byFuncionality/hospital.service';
 import { UtilsService } from '../byFuncionality/utils.service';
-import { UserAsignementService } from '../byFuncionality/user-asignement.service';
 import { AlarmsSubscriptionService } from '../byFuncionality/alarms-subscription.service';
+import { AlarmsService } from '../byFuncionality/alarms.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class GlobalService {
 
   private KEY = 'oxymetercc_globaldata';
   public localData: any;
+  private enabledRoutesWithoutLogin = ['/login', '/registration', '/about'];
 
   private loadingSource = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSource.asObservable();
@@ -27,9 +29,11 @@ export class GlobalService {
   room$ = this.roomSource.asObservable();
 
   constructor(public authService: AuthenticationService, public utils: UtilsService,
-              public hospitalService: HospitalService, public userasignementService: UserAsignementService,
-              public alarmsService: AlarmsSubscriptionService) {
+              public hospitalService: HospitalService, public alarmsSubscriptionService: AlarmsSubscriptionService,
+              public alarmsService: AlarmsService,  public router: Router) {
     try{
+      alarmsSubscriptionService.setUserId(authService.getId());
+      alarmsService.setUserId(authService.getId());
       const localData: any = localStorage.getItem(this.KEY);
       if (localData && localData !== '[object Object]') {
         this.localData = JSON.parse(localData);
@@ -59,6 +63,13 @@ export class GlobalService {
   }
 
   public setLoading = loading => {
+    if(this.authService.hasSessionExpired()){
+      this.loadingSource.next(false);
+      if(this.enabledRoutesWithoutLogin.indexOf(this.router.url) === -1){
+        this.utils.openSimpleDialog('common.sessionExpired');
+        this.router.navigate([`/logout`]);
+      }
+    }
     this.loadingSource.next(loading);
   }
 
@@ -84,6 +95,8 @@ export class GlobalService {
     localStorage.setItem(this.KEY, JSON.stringify(this.localData));
   }
 
+  public getFloor = () => this.localData.floor;
+
   public setArea = ( obj ) => {
     this.areaSource.next(obj);
     this.localData.area = obj;
@@ -91,6 +104,8 @@ export class GlobalService {
     this.localData.room = null;
     localStorage.setItem(this.KEY, JSON.stringify(this.localData));
   }
+  
+  public getArea = () => this.localData.area;
 
   public setRoom = ( obj ) => {
     this.roomSource.next(obj);
@@ -99,9 +114,10 @@ export class GlobalService {
   }
 
   public logout = () => {
+    localStorage.clear();
     this.resetData();
     this.authService.logout();
-    this.alarmsService.logout();
+    this.alarmsSubscriptionService.logout();
   }
 
 }

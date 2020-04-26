@@ -1,5 +1,12 @@
 <section class="cards-wrapper-list animated fadeInLeft d-flex justify-content-center align-items-center flex-wrap">
         <mat-card class="pointer" *ngFor="let bed of beds" routerLink="/bed/{{bed.id}}">
+            <div class="notification-bell inline-block" *ngIf="globalService.alarmsSubscriptionService.isSubscribed(areaId, paramId)">
+                <span class="fa fa-bell margin-r-10-px"></span>
+            </div>
             {{bed.desc}}
         </mat-card>
+        <button mat-raised-button (click)="addBed()" *ngIf="globalService.authService.hasPermission('editHospitalStructure')">
+            <span class="pointer padding-r-10-px fa fa-plus"></span>
+            <span>{{'actions.addBed' | translate}}</span>
+        </button>
     </section>
