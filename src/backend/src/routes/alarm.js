@@ -80,7 +80,7 @@ router.delete('/:id', async (req, res) => {
 router.delete('/suscriptions/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await db.query(queries.personal_alarm_suscription.delete,[id]);
+    await db.query(queries.personal_alarm_suscriptions.delete,[id]);
     res.status(200).send({deleted: id});
   } catch (e) {
     logger.error(e);
