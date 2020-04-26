@@ -26,7 +26,7 @@ const jwtValidator = async (req, res, next) => {
          return next();
     }
     if (typeof req.get('token') === 'undefined' || req.get('token') === null) {
-      throw 'bad request for endpoint, mandatory token at headers';
+      throw new Error('bad request for endpoint, mandatory token at headers');
     }
     const response = await db.query(queries.util.getUserJwt,[req.get('token')]);
     if (response.rows.length === 0) {
@@ -45,7 +45,7 @@ const jwtValidator = async (req, res, next) => {
     });
   } catch (e) {
     logger.error(`Not valid jwt: ${e}`);
-    res.status(500).send(e);
+    res.status(500).send(e.stack);
   }
 }
 

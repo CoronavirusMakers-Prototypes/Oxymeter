@@ -63,9 +63,6 @@ router.get('/suscriptions/byIdUser/:id', async (req, res) => {
   }
 })
 
-
-
-
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -80,11 +77,18 @@ router.delete('/:id', async (req, res) => {
 router.delete('/suscriptions/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await db.query(queries.personal_alarm_suscriptions.delete,[id]);
+    await db.query(queries.personal_alarm_suscription.delete,[id]);
     res.status(200).send({deleted: id});
   } catch (e) {
-    logger.error(e);
-    res.status(500).send(e);
+    console.log(typeof e);
+    console.log(e.stack);
+    console.log(Object.keys(e));
+    for (var k in e) {
+      console.log(k);
+      console.log(`${k}: ${e[k]}`);
+    }
+    logger.error(e.stack);
+    res.status(500).send(e.stack);
   }
 })
 
