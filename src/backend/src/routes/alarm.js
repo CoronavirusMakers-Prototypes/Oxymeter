@@ -81,7 +81,8 @@ router.delete('/suscriptions/:id', async (req, res) => {
   try {
     const { id } = req.params;
     await db.query(queries.personal_alarm_suscriptions.delete,[id]);
-    res.status(200).send({deleted: id});
+    const result = await db.query(queries.personal_alarm_suscriptions.read);
+    res.status(200).send(JSON.stringify(result.rows));
   } catch (e) {
     logger.error(e);
     res.status(500).send(e);
