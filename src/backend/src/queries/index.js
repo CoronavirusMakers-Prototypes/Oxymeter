@@ -26,8 +26,8 @@ alarm = {
   update:  'UPDATE alarm SET id_patient = $1, id_sensor = $2, ack_user = $3, ack_date = $4, status = $5, id_bed = $6 WHERE id = $7',
   read:    'SELECT * FROM alarm WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM alarm WHERE id = $1',
-  createByTrigger: 'INSERT INTO alarm (id_patient, id_sensor, status, id_bed) (SELECT $1, $2, $3, $4 WHERE NOT EXISTS (SELECT id_patient,id_sensor,status FROM alarm WHERE id_patient = $1 AND id_sensor = $2 AND (status = $3 or status = $5) AND created > $6)) RETURNING id',
-  activeByUserId: 'select * from (select * from alarm where status<10) a  join (select distinct bed.id as id_bed, bed.description AS bed_desc, area.id as id_area, area.description AS area_desc,room.id as id_room, room.description AS room_desc from personal_alarm_suscriptions,bed,room,area,floor where personal_alarm_suscriptions.id_user=$1 and (room.id=personal_alarm_suscriptions.id_room or area.id=personal_alarm_suscriptions.id_area or floor.id=personal_alarm_suscriptions.id_floor) and room.id=bed.id_room and area.id=room.id_area) b on a.id_bed=b.id_bed'
+  createByTrigger: 'INSERT INTO alarm (id_patient, id_sensor, status, id_bed) (SELECT $1, $2, $3, $4 WHERE NOT EXISTS (SELECT id_patient,id_sensor,status FROM alarm WHERE id_patient = $1 AND id_sensor = $2 AND (status = $3 OR status = $5) AND created > $6)) RETURNING id',
+  activeByUserId: 'SELECT * FROM active_alarms, personal_alarm_suscriptions WHERE personal_alarm_suscriptions.id_user = $1 AND (personal_alarm_suscriptions.id_room = active_alarms.id_room OR personal_alarm_suscriptions.id_area = active_alarms.id_area OR personal_alarm_suscriptions.id_floor = active_alarms.id_floor)'
   }
 
 bed = {
