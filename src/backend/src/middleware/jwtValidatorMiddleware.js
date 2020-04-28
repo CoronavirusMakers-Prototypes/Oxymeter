@@ -45,7 +45,7 @@ const jwtValidator = async (req, res, next) => {
     });
   } catch (e) {
     logger.error(`Not valid jwt: ${e}`);
-    res.status(500).send(e);
+    next(e);
   }
 }
 
