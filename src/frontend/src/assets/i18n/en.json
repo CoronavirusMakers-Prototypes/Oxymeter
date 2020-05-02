@@ -8,6 +8,7 @@
     "save": "Save",
     "close": "Close",
     "cancel": "Cancel",
+    "edit": "Edit",
     "go-to-registration": "Sign in",
     "username": "User identifier",
     "password": "Password",
@@ -77,7 +78,11 @@
       "surname": "Surname",
       "lastname": "Lastname",
       "temperature": "Temperature",
-      "hospitalReference": "Reference hospital"
+      "hospitalReference": "Reference hospital",
+      "no-patient-in-bed": "No patient registred yet",
+      "insert-info-patient": "Insert the data in the patient data section and the sensor configuration section.",
+      "exchange-patient": "Exchange patients between beds",
+      "discharge-patient": "Discharge patient"
     },
     "alarms": {
       "sound-on": "Activate sound",

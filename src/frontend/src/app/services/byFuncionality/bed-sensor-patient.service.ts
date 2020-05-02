@@ -17,7 +17,7 @@ export class BedSensorPatientService {
         (response) => {
           resolve(new Patient(response));
         },
-        (error) => { // Función de fallo en la petición
+        (error) => {
             reject(error);
         }
       );
@@ -33,11 +33,41 @@ export class BedSensorPatientService {
         (response) => {
           resolve(response);
         },
-        (error) => { // Función de fallo en la petición
+        (error) => {
             reject(error);
         }
       );
       });
+    return promise;
+  }
+
+  public savePatient(patient: Patient): Promise<any>{
+    let url = `/patients`;
+    let promise = null;
+    if(patient.getId()){
+      url = `/patients/${patient.getId()}`;
+      promise = new Promise<any>((resolve, reject) => {
+        this.http.put<any>(url, patient.getObject()).subscribe(
+          (response) => {
+            resolve(response);
+          },
+          (error) => {
+              reject(error);
+          }
+        );
+      });
+    }else{
+      promise = new Promise<any>((resolve, reject) => {
+        this.http.post<any>(url, patient.getObject()).subscribe(
+          (response) => {
+            resolve(response);
+          },
+          (error) => {
+              reject(error);
+          }
+        );
+      });
+    }
     return promise;
   }
 }

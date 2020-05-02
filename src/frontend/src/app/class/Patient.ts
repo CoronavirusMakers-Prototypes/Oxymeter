@@ -1,36 +1,42 @@
 export class Patient {
-  private surname: string;
-  private lastname: string;
-  private hospital_reference: string;
-  private suscribed: number;
-  private unsuscribed: number;
-  private id_bed: number;
-  private id_sensor: number;
-  private spo2_max: number;
-  private spo2_min: number;
-  private pulse_max: number;
-  private pulse_min: number;
-  private temp_max: number;
-  private temp_min: number;
-  private status: number;
+  private id: number; 
+  public surname: string;
+  public lastname: string;
+  public hospital_reference: string;
+  public suscribed: number;
+  public unsuscribed: number;
+  public id_bed: number;
+  public id_sensor: number;
+  public spo2_max: number;
+  public spo2_min: number;
+  public pulse_max: number;
+  public pulse_min: number;
+  public temp_max: number;
+  public temp_min: number;
+  public status: number;
 
   constructor(obj?) {
     if (obj) {
-        this.surname = obj.surname;
-        this.lastname = obj.lastname;
-        this.hospital_reference = obj.hospital_reference;
-        this.suscribed = obj.suscribed;
-        this.unsuscribed = obj.unsuscribed;
-        this.id_bed = obj.id_bed;
-        this.id_sensor = obj.id_sensor;
-        this.spo2_max = obj.spo2_max;
-        this.spo2_min = obj.spo2_min;
-        this.pulse_max = obj.pulse_max;
-        this.pulse_min = obj.pulse_min;
-        this.temp_max = obj.temp_max;
-        this.temp_min = obj.temp_min;
-        this.status = obj.status;
+        this.id = obj.id ? obj.id : null;
+        this.surname = obj.surname ? obj.surname : '';
+        this.lastname = obj.lastname ? obj.lastname : '';
+        this.hospital_reference = obj.hospital_reference ? obj.hospital_reference : '';
+        this.suscribed = obj.suscribed  ? obj.suscribed  : null;
+        this.unsuscribed = obj.unsuscribed ? obj.unsuscribed : null;
+        this.id_bed = obj.id_bed ? obj.id_bed : null;
+        this.id_sensor = obj.id_sensor ? obj.id_sensor : null;
+        this.spo2_max = obj.spo2_max ? obj.spo2_max : 99;
+        this.spo2_min = obj.spo2_min ? obj.spo2_min : 90;
+        this.pulse_max = obj.pulse_max ? obj.pulse_max : 90;
+        this.pulse_min = obj.pulse_min ? obj.pulse_min : 65;
+        this.temp_max = obj.temp_max ? obj.temp_max : 36.9;
+        this.temp_min = obj.temp_min ? obj.temp_min : 34;
+        this.status = obj.status ? obj.status : null;
     }
+  }
+
+  public getId(): number {
+    return this.id;
   }
 
   public getSurname(): string {

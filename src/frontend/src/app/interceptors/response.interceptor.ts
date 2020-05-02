@@ -13,7 +13,7 @@ export class ResponseInterceptor implements HttpInterceptor {
         catchError((err: any) => {
             if(err instanceof HttpErrorResponse) {
                 console.log(err)
-                if((err.status === 401 || err.status === 500) && (err.error && err.error.name === 'TokenExpiredError')){
+                if(err.status === 401){
                     this.router.navigate([`/logout`]);
                 }
             }

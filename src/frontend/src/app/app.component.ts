@@ -23,7 +23,7 @@ export class AppComponent implements OnDestroy{
               public globalService: GlobalService,
               private router: Router){
     // TODO: idioma del navegador por defecto y posibilidad de cambiarlo manualmente
-    translate.setDefaultLang('en');
+    translate.setDefaultLang('es');
     this.logged = globalService.authService.isAuthenticated();
     this.loadingSubscription = globalService.loading$.subscribe( value => {
       this.loading = value;
