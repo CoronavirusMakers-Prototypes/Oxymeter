@@ -41,10 +41,12 @@ export class SocketService {
 
   public subscribeTo = room => {
     if (!this.socket){ return; }
+    console.log('subscribeTo ' + room);
     this.socket.emit('subscribeTo', room);
   }
   public unsubscribe = room => {
     if(!this.socket){ return; }
+    console.log('disconnect ' + room);
     this.socket.emit('disconnect', room);
   }
 

@@ -27,7 +27,7 @@ export class AlarmsService {
 
   public loadData = () => {
     const localData: any = localStorage.getItem(this.KEY);
-    if (localData && localData !== '[object Object]') {
+    if (!this.userId && localData && localData !== '[object Object]') {
       this.localData = JSON.parse(localData);
       this.socketService.addAlarms(this.localData);
     }else if(this.userId){
