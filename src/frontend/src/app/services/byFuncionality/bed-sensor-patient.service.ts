@@ -42,32 +42,32 @@ export class BedSensorPatientService {
   }
 
   public savePatient(patient: Patient): Promise<any>{
-    let url = `/patients`;
-    let promise = null;
-    if(patient.getId()){
-      url = `/patients/${patient.getId()}`;
-      promise = new Promise<any>((resolve, reject) => {
-        this.http.put<any>(url, patient.getObject()).subscribe(
-          (response) => {
-            resolve(response);
-          },
-          (error) => {
-              reject(error);
-          }
-        );
-      });
-    }else{
-      promise = new Promise<any>((resolve, reject) => {
-        this.http.post<any>(url, patient.getObject()).subscribe(
-          (response) => {
-            resolve(response);
-          },
-          (error) => {
-              reject(error);
-          }
-        );
-      });
-    }
+    const url = `/patients`;
+    const promise = new Promise<any>((resolve, reject) => {
+      this.http.post<any>(url, patient.getObject()).subscribe(
+        (response) => {
+          resolve(response);
+        },
+        (error) => {
+            reject(error);
+        }
+      );
+    });
+    return promise;
+  }
+
+  public updatePatient(patient: Patient): Promise<any>{
+    const url = `/patients/${patient.getId()}`;
+    const promise = new Promise<any>((resolve, reject) => {
+      this.http.put<any>(url, patient.getObject()).subscribe(
+        (response) => {
+          resolve(response);
+        },
+        (error) => {
+            reject(error);
+        }
+      );
+    });
     return promise;
   }
 }

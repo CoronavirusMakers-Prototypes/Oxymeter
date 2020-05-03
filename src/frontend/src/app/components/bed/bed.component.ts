@@ -18,6 +18,7 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
   public charts = {};
   public idBed: string;
   public patientData: Patient;
+  public originalPatientData: Patient;
   public activeServices = 0;
   public canvasWidth = 100;
   public canvasWidthRelation = 4;
@@ -105,6 +106,7 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
       this.newChart(chart, <HTMLCanvasElement>document.getElementById(chart));
     });
     this.patientData = new Patient({id_bed: this.idBed});
+    this.originalPatientData = new Patient({id_bed: this.idBed});
     this.globalService.setLoading(true);
     this.activeServices = 2;
     this.getPatientData();
@@ -188,6 +190,7 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
       this.waitingForServices();
       if(data && data.getId_bed()){
         this.patientData = new Patient(data);
+        this.originalPatientData = new Patient(data);
         // TODO subscribe to bed
         // this.globalService.alarmsService.socketService.subscribeToBed(data.getId_bed());
         // TODO get meassurements
@@ -286,16 +289,40 @@ export class BedComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public hasAlarm = status => {
-    if( !this.patientData || !this.patientData.getId_bed() ) return false;
+    if( !this.patientData || !this.patientData.getId_bed() ){ return false; }
     return this.globalService.alarmsService.getAlarmsForBed(this.patientData.getId_bed()).filter( a => a.status === status).length > 0;
   }
 
   public savePatientData = () => {
     this.globalService.setLoading(true);
+    if ( this.originalPatientData.getId() && this.originalPatientData.getSurname() &&
+          this.originalPatientData.getLastname() &&
+          this.originalPatientData.getSurname() !== this.patientData.getSurname() &&
+          this.originalPatientData.getLastname() !== this.patientData.getLastname() ) {
+      // ¿UPDATE?
+      this.updatePatient();
+    }else{
+      this.saveNewPatient();
+    }
+  }
+
+  private saveNewPatient = () => {
     this.bedService.savePatient(this.patientData).then( result => {
-      console.log(result);
+      this.patientData = new Patient(result);
+      this.globalService.setLoading(false);
+      this.globalService.utils.openSimpleDialog('alerts.success-operation');
+    }, error => {
+      console.log(error);
       this.globalService.setLoading(false);
       this.globalService.utils.openSimpleDialog('error.server-error');
+    })
+  }
+
+  private updatePatient = () => {
+    this.bedService.updatePatient(this.patientData).then( result => {
+      this.patientData = new Patient(result);
+      this.globalService.setLoading(false);
+      this.globalService.utils.openSimpleDialog('alerts.success-operation');
     }, error => {
       console.log(error);
       this.globalService.setLoading(false);

@@ -111,7 +111,8 @@
     "notifications-not-supported": "This browser does not support notifications, the use of Chrome is recommended.",
     "ask-for-notifications-permission": "You have not yet granted permissions to send you notifications. These will alert you to possible alarms. Do you want to allow notifications?",
     "service-wrokers-not-supported": "This browser does not support notifications if you close the tab or the browser, so it is recommended not to close this window.",
-    "there-are-not-zone-subscriptions": "You have not yet subscribed to any hospital area or room. Select the building and the floor, then you can subscribe to the alerts of all the rooms in the different areas or select specific rooms."
+    "there-are-not-zone-subscriptions": "You have not yet subscribed to any hospital area or room. Select the building and the floor, then you can subscribe to the alerts of all the rooms in the different areas or select specific rooms.",
+    "success-operation": "Operation carried out successfully"
   },
   "error": {
     "server-error": "Sorry, there was an unexpected error. Try it again later." 
