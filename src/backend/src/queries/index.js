@@ -37,7 +37,9 @@ bed = {
   read:    'SELECT * FROM bed WHERE 1=1 ORDER BY id',
   getById: 'SELECT * FROM bed WHERE id = $1',
   getByIdRoom: 'SELECT * FROM bed WHERE id_room = $1',
+  getAvailable: 'SELECT bed.id AS id_bed, bed.description AS bed_desc, room.id AS id_room, room.description AS room_desc, area.id AS id_area, area.description AS area_desc, floor.id AS id_floor, floor.description AS floor_desc, hospital.id AS id_hospital, hospital.description AS hospital_desc  FROM bed JOIN room ON room.id = bed.id_room JOIN area ON area.id = room.id_area JOIN floor ON floor.id = area.id_floor JOIN build ON build.id = floor.id_build JOIN hospital ON hospital.id = build.id_hospital WHERE NOT EXISTS (SELECT FROM patient WHERE patient.id_bed = bed.id)',
 }
+
 
 build = {
   create:  'INSERT INTO build (description, id_hospital) VALUES ($1, $2) RETURNING id',

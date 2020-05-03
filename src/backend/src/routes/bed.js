@@ -56,6 +56,16 @@ router.get('/byIdRoom/:id', async (req, res, next) => {
   }
 })
 
+router.get('/available', async (req, res, next) => {
+  try {
+    const result = await db.query(queries.bed.getAvailable);
+    res.status(200).send(JSON.stringify(result.rows));
+  } catch (e) {
+    logger.error(e);
+    next(e);
+  }
+})
+
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
