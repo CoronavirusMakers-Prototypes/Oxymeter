@@ -12,6 +12,14 @@ CREATE DATABASE cv19makers_vitalox
     CONNECTION LIMIT = -1;
 
 
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.21
+-- Dumped by pg_dump version 12.2
+
+-- Started on 2020-05-04 08:52:04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -27,7 +35,7 @@ SET row_security = off;
 SET default_tablespace = '';
 
 --
--- TOC entry 206 (class 1259 OID 33910)
+-- TOC entry 181 (class 1259 OID 17071)
 -- Name: alarm; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -46,7 +54,94 @@ CREATE TABLE public.alarm (
 ALTER TABLE public.alarm OWNER TO postgres;
 
 --
--- TOC entry 205 (class 1259 OID 33908)
+-- TOC entry 183 (class 1259 OID 17077)
+-- Name: area; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.area (
+    id bigint NOT NULL,
+    description character varying(20),
+    id_floor bigint
+);
+
+
+ALTER TABLE public.area OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 17082)
+-- Name: bed; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.bed (
+    id bigint NOT NULL,
+    description character varying(20),
+    id_room bigint
+);
+
+
+ALTER TABLE public.bed OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 17092)
+-- Name: floor; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.floor (
+    id bigint NOT NULL,
+    description character varying(20),
+    id_build bigint
+);
+
+
+ALTER TABLE public.floor OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 17126)
+-- Name: room; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.room (
+    id bigint NOT NULL,
+    description character varying(40),
+    id_area bigint
+);
+
+
+ALTER TABLE public.room OWNER TO postgres;
+
+--
+-- TOC entry 208 (class 1259 OID 17288)
+-- Name: active_alarms; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.active_alarms AS
+ SELECT alarm.id,
+    alarm.created,
+    alarm.id_patient,
+    alarm.id_sensor,
+    alarm.ack_user,
+    alarm.ack_date,
+    alarm.status,
+    bed.id AS id_bed,
+    bed.description AS bed_desc,
+    area.id AS id_area,
+    area.description AS area_desc,
+    room.id AS id_room,
+    room.description AS room_desc,
+    floor.id AS id_floor,
+    floor.description AS floor_desc
+   FROM public.alarm,
+    public.bed,
+    public.room,
+    public.area,
+    public.floor
+  WHERE ((alarm.status < 10) AND (bed.id = alarm.id_bed) AND (room.id = bed.id_room) AND (area.id = room.id_area) AND (floor.id = area.id_floor));
+
+
+ALTER TABLE public.active_alarms OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 17075)
 -- Name: alarm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -61,8 +156,8 @@ CREATE SEQUENCE public.alarm_id_seq
 ALTER TABLE public.alarm_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2284 (class 0 OID 0)
--- Dependencies: 205
+-- TOC entry 2252 (class 0 OID 0)
+-- Dependencies: 182
 -- Name: alarm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -70,21 +165,7 @@ ALTER SEQUENCE public.alarm_id_seq OWNED BY public.alarm.id;
 
 
 --
--- TOC entry 200 (class 1259 OID 33886)
--- Name: area; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.area (
-    id bigint NOT NULL,
-    description character varying(20),
-    id_floor bigint
-);
-
-
-ALTER TABLE public.area OWNER TO postgres;
-
---
--- TOC entry 199 (class 1259 OID 33884)
+-- TOC entry 184 (class 1259 OID 17080)
 -- Name: area_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -99,8 +180,8 @@ CREATE SEQUENCE public.area_id_seq
 ALTER TABLE public.area_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2285 (class 0 OID 0)
--- Dependencies: 199
+-- TOC entry 2253 (class 0 OID 0)
+-- Dependencies: 184
 -- Name: area_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -108,21 +189,25 @@ ALTER SEQUENCE public.area_id_seq OWNED BY public.area.id;
 
 
 --
--- TOC entry 196 (class 1259 OID 33870)
--- Name: bed; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 207 (class 1259 OID 17268)
+-- Name: audit_data; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.bed (
-    id bigint NOT NULL,
-    description character varying(20),
-    id_room bigint
+CREATE TABLE public.audit_data (
+    id bigint[] NOT NULL,
+    event character varying,
+    event__id integer,
+    old_value character varying,
+    new_value character varying,
+    modified_by integer,
+    "when" timestamp with time zone
 );
 
 
-ALTER TABLE public.bed OWNER TO postgres;
+ALTER TABLE public.audit_data OWNER TO postgres;
 
 --
--- TOC entry 195 (class 1259 OID 33868)
+-- TOC entry 186 (class 1259 OID 17085)
 -- Name: bed_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -137,8 +222,8 @@ CREATE SEQUENCE public.bed_id_seq
 ALTER TABLE public.bed_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2286 (class 0 OID 0)
--- Dependencies: 195
+-- TOC entry 2254 (class 0 OID 0)
+-- Dependencies: 186
 -- Name: bed_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -146,7 +231,7 @@ ALTER SEQUENCE public.bed_id_seq OWNED BY public.bed.id;
 
 
 --
--- TOC entry 204 (class 1259 OID 33902)
+-- TOC entry 187 (class 1259 OID 17087)
 -- Name: build; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -160,7 +245,7 @@ CREATE TABLE public.build (
 ALTER TABLE public.build OWNER TO postgres;
 
 --
--- TOC entry 203 (class 1259 OID 33900)
+-- TOC entry 188 (class 1259 OID 17090)
 -- Name: build_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -175,8 +260,8 @@ CREATE SEQUENCE public.build_id_seq
 ALTER TABLE public.build_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2287 (class 0 OID 0)
--- Dependencies: 203
+-- TOC entry 2255 (class 0 OID 0)
+-- Dependencies: 188
 -- Name: build_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -184,21 +269,7 @@ ALTER SEQUENCE public.build_id_seq OWNED BY public.build.id;
 
 
 --
--- TOC entry 202 (class 1259 OID 33894)
--- Name: floor; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.floor (
-    id bigint NOT NULL,
-    description character varying(20),
-    id_build bigint
-);
-
-
-ALTER TABLE public.floor OWNER TO postgres;
-
---
--- TOC entry 201 (class 1259 OID 33892)
+-- TOC entry 190 (class 1259 OID 17095)
 -- Name: floor_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -213,8 +284,8 @@ CREATE SEQUENCE public.floor_id_seq
 ALTER TABLE public.floor_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2288 (class 0 OID 0)
--- Dependencies: 201
+-- TOC entry 2256 (class 0 OID 0)
+-- Dependencies: 190
 -- Name: floor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -222,7 +293,7 @@ ALTER SEQUENCE public.floor_id_seq OWNED BY public.floor.id;
 
 
 --
--- TOC entry 210 (class 1259 OID 33927)
+-- TOC entry 191 (class 1259 OID 17097)
 -- Name: hospital; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -235,7 +306,7 @@ CREATE TABLE public.hospital (
 ALTER TABLE public.hospital OWNER TO postgres;
 
 --
--- TOC entry 209 (class 1259 OID 33925)
+-- TOC entry 192 (class 1259 OID 17100)
 -- Name: hospital_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -250,8 +321,8 @@ CREATE SEQUENCE public.hospital_id_seq
 ALTER TABLE public.hospital_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2289 (class 0 OID 0)
--- Dependencies: 209
+-- TOC entry 2257 (class 0 OID 0)
+-- Dependencies: 192
 -- Name: hospital_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -259,16 +330,16 @@ ALTER SEQUENCE public.hospital_id_seq OWNED BY public.hospital.id;
 
 
 --
--- TOC entry 192 (class 1259 OID 33853)
+-- TOC entry 193 (class 1259 OID 17102)
 -- Name: meassurement; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.meassurement (
     id bigint NOT NULL,
     "time" timestamp without time zone DEFAULT ('now'::text)::timestamp(2) with time zone,
-    spo2 smallint,
-    ppm smallint,
-    batt smallint,
+    spo2 numeric,
+    ppm numeric,
+    batt numeric,
     sequence bigint,
     sensorid bigint
 );
@@ -277,7 +348,7 @@ CREATE TABLE public.meassurement (
 ALTER TABLE public.meassurement OWNER TO postgres;
 
 --
--- TOC entry 191 (class 1259 OID 33851)
+-- TOC entry 194 (class 1259 OID 17106)
 -- Name: meassurement_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -292,8 +363,8 @@ CREATE SEQUENCE public.meassurement_id_seq
 ALTER TABLE public.meassurement_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2290 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2258 (class 0 OID 0)
+-- Dependencies: 194
 -- Name: meassurement_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -301,7 +372,7 @@ ALTER SEQUENCE public.meassurement_id_seq OWNED BY public.meassurement.id;
 
 
 --
--- TOC entry 194 (class 1259 OID 33862)
+-- TOC entry 195 (class 1259 OID 17108)
 -- Name: patient; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -314,11 +385,11 @@ CREATE TABLE public.patient (
     unsuscribed timestamp without time zone,
     id_bed bigint,
     id_sensor bigint,
-    spo2_max smallint,
-    spo2_min smallint,
-    pulse_max smallint,
-    pulse_min smallint,
-    temp_max smallint,
+    spo2_max numeric,
+    spo2_min numeric,
+    pulse_max numeric,
+    pulse_min numeric,
+    temp_max numeric,
     temp_min smallint,
     status smallint
 );
@@ -327,7 +398,7 @@ CREATE TABLE public.patient (
 ALTER TABLE public.patient OWNER TO postgres;
 
 --
--- TOC entry 193 (class 1259 OID 33860)
+-- TOC entry 196 (class 1259 OID 17111)
 -- Name: patient_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -342,8 +413,8 @@ CREATE SEQUENCE public.patient_id_seq
 ALTER TABLE public.patient_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2291 (class 0 OID 0)
--- Dependencies: 193
+-- TOC entry 2259 (class 0 OID 0)
+-- Dependencies: 196
 -- Name: patient_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -351,7 +422,7 @@ ALTER SEQUENCE public.patient_id_seq OWNED BY public.patient.id;
 
 
 --
--- TOC entry 186 (class 1259 OID 33829)
+-- TOC entry 197 (class 1259 OID 17113)
 -- Name: personal; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -372,7 +443,7 @@ CREATE TABLE public.personal (
 ALTER TABLE public.personal OWNER TO postgres;
 
 --
--- TOC entry 208 (class 1259 OID 33919)
+-- TOC entry 198 (class 1259 OID 17116)
 -- Name: personal_alarm_suscriptions; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -388,7 +459,7 @@ CREATE TABLE public.personal_alarm_suscriptions (
 ALTER TABLE public.personal_alarm_suscriptions OWNER TO postgres;
 
 --
--- TOC entry 185 (class 1259 OID 33827)
+-- TOC entry 199 (class 1259 OID 17119)
 -- Name: personal_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -403,8 +474,8 @@ CREATE SEQUENCE public.personal_id_seq
 ALTER TABLE public.personal_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2292 (class 0 OID 0)
--- Dependencies: 185
+-- TOC entry 2260 (class 0 OID 0)
+-- Dependencies: 199
 -- Name: personal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -412,7 +483,7 @@ ALTER SEQUENCE public.personal_id_seq OWNED BY public.personal.id;
 
 
 --
--- TOC entry 188 (class 1259 OID 33837)
+-- TOC entry 200 (class 1259 OID 17121)
 -- Name: role; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -425,7 +496,7 @@ CREATE TABLE public.role (
 ALTER TABLE public.role OWNER TO postgres;
 
 --
--- TOC entry 187 (class 1259 OID 33835)
+-- TOC entry 201 (class 1259 OID 17124)
 -- Name: role_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -440,8 +511,8 @@ CREATE SEQUENCE public.role_id_seq
 ALTER TABLE public.role_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2293 (class 0 OID 0)
--- Dependencies: 187
+-- TOC entry 2261 (class 0 OID 0)
+-- Dependencies: 201
 -- Name: role_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -449,21 +520,7 @@ ALTER SEQUENCE public.role_id_seq OWNED BY public.role.id;
 
 
 --
--- TOC entry 198 (class 1259 OID 33878)
--- Name: room; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.room (
-    id bigint NOT NULL,
-    description character varying(40),
-    id_area bigint
-);
-
-
-ALTER TABLE public.room OWNER TO postgres;
-
---
--- TOC entry 197 (class 1259 OID 33876)
+-- TOC entry 203 (class 1259 OID 17129)
 -- Name: room_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -478,8 +535,8 @@ CREATE SEQUENCE public.room_id_seq
 ALTER TABLE public.room_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2294 (class 0 OID 0)
--- Dependencies: 197
+-- TOC entry 2262 (class 0 OID 0)
+-- Dependencies: 203
 -- Name: room_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -487,7 +544,7 @@ ALTER SEQUENCE public.room_id_seq OWNED BY public.room.id;
 
 
 --
--- TOC entry 190 (class 1259 OID 33845)
+-- TOC entry 204 (class 1259 OID 17131)
 -- Name: sensor; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -501,7 +558,7 @@ CREATE TABLE public.sensor (
 ALTER TABLE public.sensor OWNER TO postgres;
 
 --
--- TOC entry 189 (class 1259 OID 33843)
+-- TOC entry 205 (class 1259 OID 17134)
 -- Name: sensor_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -516,8 +573,8 @@ CREATE SEQUENCE public.sensor_id_seq
 ALTER TABLE public.sensor_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2295 (class 0 OID 0)
--- Dependencies: 189
+-- TOC entry 2263 (class 0 OID 0)
+-- Dependencies: 205
 -- Name: sensor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -525,7 +582,7 @@ ALTER SEQUENCE public.sensor_id_seq OWNED BY public.sensor.id;
 
 
 --
--- TOC entry 207 (class 1259 OID 33917)
+-- TOC entry 206 (class 1259 OID 17136)
 -- Name: user_alarm_suscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -540,8 +597,8 @@ CREATE SEQUENCE public.user_alarm_suscriptions_id_seq
 ALTER TABLE public.user_alarm_suscriptions_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2296 (class 0 OID 0)
--- Dependencies: 207
+-- TOC entry 2264 (class 0 OID 0)
+-- Dependencies: 206
 -- Name: user_alarm_suscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -549,7 +606,7 @@ ALTER SEQUENCE public.user_alarm_suscriptions_id_seq OWNED BY public.personal_al
 
 
 --
--- TOC entry 2088 (class 2604 OID 33913)
+-- TOC entry 2069 (class 2604 OID 17138)
 -- Name: alarm id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -557,7 +614,7 @@ ALTER TABLE ONLY public.alarm ALTER COLUMN id SET DEFAULT nextval('public.alarm_
 
 
 --
--- TOC entry 2085 (class 2604 OID 33889)
+-- TOC entry 2070 (class 2604 OID 17139)
 -- Name: area id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -565,7 +622,7 @@ ALTER TABLE ONLY public.area ALTER COLUMN id SET DEFAULT nextval('public.area_id
 
 
 --
--- TOC entry 2083 (class 2604 OID 33873)
+-- TOC entry 2071 (class 2604 OID 17140)
 -- Name: bed id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -573,7 +630,7 @@ ALTER TABLE ONLY public.bed ALTER COLUMN id SET DEFAULT nextval('public.bed_id_s
 
 
 --
--- TOC entry 2087 (class 2604 OID 33905)
+-- TOC entry 2072 (class 2604 OID 17141)
 -- Name: build id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -581,7 +638,7 @@ ALTER TABLE ONLY public.build ALTER COLUMN id SET DEFAULT nextval('public.build_
 
 
 --
--- TOC entry 2086 (class 2604 OID 33897)
+-- TOC entry 2073 (class 2604 OID 17142)
 -- Name: floor id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -589,7 +646,7 @@ ALTER TABLE ONLY public.floor ALTER COLUMN id SET DEFAULT nextval('public.floor_
 
 
 --
--- TOC entry 2091 (class 2604 OID 33930)
+-- TOC entry 2074 (class 2604 OID 17143)
 -- Name: hospital id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -597,7 +654,7 @@ ALTER TABLE ONLY public.hospital ALTER COLUMN id SET DEFAULT nextval('public.hos
 
 
 --
--- TOC entry 2080 (class 2604 OID 33856)
+-- TOC entry 2076 (class 2604 OID 17144)
 -- Name: meassurement id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -605,7 +662,7 @@ ALTER TABLE ONLY public.meassurement ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
--- TOC entry 2082 (class 2604 OID 33865)
+-- TOC entry 2077 (class 2604 OID 17145)
 -- Name: patient id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -613,7 +670,7 @@ ALTER TABLE ONLY public.patient ALTER COLUMN id SET DEFAULT nextval('public.pati
 
 
 --
--- TOC entry 2077 (class 2604 OID 33832)
+-- TOC entry 2078 (class 2604 OID 17146)
 -- Name: personal id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -621,7 +678,7 @@ ALTER TABLE ONLY public.personal ALTER COLUMN id SET DEFAULT nextval('public.per
 
 
 --
--- TOC entry 2090 (class 2604 OID 33922)
+-- TOC entry 2079 (class 2604 OID 17147)
 -- Name: personal_alarm_suscriptions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -629,7 +686,7 @@ ALTER TABLE ONLY public.personal_alarm_suscriptions ALTER COLUMN id SET DEFAULT 
 
 
 --
--- TOC entry 2078 (class 2604 OID 33840)
+-- TOC entry 2080 (class 2604 OID 17148)
 -- Name: role id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -637,7 +694,7 @@ ALTER TABLE ONLY public.role ALTER COLUMN id SET DEFAULT nextval('public.role_id
 
 
 --
--- TOC entry 2084 (class 2604 OID 33881)
+-- TOC entry 2081 (class 2604 OID 17149)
 -- Name: room id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -645,7 +702,7 @@ ALTER TABLE ONLY public.room ALTER COLUMN id SET DEFAULT nextval('public.room_id
 
 
 --
--- TOC entry 2079 (class 2604 OID 33848)
+-- TOC entry 2082 (class 2604 OID 17150)
 -- Name: sensor id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -653,254 +710,7 @@ ALTER TABLE ONLY public.sensor ALTER COLUMN id SET DEFAULT nextval('public.senso
 
 
 --
--- TOC entry 2274 (class 0 OID 33910)
--- Dependencies: 206
--- Data for Name: alarm; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.alarm (id, created, id_patient, id_sensor, ack_user, ack_date, status, id_bed) FROM stdin;
-\.
-
-
---
--- TOC entry 2268 (class 0 OID 33886)
--- Dependencies: 200
--- Data for Name: area; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.area (id, description, id_floor) FROM stdin;
-\.
-
-
---
--- TOC entry 2264 (class 0 OID 33870)
--- Dependencies: 196
--- Data for Name: bed; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.bed (id, description, id_room) FROM stdin;
-\.
-
-
---
--- TOC entry 2272 (class 0 OID 33902)
--- Dependencies: 204
--- Data for Name: build; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.build (id, description, id_hospital) FROM stdin;
-\.
-
-
---
--- TOC entry 2270 (class 0 OID 33894)
--- Dependencies: 202
--- Data for Name: floor; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.floor (id, description, id_build) FROM stdin;
-\.
-
-
---
--- TOC entry 2278 (class 0 OID 33927)
--- Dependencies: 210
--- Data for Name: hospital; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.hospital (id, description) FROM stdin;
-\.
-
-
---
--- TOC entry 2260 (class 0 OID 33853)
--- Dependencies: 192
--- Data for Name: meassurement; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.meassurement (id, "time", spo2, ppm, batt, sequence, sensorid) FROM stdin;
-\.
-
-
---
--- TOC entry 2262 (class 0 OID 33862)
--- Dependencies: 194
--- Data for Name: patient; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.patient (id, surname, lastname, hospital_reference, suscribed, unsuscribed, id_bed, id_sensor, spo2_max, spo2_min, pulse_max, pulse_min, temp_max, temp_min, status) FROM stdin;
-\.
-
-
---
--- TOC entry 2254 (class 0 OID 33829)
--- Dependencies: 186
--- Data for Name: personal; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.personal (id, surname, lastname, professional_id, last_login, id_role, login, password, id_hospital, jwt) FROM stdin;
-\.
-
-
---
--- TOC entry 2276 (class 0 OID 33919)
--- Dependencies: 208
--- Data for Name: personal_alarm_suscriptions; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.personal_alarm_suscriptions (id, id_user, id_room, id_area, id_floor) FROM stdin;
-\.
-
-
---
--- TOC entry 2256 (class 0 OID 33837)
--- Dependencies: 188
--- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.role (id, description) FROM stdin;
-\.
-
-
---
--- TOC entry 2266 (class 0 OID 33878)
--- Dependencies: 198
--- Data for Name: room; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.room (id, description, id_area) FROM stdin;
-\.
-
-
---
--- TOC entry 2258 (class 0 OID 33845)
--- Dependencies: 190
--- Data for Name: sensor; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.sensor (id, type, auth_id) FROM stdin;
-\.
-
-
---
--- TOC entry 2297 (class 0 OID 0)
--- Dependencies: 205
--- Name: alarm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.alarm_id_seq', 1, false);
-
-
---
--- TOC entry 2298 (class 0 OID 0)
--- Dependencies: 199
--- Name: area_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.area_id_seq', 1, false);
-
-
---
--- TOC entry 2299 (class 0 OID 0)
--- Dependencies: 195
--- Name: bed_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.bed_id_seq', 1, false);
-
-
---
--- TOC entry 2300 (class 0 OID 0)
--- Dependencies: 203
--- Name: build_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.build_id_seq', 1, false);
-
-
---
--- TOC entry 2301 (class 0 OID 0)
--- Dependencies: 201
--- Name: floor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.floor_id_seq', 1, false);
-
-
---
--- TOC entry 2302 (class 0 OID 0)
--- Dependencies: 209
--- Name: hospital_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.hospital_id_seq', 1, false);
-
-
---
--- TOC entry 2303 (class 0 OID 0)
--- Dependencies: 191
--- Name: meassurement_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.meassurement_id_seq', 1, false);
-
-
---
--- TOC entry 2304 (class 0 OID 0)
--- Dependencies: 193
--- Name: patient_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.patient_id_seq', 1, false);
-
-
---
--- TOC entry 2305 (class 0 OID 0)
--- Dependencies: 185
--- Name: personal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.personal_id_seq', 1, false);
-
-
---
--- TOC entry 2306 (class 0 OID 0)
--- Dependencies: 187
--- Name: role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.role_id_seq', 1, false);
-
-
---
--- TOC entry 2307 (class 0 OID 0)
--- Dependencies: 197
--- Name: room_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.room_id_seq', 1, false);
-
-
---
--- TOC entry 2308 (class 0 OID 0)
--- Dependencies: 189
--- Name: sensor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.sensor_id_seq', 1, false);
-
-
---
--- TOC entry 2309 (class 0 OID 0)
--- Dependencies: 207
--- Name: user_alarm_suscriptions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.user_alarm_suscriptions_id_seq', 1, false);
-
-
---
--- TOC entry 2113 (class 2606 OID 33916)
+-- TOC entry 2084 (class 2606 OID 17152)
 -- Name: alarm alarm_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -909,7 +719,7 @@ ALTER TABLE ONLY public.alarm
 
 
 --
--- TOC entry 2107 (class 2606 OID 33891)
+-- TOC entry 2086 (class 2606 OID 17154)
 -- Name: area area_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -918,7 +728,16 @@ ALTER TABLE ONLY public.area
 
 
 --
--- TOC entry 2103 (class 2606 OID 33875)
+-- TOC entry 2112 (class 2606 OID 17275)
+-- Name: audit_data audit_data_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.audit_data
+    ADD CONSTRAINT audit_data_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2088 (class 2606 OID 17156)
 -- Name: bed bed_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -927,7 +746,7 @@ ALTER TABLE ONLY public.bed
 
 
 --
--- TOC entry 2111 (class 2606 OID 33907)
+-- TOC entry 2090 (class 2606 OID 17158)
 -- Name: build build_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -936,7 +755,7 @@ ALTER TABLE ONLY public.build
 
 
 --
--- TOC entry 2109 (class 2606 OID 33899)
+-- TOC entry 2092 (class 2606 OID 17160)
 -- Name: floor floor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -945,7 +764,7 @@ ALTER TABLE ONLY public.floor
 
 
 --
--- TOC entry 2117 (class 2606 OID 33932)
+-- TOC entry 2094 (class 2606 OID 17162)
 -- Name: hospital hospital_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -954,7 +773,7 @@ ALTER TABLE ONLY public.hospital
 
 
 --
--- TOC entry 2099 (class 2606 OID 33859)
+-- TOC entry 2096 (class 2606 OID 17164)
 -- Name: meassurement meassurement_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -963,7 +782,7 @@ ALTER TABLE ONLY public.meassurement
 
 
 --
--- TOC entry 2101 (class 2606 OID 33867)
+-- TOC entry 2098 (class 2606 OID 17166)
 -- Name: patient patient_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -972,7 +791,7 @@ ALTER TABLE ONLY public.patient
 
 
 --
--- TOC entry 2093 (class 2606 OID 33834)
+-- TOC entry 2100 (class 2606 OID 17168)
 -- Name: personal personal_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -981,7 +800,7 @@ ALTER TABLE ONLY public.personal
 
 
 --
--- TOC entry 2095 (class 2606 OID 33842)
+-- TOC entry 2106 (class 2606 OID 17170)
 -- Name: role role_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -990,7 +809,7 @@ ALTER TABLE ONLY public.role
 
 
 --
--- TOC entry 2105 (class 2606 OID 33883)
+-- TOC entry 2108 (class 2606 OID 17172)
 -- Name: room room_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -999,7 +818,7 @@ ALTER TABLE ONLY public.room
 
 
 --
--- TOC entry 2097 (class 2606 OID 33850)
+-- TOC entry 2110 (class 2606 OID 17174)
 -- Name: sensor sensor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1008,7 +827,16 @@ ALTER TABLE ONLY public.sensor
 
 
 --
--- TOC entry 2115 (class 2606 OID 33924)
+-- TOC entry 2102 (class 2606 OID 17279)
+-- Name: personal_alarm_suscriptions unque_suscription; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.personal_alarm_suscriptions
+    ADD CONSTRAINT unque_suscription UNIQUE (id_user, id_room, id_area, id_floor);
+
+
+--
+-- TOC entry 2104 (class 2606 OID 17176)
 -- Name: personal_alarm_suscriptions user_alarm_suscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1017,7 +845,7 @@ ALTER TABLE ONLY public.personal_alarm_suscriptions
 
 
 --
--- TOC entry 2131 (class 2606 OID 33998)
+-- TOC entry 2113 (class 2606 OID 17177)
 -- Name: alarm ref_alarm_to_bed; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1026,7 +854,7 @@ ALTER TABLE ONLY public.alarm
 
 
 --
--- TOC entry 2128 (class 2606 OID 33983)
+-- TOC entry 2114 (class 2606 OID 17182)
 -- Name: alarm ref_alarm_to_patient; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1035,7 +863,7 @@ ALTER TABLE ONLY public.alarm
 
 
 --
--- TOC entry 2129 (class 2606 OID 33988)
+-- TOC entry 2115 (class 2606 OID 17187)
 -- Name: alarm ref_alarm_to_sensor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1044,7 +872,7 @@ ALTER TABLE ONLY public.alarm
 
 
 --
--- TOC entry 2130 (class 2606 OID 33993)
+-- TOC entry 2116 (class 2606 OID 17192)
 -- Name: alarm ref_alarm_to_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1053,7 +881,7 @@ ALTER TABLE ONLY public.alarm
 
 
 --
--- TOC entry 2125 (class 2606 OID 33968)
+-- TOC entry 2117 (class 2606 OID 17197)
 -- Name: area ref_area_to_floor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1062,7 +890,7 @@ ALTER TABLE ONLY public.area
 
 
 --
--- TOC entry 2123 (class 2606 OID 33958)
+-- TOC entry 2118 (class 2606 OID 17202)
 -- Name: bed ref_bed_to_room; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1071,7 +899,7 @@ ALTER TABLE ONLY public.bed
 
 
 --
--- TOC entry 2127 (class 2606 OID 33978)
+-- TOC entry 2119 (class 2606 OID 17207)
 -- Name: build ref_build_to_hospital; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1080,7 +908,7 @@ ALTER TABLE ONLY public.build
 
 
 --
--- TOC entry 2126 (class 2606 OID 33973)
+-- TOC entry 2120 (class 2606 OID 17212)
 -- Name: floor ref_floor_to_hospital; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1089,7 +917,7 @@ ALTER TABLE ONLY public.floor
 
 
 --
--- TOC entry 2120 (class 2606 OID 33943)
+-- TOC entry 2121 (class 2606 OID 17217)
 -- Name: meassurement ref_meassurement_to_sensor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1098,7 +926,7 @@ ALTER TABLE ONLY public.meassurement
 
 
 --
--- TOC entry 2121 (class 2606 OID 33948)
+-- TOC entry 2122 (class 2606 OID 17222)
 -- Name: patient ref_patient_to_bed; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1107,7 +935,7 @@ ALTER TABLE ONLY public.patient
 
 
 --
--- TOC entry 2122 (class 2606 OID 33953)
+-- TOC entry 2123 (class 2606 OID 17227)
 -- Name: patient ref_patient_to_sensor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1116,7 +944,7 @@ ALTER TABLE ONLY public.patient
 
 
 --
--- TOC entry 2124 (class 2606 OID 33963)
+-- TOC entry 2130 (class 2606 OID 17232)
 -- Name: room ref_room_to_area; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1125,7 +953,7 @@ ALTER TABLE ONLY public.room
 
 
 --
--- TOC entry 2134 (class 2606 OID 34013)
+-- TOC entry 2126 (class 2606 OID 17237)
 -- Name: personal_alarm_suscriptions ref_user_alarm_suscriptions_to_area; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1134,7 +962,7 @@ ALTER TABLE ONLY public.personal_alarm_suscriptions
 
 
 --
--- TOC entry 2135 (class 2606 OID 34018)
+-- TOC entry 2127 (class 2606 OID 17242)
 -- Name: personal_alarm_suscriptions ref_user_alarm_suscriptions_to_floor; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1143,7 +971,7 @@ ALTER TABLE ONLY public.personal_alarm_suscriptions
 
 
 --
--- TOC entry 2133 (class 2606 OID 34008)
+-- TOC entry 2128 (class 2606 OID 17247)
 -- Name: personal_alarm_suscriptions ref_user_alarm_suscriptions_to_room; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1152,7 +980,7 @@ ALTER TABLE ONLY public.personal_alarm_suscriptions
 
 
 --
--- TOC entry 2132 (class 2606 OID 34003)
+-- TOC entry 2129 (class 2606 OID 17252)
 -- Name: personal_alarm_suscriptions ref_user_alarm_suscriptions_to_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1161,7 +989,7 @@ ALTER TABLE ONLY public.personal_alarm_suscriptions
 
 
 --
--- TOC entry 2119 (class 2606 OID 33938)
+-- TOC entry 2124 (class 2606 OID 17257)
 -- Name: personal ref_user_to_hospital; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1170,7 +998,7 @@ ALTER TABLE ONLY public.personal
 
 
 --
--- TOC entry 2118 (class 2606 OID 33933)
+-- TOC entry 2125 (class 2606 OID 17262)
 -- Name: personal ref_user_to_role; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1178,7 +1006,19 @@ ALTER TABLE ONLY public.personal
     ADD CONSTRAINT ref_user_to_role FOREIGN KEY (id_role) REFERENCES public.role(id);
 
 
--- Completed on 2020-04-05 20:27:04
+--
+-- TOC entry 2251 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2020-05-04 08:52:13
 
 --
 -- PostgreSQL database dump complete
